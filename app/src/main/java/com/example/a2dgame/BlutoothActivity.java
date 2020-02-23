@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.TextView;
 
+
 public class BlutoothActivity extends Activity {
 
     //the resultid's to test and see if the action was completed correctly
@@ -16,23 +17,28 @@ public class BlutoothActivity extends Activity {
     public final int ENABLE_DISCOVERABILITY_DURATION = 180;
     public final int ENABLE_DISCOVERABILITY = 2;
 
-    private TextView MainText = (TextView)findViewById(R.id.txtMain);
-    private TextView SecondaryText = (TextView)findViewById(R.id.txtSecondary);
+    private TextView MainText;
+    //private TextView SecondaryText = (TextView)findViewById(R.id.txtSecondary);
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-    public void enableBT(){
+    public int enableBT(){
 
         if (bluetoothAdapter == null) {
 
-            MainText.setText("No BlueTooth");
+            return 0;
         }
         else if(!bluetoothAdapter.isEnabled()) {
+
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, ENABLE_BT_REQUEST);
+            return 2;
+
         }
         else{
-            MainText.setText("Already Done!");
+
+            return 1;
         }
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
@@ -41,17 +47,17 @@ public class BlutoothActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 // BT Was enabled.  Here we will just display it
                 // to the user.
-                SecondaryText.setText("IT WORKED");
+                //SecondaryText.setText("IT WORKED");
             }
         }
         if (requestCode == ENABLE_DISCOVERABILITY) {
             if (resultCode > 0) {
                 // BT Discoverability was set.  Here we will just display it
                 // to the user.
-                SecondaryText.setText("Discoverabities Worked");
+                //SecondaryText.setText("Discoverabities Worked");
             }
             else if(resultCode == RESULT_CANCELED){
-                SecondaryText.setText("Discoverabities NO Worked");
+                //SecondaryText.setText("Discoverabities NO Worked");
             }
         }
 

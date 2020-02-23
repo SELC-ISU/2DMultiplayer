@@ -7,23 +7,24 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView MainText = (TextView)findViewById(R.id.txtMain);
     private BlutoothActivity activity1 = new BlutoothActivity();
+    TextView MainText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // activity1.enableBT();
 
+        MainText = (TextView)findViewById(R.id.txtMain);
+        MainText.setText(Integer.toString(activity1.enableBT()));
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
 
-        activity1.destroyConnection();
+       // activity1.destroyConnection();
 
     }
 
