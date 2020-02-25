@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(enableBtIntent, ENABLE_BT_REQUEST);
         }
 
+        setContentView(R.layout.secondary_layout);
         Button btnEnDiscov = (Button) findViewById(R.id.btnClient);
         btnEnDiscov.setOnClickListener(this); // calling onClick() method
 
