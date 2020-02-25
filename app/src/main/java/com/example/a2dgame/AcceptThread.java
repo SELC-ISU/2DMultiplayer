@@ -40,6 +40,9 @@ public class AcceptThread extends Thread {
             if(socket!=null){
 
                 //manageMyConnectedSocket(socket);
+
+                MainActivity s = new MainActivity();
+                s.printStatement("made it to connected");
                 try {
                     serverSocket.close();
                 }catch(IOException e){

@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnClient:
 
+                makeDiscoverable();
                 acceptThread = new AcceptThread(bluetoothAdapter);
                 acceptThread.run();
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void commenceDiscovery(boolean a){
 
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+       // Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
 
        /* if (pairedDevices.size() > 0) {
             a = false;
@@ -153,6 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     };
+
+    public void printStatement(String s){
+
+        mainText = (TextView)findViewById(R.id.txtMain);
+        mainText.setText(s);
+
+    }
 
 
 }
