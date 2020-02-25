@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView mainText;
     public final int ENABLE_BT_REQUEST = 1;
-    public final int ENABLE_DISCOVERABILITY_DURATION = 180;
+    public final int ENABLE_DISCOVERABILITY_DURATION = 600;
     public final int ENABLE_DISCOVERABILITY = 2;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     AcceptThread acceptThread;
@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
+        
 
         setContentView(R.layout.activity_main);
 
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mainText.setText(deviceName);
 
                 connectThread = new ConnectThread(device);
+                connectThread.run();
             }
         }
     };
