@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    private static final String TAG = "BLUETOOTH";
     TextView mainText;
     public final int ENABLE_BT_REQUEST = 1;
     public final int ENABLE_DISCOVERABILITY_DURATION = 600;
@@ -67,8 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnClient:
 
                 makeDiscoverable();
+
                 acceptThread = new AcceptThread(bluetoothAdapter);
-                acceptThread.run();
+                //acceptThread.run();
+                //acceptThread.start();
 
                 break;
 
@@ -102,30 +106,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void makeDiscoverable(){
-
+    Log.d(TAG,"Making device discoverable");
         Intent discoverableIntent =
                 new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, ENABLE_DISCOVERABILITY_DURATION);
+
         startActivityForResult(discoverableIntent, ENABLE_DISCOVERABILITY);
+
+        IntentFilter intentFilter = new IntentFilter(bluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
+
+        registerReceiver(receiver2, intentFilter);
 
     }
     public void commenceDiscovery(boolean a){
 
-       // Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-
-       /* if (pairedDevices.size() > 0) {
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+        mainText = (TextView)findViewById(R.id.txtMain);
+        /*if (pairedDevices.size() > 0) {
             a = false;
             // There are paired devices. Get the name and address of each paired device.
             for (BluetoothDevice device : pairedDevices) {
                 String deviceName = device.getName();
+                mainText.append(deviceName+ " ");
                 String deviceHardwareAddress = device.getAddress(); // MAC address
-                connectThread = new ConnectThread(device);
+                //connectThread = new ConnectThread(device);
             }
         }
         else {*/
             if (a)
                 bluetoothAdapter.startDiscovery();
-            mainText = (TextView)findViewById(R.id.txtMain);
+
             mainText.setText("here");
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             registerReceiver(receiver, filter);
@@ -136,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //go for 12 seconds with sacnning period so if
             //necessary add a delay timer here
         }
-   // }
+//    }
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -155,7 +165,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mainText.setText(deviceName);
 
                 connectThread = new ConnectThread(device);
-                connectThread.run();
+                connectThread.start();
+            }
+        }
+    };
+
+    private final BroadcastReceiver receiver2 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (bluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, bluetoothAdapter.ERROR);
+
+                switch (state){
+                    case BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE:
+                        Log.d(TAG, "onRecieve: CONNECTABLE DISCOVERABLE");
+                        break;
+                    case BluetoothAdapter.SCAN_MODE_CONNECTABLE:
+                        Log.d(TAG,"reciever2: CONNECTABLE");
+                        break;
+                    case BluetoothAdapter.SCAN_MODE_NONE:
+                        Log.d(TAG,"receiver2: SCAN NONE");
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTING:
+                        Log.d(TAG, "receiver2: connecting");
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTED:
+                        Log.d(TAG,"reciever2: connected");
+
+                }
             }
         }
     };

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.a2dgame"
-        minSdkVersion 29
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
