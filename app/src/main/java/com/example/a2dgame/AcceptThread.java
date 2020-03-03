@@ -43,6 +43,7 @@ public class AcceptThread extends Thread {
 
                 MainActivity s = new MainActivity();
                 s.printStatement("made it to connected");
+                Log.d(TAG,"READY TO GOOOO");
                 try {
                     serverSocket.close();
                 }catch(IOException e){
