@@ -54,7 +54,7 @@ public class ConnectThread extends Thread {
                 mmSocket.connect();
                 check = true;
             } catch (IOException connectException) {
-
+                Log.d(TAG, "ERROR calling connect: closing socket");
                 try {
                     mmSocket.close();
                 } catch (IOException closeException) {

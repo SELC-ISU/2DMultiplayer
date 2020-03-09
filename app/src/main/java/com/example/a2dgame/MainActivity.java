@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
         discoveredDevices = new ArrayList<>();
 
+        lvNewDevices.setOnItemClickListener(MainActivity.this);
+
     }
 
     @Override
@@ -97,10 +99,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.btnClose:
+
+                    closeSockets();
+
+                break;
+
 
             default:
                 break;
         }
+
+    }
+
+    private void closeSockets() {
+
+        Log.d(TAG, "Closing sockets");
+        connectThread.cancel();
+        acceptThread.cancel();
 
     }
 
@@ -109,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy(){
         super.onDestroy();
 
-
+        connectThread.cancel();
+        acceptThread.cancel();
 
     }
 
@@ -142,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         else if (a) {
+            discoveredDevices.clear();
             bluetoothAdapter.startDiscovery();
             Log.d(TAG,"BtnDiscover, starting Discovery");
         }
@@ -193,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view,discoveredDevices);
                 lvNewDevices.setAdapter(deviceListAdapter);
+
                 //connectThread = new ConnectThread(device);
                 //connectThread.start();
             }
@@ -244,4 +263,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          ConnectThread connectThread= new ConnectThread(discoveredDevices.get(position));
          connectThread.start();
     }
+
 }

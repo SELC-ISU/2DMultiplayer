@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:id="@+id/txtMain"
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="53dp"
         android:text="TextView"
         android:textSize="30sp" />
 
@@ -27,10 +28,16 @@
         android:id="@+id/btnOff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OFF Client" />
+        android:text="OFF Server" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Close Bluetooth Socket" />
 
     <ListView
         android:id="@+id/lvNewDevices"
         android:layout_width="match_parent"
-        android:layout_height="482dp"></ListView>
+        android:layout_height="432dp"></ListView>
 </LinearLayout>
