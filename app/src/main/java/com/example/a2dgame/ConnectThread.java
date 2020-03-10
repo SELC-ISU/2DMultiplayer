@@ -85,8 +85,9 @@ public class ConnectThread extends Thread {
         }
 
         if(check == true) {
+            MainActivity s = new MainActivity();
 
-            MainActivity.setBluetoothService(mmSocket);
+            s.setBluetoothService(mmSocket);
             return;
 
         }

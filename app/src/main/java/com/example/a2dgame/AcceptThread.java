@@ -43,7 +43,7 @@ public class AcceptThread extends Thread {
 
                 Log.d(TAG,"READY TO GOOOO");
 
-                MainActivity.setBluetoothService(socket);
+                //MainActivity.setBluetoothService(socket);
 
                 /*try {
                     serverSocket.close();

@@ -264,11 +264,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          connectThread.start();
     }
 
-    public static void setBluetoothService(BluetoothSocket socket){
-
-        service = new BluetoothService(socket);
-        service.startSocket();
-
-    }
 
 }
