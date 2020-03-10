@@ -1,6 +1,7 @@
 package com.example.a2dgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -25,18 +26,18 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 
-    private static final String TAG = "BLUETOOTH_TAGS";
+    private static final String TAG = "BLUETOOTH_TAG";
     TextView mainText;
     public final int ENABLE_BT_REQUEST = 1;
     public final int ENABLE_DISCOVERABILITY_DURATION = 600;
     public final int ENABLE_DISCOVERABILITY = 2;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    AcceptThread acceptThread;
-    ConnectThread connectThread;
-    static BluetoothService service;
+    BluetoothService service;
     public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     public DeviceListAdapter deviceListAdapter;
     ListView lvNewDevices;
+
+    StringBuilder builder;
 
 
     @Override
@@ -69,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         lvNewDevices.setOnItemClickListener(MainActivity.this);
 
+        service = new BluetoothService(MainActivity.this);
+
+        builder = new StringBuilder();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessgae"));
+
     }
 
     @Override
@@ -79,10 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnClient:
 
                 makeDiscoverable();
-
-                acceptThread = new AcceptThread(bluetoothAdapter);
-                //acceptThread.run();
-                //acceptThread.start();
 
                 break;
 
@@ -115,8 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeSockets() {
 
         Log.d(TAG, "Closing sockets");
-        connectThread.cancel();
-        acceptThread.cancel();
+        service.cancel();
 
     }
 
@@ -125,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy(){
         super.onDestroy();
 
-        connectThread.cancel();
-        acceptThread.cancel();
+        service.cancel();
 
     }
 
@@ -140,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         IntentFilter intentFilter = new IntentFilter(bluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         registerReceiver(receiver2, intentFilter);
 
-        AcceptThread acceptThread = new AcceptThread(bluetoothAdapter);
-        acceptThread.start();
+        service.startSearchingClient(bluetoothAdapter);
 
 
 
@@ -212,8 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view,discoveredDevices);
                 lvNewDevices.setAdapter(deviceListAdapter);
 
-                //connectThread = new ConnectThread(device);
-                //connectThread.start();
             }
         }
     };
@@ -249,6 +247,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    private final BroadcastReceiver receiver3 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String text = intent.getStringExtra("theMessage");
+
+            builder.append(text + "\n");
+            //now this can be set to the text view;
+        }
+    };
+
     public void printStatement(String s){
 
         mainText = (TextView)findViewById(R.id.txtMain);
@@ -260,8 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG,"ITEM CLICK: you clicked on a device");
-         ConnectThread connectThread= new ConnectThread(discoveredDevices.get(position));
-         connectThread.start();
+         service.startSearchServer(discoveredDevices.get(position));
     }
 
 

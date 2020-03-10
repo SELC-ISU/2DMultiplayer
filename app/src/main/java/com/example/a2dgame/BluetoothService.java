@@ -21,8 +21,11 @@ import java.util.UUID;
 public class BluetoothService{
 
     private static final String TAG = "BLUETOOTH_SERVICE_TAG";
+    private final UUID MY_UUID = UUID.fromString("64a067b8-8af4-4748-b14f-b207afc5c843");
     private Handler handler;
-    private ConnectedThread mmThread;
+    private ConnectedThread mmConnectedThread;
+    private AcceptThread mmAccept;
+    private ConnectThread mmConnect;
     Context mContext;
     BluetoothSocket mmSocket;
     private InputStream inStream;
@@ -36,29 +39,35 @@ public class BluetoothService{
 
     }
 
-    public BluetoothService(BluetoothSocket socket, Context context){
+    public BluetoothService(Context context){
         mContext = context;
-        mmThread = new ConnectedThread(socket);
-        Log.d(TAG, "We are connected and this is the bluetooth service constructor");
+        Log.d(TAG,"Constructor Called");
     }
+    public void startSearchingClient(BluetoothAdapter btAdapt){
+        mmAccept = new AcceptThread(btAdapt);
+        mmAccept.start();
+        Log.d(TAG,"Starting Searching Client");
+    }
+    public void startSearchServer(BluetoothDevice device){
+        mmConnect = new ConnectThread(device);
+        mmConnect.start();
+        Log.d(TAG, "Starting Search Server");
+    }
+    public void startReadSocket(){
 
-    public void startSocket(){
-
-        mmThread.start();
+        mmConnectedThread.start();
         Log.d(TAG, "The thread of CONNECTEDTHREAD has been started");
 
     }
     public void write(byte[] bytes){
-        mmThread.write(bytes);
+        mmConnectedThread.write(bytes);
     }
 
     public class ConnectThread extends Thread {
 
         private Handler handler;
         private final BluetoothDevice mmDevice;
-        private final UUID MY_UUID = UUID.fromString("64a067b8-8af4-4748-b14f-b207afc5c843");
         private final String TAG = "CONNECTING_THREAD";
-        private final BluetoothSocket mmSocket;
         private byte[] buffer;
         private boolean check = false;
 
@@ -115,12 +124,9 @@ public class BluetoothService{
 
             }
 
-            if(check == true) {
-                MainActivity s = new MainActivity();
-
-                s.setBluetoothService(mmSocket);
+            if(check){
+                Log.d(TAG,"We are connected");
                 return;
-
             }
 
         }
@@ -129,7 +135,6 @@ public class BluetoothService{
     public class AcceptThread extends Thread {
 
         private final BluetoothServerSocket serverSocket;
-        private final UUID MY_UUID = UUID.fromString("64a067b8-8af4-4748-b14f-b207afc5c843");
         private final String NAME = "RFCOMM Listener";
         private final String TAG = "ListeningActivity";
 
@@ -171,6 +176,9 @@ public class BluetoothService{
                     break;
                 }
             }
+
+            return;
+
         }
 
     }
@@ -178,6 +186,7 @@ public class BluetoothService{
     private class ConnectedThread extends Thread{
 
         private byte[] buffer;
+        private final String TAG = "ConnectedThread";
 
         public ConnectedThread(BluetoothSocket socket){
 
