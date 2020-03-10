@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     AcceptThread acceptThread;
     ConnectThread connectThread;
+    static BluetoothService service;
     public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     public DeviceListAdapter deviceListAdapter;
     ListView lvNewDevices;
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mainText = (TextView)findViewById(R.id.txtMain);
-
-
 
 
         if (!bluetoothAdapter.isEnabled()) {
@@ -262,6 +262,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG,"ITEM CLICK: you clicked on a device");
          ConnectThread connectThread= new ConnectThread(discoveredDevices.get(position));
          connectThread.start();
+    }
+
+    public static void setBluetoothService(BluetoothSocket socket){
+
+        service = new BluetoothService(socket);
+        service.startSocket();
+
     }
 
 }

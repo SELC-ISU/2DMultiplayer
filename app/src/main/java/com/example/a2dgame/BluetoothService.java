@@ -12,8 +12,9 @@ import java.io.OutputStream;
 
 public class BluetoothService{
 
-    private static final String TAG = "BLUETOOTH_TAG";
+    private static final String TAG = "BLUETOOTH_SERVICE_TAG";
     private Handler handler;
+    private ConnectedThread mmThread;
 
     private interface MessageConsts{
 
@@ -22,6 +23,21 @@ public class BluetoothService{
         public static final int MESSAGE_TOAST = 2;
 
     }
+
+    public BluetoothService(BluetoothSocket socket){
+        mmThread = new ConnectedThread(socket);
+        Log.d(TAG, "We are connected and this is the bluetooth service constructor");
+    }
+
+    public void startSocket(){
+
+        mmThread.start();
+
+    }
+    public void write(byte[] bytes){
+        mmThread.write(bytes);
+    }
+
 
     private class ConnectedThread extends Thread{
 

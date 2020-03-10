@@ -80,14 +80,23 @@ public class ConnectThread extends Thread {
             inStream = tempIn;
             outStream = tempOut;
 
+
+
         }
 
-        manageMyConnectedSocket(mmSocket);
+        if(check == true) {
+
+            MainActivity.setBluetoothService(mmSocket);
+            return;
+
+        }
+
+        //manageMyConnectedSocket(mmSocket);
 
     }
 
 
-    private void manageMyConnectedSocket(BluetoothSocket socket) {
+   /* private void manageMyConnectedSocket(BluetoothSocket socket) {
 
 
         buffer = new byte[1024];
@@ -107,8 +116,8 @@ public class ConnectThread extends Thread {
             }
 
         }
-    }
-    public void write(byte[] bytes){
+    }*/
+   /* public void write(byte[] bytes){
         try{
             outStream.write(bytes);
 
@@ -124,7 +133,7 @@ public class ConnectThread extends Thread {
             handler.sendMessage(writeErrorMsg);
 
         }
-    }
+    }*/
 
     public void cancel(){
         try{

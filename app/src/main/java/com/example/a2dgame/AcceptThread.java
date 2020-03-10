@@ -41,14 +41,15 @@ public class AcceptThread extends Thread {
 
                 //manageMyConnectedSocket(socket);
 
-                MainActivity s = new MainActivity();
-                s.printStatement("made it to connected");
                 Log.d(TAG,"READY TO GOOOO");
-                try {
+
+                MainActivity.setBluetoothService(socket);
+
+                /*try {
                     serverSocket.close();
                 }catch(IOException e){
 
-                }
+                }*/
 
                 break;
             }
