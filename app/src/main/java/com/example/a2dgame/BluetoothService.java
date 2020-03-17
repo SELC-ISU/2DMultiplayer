@@ -30,6 +30,7 @@ public class BluetoothService{
     BluetoothSocket mmSocket;
     private InputStream inStream;
     private OutputStream outStream;
+    private final Intent deviceConnectedIntent = new Intent("deviceConnected");
 
     private interface MessageConsts{
 
@@ -70,6 +71,7 @@ public class BluetoothService{
         private final String TAG = "CONNECTING_THREAD";
         private byte[] buffer;
         private boolean check = false;
+        private int checkNum = 0;
 
 
         public ConnectThread(BluetoothDevice device) {
@@ -93,6 +95,7 @@ public class BluetoothService{
                 try {
                     mmSocket.connect();
                     check = true;
+                    checkNum = 1;
                 } catch (IOException connectException) {
                     Log.d(TAG, "ERROR calling connect: closing socket");
                     try {
@@ -120,12 +123,15 @@ public class BluetoothService{
                 inStream = tempIn;
                 outStream = tempOut;
 
-
+                deviceConnectedIntent.putExtra("checkValue",checkNum);
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             }
 
             if(check){
                 Log.d(TAG,"We are connected");
+                mmConnectedThread = new ConnectedThread(mmSocket);
+                startReadSocket();
                 return;
             }
 
@@ -137,6 +143,7 @@ public class BluetoothService{
         private final BluetoothServerSocket serverSocket;
         private final String NAME = "RFCOMM Listener";
         private final String TAG = "ListeningActivity";
+        private int check = 0;
 
         public AcceptThread(BluetoothAdapter btAdapter){
 
@@ -165,6 +172,8 @@ public class BluetoothService{
 
                     Log.d(TAG,"READY TO GOOOO");
 
+                    check = 1;
+
                     mmSocket = socket;
 
                 try {
@@ -176,6 +185,11 @@ public class BluetoothService{
                     break;
                 }
             }
+
+            mmConnectedThread = new ConnectedThread(mmSocket);
+            startReadSocket();
+            deviceConnectedIntent.putExtra("checkValue",check);
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             return;
 
@@ -220,16 +234,15 @@ public class BluetoothService{
 
                     numBytes = inStream.read(buffer);
                     String incomingMessage = new String(buffer,0,numBytes);
-
+                    incomingMessage = "Opponent: " + incomingMessage;
                     Intent incomingMessageIntent = new Intent("incomingMessage");
                     incomingMessageIntent.putExtra("theMessage",incomingMessage);
                     LocalBroadcastManager.getInstance(mContext).sendBroadcast(incomingMessageIntent);
 
-                    Message readMsg = handler.obtainMessage(MessageConsts.MESSAGE_READ, numBytes, -1, buffer);
-                    readMsg.sendToTarget();
+
 
                 }catch(IOException e) {
-                    Log.d(TAG, "Input stream disconnected",e);
+                    Log.d(TAG, "Input stream disconnected USER",e);
                     break;
                 }
 
@@ -240,16 +253,9 @@ public class BluetoothService{
                 try{
                     outStream.write(bytes);
 
-                    Message writtenMsg = handler.obtainMessage(MessageConsts.MESSAGE_WRITE, -1,-1, buffer);
-                    writtenMsg.sendToTarget();
                 }catch(IOException e){
                     Log.e(TAG,"Error sending data");
 
-                    Message writeErrorMsg = handler.obtainMessage(MessageConsts.MESSAGE_TOAST);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("toast","Couldnt send data to other device");
-                    writeErrorMsg.setData(bundle);
-                    handler.sendMessage(writeErrorMsg);
 
                 }
             }

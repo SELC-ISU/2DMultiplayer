@@ -16,10 +16,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -36,6 +39,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     public DeviceListAdapter deviceListAdapter;
     ListView lvNewDevices;
+    ListView lvTextMessages;
+    Button btnSend, btnDisconnect;
+    EditText msgBox;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> listTexts;
+
+    int deviceConnected = 0;
 
     StringBuilder builder;
 
@@ -45,36 +55,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
 
+
+
         setContentView(R.layout.activity_main);
 
         mainText = (TextView)findViewById(R.id.txtMain);
 
+        switchToSecondaryLayout();
 
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, ENABLE_BT_REQUEST);
         }
 
-        setContentView(R.layout.secondary_layout);
-        Button btnEnDiscov = (Button) findViewById(R.id.btnClient);
-        btnEnDiscov.setOnClickListener(this); // calling onClick() method
 
-        Button btnMakeDiscov = (Button) findViewById(R.id.btnServer);
-        btnMakeDiscov.setOnClickListener(this);
-
-        Button btnOff = (Button) findViewById(R.id.btnOff);
-        btnOff.setOnClickListener(this);
-
-        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
-        discoveredDevices = new ArrayList<>();
-
-        lvNewDevices.setOnItemClickListener(MainActivity.this);
 
         service = new BluetoothService(MainActivity.this);
 
         builder = new StringBuilder();
+        discoveredDevices = new ArrayList<>();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessgae"));
+
+        listTexts = new ArrayList<>();
+
+        adapter=new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, listTexts);
+
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
 
     }
 
@@ -105,6 +114,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnClose:
 
                     closeSockets();
+                    deviceConnected = 0;
+
+                break;
+
+            case R.id.btnDisconnect:
+
+                closeSockets();
+                Log.d(TAG,"DISCONNECTING from messageing screen");
+                switchToSecondaryLayout();
+                deviceConnected = 0;
+
+                break;
+
+            case R.id.btnSend:
+
+                String str = String.valueOf(msgBox.getText());
+
+                Log.d(TAG,"Sending the Message: " + str);
+                byte[] b = str.getBytes();
+                service.write(b);
+                msgBox.setText("");
+                str = "Me: " + str;
+                adapter.add(str);
+                //this is where you will send the message in the edit box;
 
                 break;
 
@@ -199,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG,"Discovering: ACTION FOUND");
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
-                bluetoothAdapter.cancelDiscovery();
 
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 discoveredDevices.add(device);
@@ -240,9 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d(TAG,"reciever2: connected");
 
                 }
-                String deviceName = bluetoothAdapter.getName();
-                String deviceHardwareAddress = bluetoothAdapter.getAddress();
-                printStatement(deviceName + ", " + deviceHardwareAddress);
+
             }
         }
     };
@@ -253,8 +283,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             String text = intent.getStringExtra("theMessage");
 
-            builder.append(text + "\n");
+            //builder.append(text + "\n");
+            adapter.add(text);
             //now this can be set to the text view;
+        }
+    };
+
+    private final BroadcastReceiver receiver4 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            int check = intent.getIntExtra("checkValue",-1);
+
+            deviceConnected = check;
+
+            if(deviceConnected == 1) {
+                switchToMessageLayout();
+
+            }
+            else if(deviceConnected == 0)
+                Log.d(TAG,"DEVICE CONNECTION FAILED");
+            else
+                Log.d(TAG,"Intent Not Sent for device connection confirmation");
+
+
         }
     };
 
@@ -265,10 +317,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void switchToMessageLayout(){
+        setContentView(R.layout.message_layout);
+        lvTextMessages = (ListView) findViewById(R.id.lvTextMessages);
+        btnDisconnect = (Button) findViewById(R.id.btnDisconnect);
+        btnDisconnect.setOnClickListener(this);
+        btnSend= (Button) findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(this);
+        msgBox = (EditText)findViewById(R.id.msgBox);
+        lvTextMessages.setAdapter(adapter);
+
+    }
+
+    public void switchToSecondaryLayout(){
+        setContentView(R.layout.secondary_layout);
+        Button btnEnDiscov = (Button) findViewById(R.id.btnClient);
+        btnEnDiscov.setOnClickListener(this); // calling onClick() method
+
+        Button btnMakeDiscov = (Button) findViewById(R.id.btnServer);
+        btnMakeDiscov.setOnClickListener(this);
+
+        Button btnOff = (Button) findViewById(R.id.btnOff);
+        btnOff.setOnClickListener(this);
+
+        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
+
+
+        lvNewDevices.setOnItemClickListener(MainActivity.this);
+    }
+
+
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG,"ITEM CLICK: you clicked on a device");
+
+        bluetoothAdapter.cancelDiscovery();
+
          service.startSearchServer(discoveredDevices.get(position));
     }
 
