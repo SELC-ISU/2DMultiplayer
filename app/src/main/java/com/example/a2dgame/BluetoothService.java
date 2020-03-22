@@ -6,9 +6,6 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -21,17 +18,20 @@ import java.util.UUID;
 public class BluetoothService{
 
     private static final String TAG = "BLUETOOTH_SERVICE_TAG";
-    private final UUID MY_UUID = UUID.fromString("64a067b8-8af4-4748-b14f-b207afc5c843");
-    private Handler handler;
+    private final UUID MY_UUID = UUID.fromString("64a067b8-8af4-4748-b14f-b207afc5c843");  //Specific UUID for this app
+    private final Intent deviceConnectedIntent = new Intent("deviceConnected");   //Intent to send message of connection status
     private ConnectedThread mmConnectedThread;
     private AcceptThread mmAccept;
     private ConnectThread mmConnect;
-    Context mContext;
-    BluetoothSocket mmSocket;
+    private Context mContext;
+    private BluetoothSocket mmSocket;
     private InputStream inStream;
     private OutputStream outStream;
-    private final Intent deviceConnectedIntent = new Intent("deviceConnected");
 
+    /**
+     * The message consts will be used for easy identification of what kind of messages have been sent through
+     * from the other device in order to do the right action
+     */
     private interface MessageConsts{
 
         public static final int MESSAGE_READ = 0;
@@ -40,40 +40,76 @@ public class BluetoothService{
 
     }
 
+    /**
+     * Sets the context in order to know which class to send messages to
+     * Accepts teh context of the classs calling this connstructor
+     * @param context
+     */
     public BluetoothService(Context context){
         mContext = context;
         Log.d(TAG,"Constructor Called");
     }
+
+    /**
+     * Starts the client to look for a connection with UUID
+     * Accepts parameter of the bluetooth lvTextMsgAdapter of the device that will be the client
+     * AKA the device running this program
+     * @param btAdapt
+     */
     public void startSearchingClient(BluetoothAdapter btAdapt){
         mmAccept = new AcceptThread(btAdapt);
         mmAccept.start();
         Log.d(TAG,"Starting Searching Client");
     }
+
+    /**
+     *
+     * Starts the server to be open for connection with the same UUID
+     * Accepts parameter of a bloothooth device to try to connect to
+     * @param device
+     */
     public void startSearchServer(BluetoothDevice device){
         mmConnect = new ConnectThread(device);
         mmConnect.start();
         Log.d(TAG, "Starting Search Server");
     }
+
+    /**
+     *
+     * Starts reading from the socket once it is connected and allows other operations
+     *
+     */
     public void startReadSocket(){
 
         mmConnectedThread.start();
         Log.d(TAG, "The thread of CONNECTEDTHREAD has been started");
 
     }
+
+    /**
+     * Writes bytes, accepted by the parameter, to the other connected device
+     * calls on the connected thread to do this
+     * @param bytes
+     */
     public void write(byte[] bytes){
         mmConnectedThread.write(bytes);
     }
 
+    /**
+     * This class is the handler of connected the host device to another device searching for
+     * its UUID. This takes in a device to specifically search for in its constructor
+     */
     public class ConnectThread extends Thread {
 
-        private Handler handler;
-        private final BluetoothDevice mmDevice;
+        private final BluetoothDevice mmDevice;  //device to attempt connection
         private final String TAG = "CONNECTING_THREAD";
-        private byte[] buffer;
-        private boolean check = false;
-        private int checkNum = 0;
+        private boolean check = false;  //check to see if connection succesful
+        private int checkNum = 0;  //num to send through declaring connection status
 
-
+        /**
+         * Takes in a device to attempt a connection with
+         * @param device
+         */
         public ConnectThread(BluetoothDevice device) {
 
             BluetoothSocket temp = null;
@@ -81,7 +117,7 @@ public class BluetoothService{
 
             try {
 
-                temp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                temp = device.createRfcommSocketToServiceRecord(MY_UUID); //starts sending out the UUID to see if its a match on the accepting side
 
             } catch (IOException e) {
                 Log.e(TAG, "Sockets create() method failed", e);
@@ -89,12 +125,16 @@ public class BluetoothService{
             mmSocket = temp;
         }
 
+        /**
+         * Creates connection
+         * is a thread so the call of connect does not block program exection
+         */
         public void run() {
 
             if (!check) {
                 try {
-                    mmSocket.connect();
-                    check = true;
+                    mmSocket.connect();  //waits here for a connection from the accepting side
+                    check = true;  //gets to these two lines if connected
                     checkNum = 1;
                 } catch (IOException connectException) {
                     Log.d(TAG, "ERROR calling connect: closing socket");
@@ -123,21 +163,25 @@ public class BluetoothService{
                 inStream = tempIn;
                 outStream = tempOut;
 
-                deviceConnectedIntent.putExtra("checkValue",checkNum);
+                deviceConnectedIntent.putExtra("checkValue",checkNum);  //sends out status of the connection to Main Activity
                 LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             }
 
             if(check){
                 Log.d(TAG,"We are connected");
-                mmConnectedThread = new ConnectedThread(mmSocket);
-                startReadSocket();
+                mmConnectedThread = new ConnectedThread(mmSocket);  //creates connected thread with the socket that was just succesfully connected
+                startReadSocket(); //starts reading from this socket
                 return;
             }
 
         }
 
     }
+
+    /**
+     * Looks for and Accepts connection from the server side
+     */
     public class AcceptThread extends Thread {
 
         private final BluetoothServerSocket serverSocket;
@@ -145,6 +189,11 @@ public class BluetoothService{
         private final String TAG = "ListeningActivity";
         private int check = 0;
 
+        /**
+         * Starts listening for the UUID of this app that would be sent by server
+         * Takes in the BT lvTextMsgAdapter of this device
+         * @param btAdapter
+         */
         public AcceptThread(BluetoothAdapter btAdapter){
 
             BluetoothServerSocket tempServer = null;
@@ -156,12 +205,16 @@ public class BluetoothService{
             serverSocket = tempServer;
         }
 
+        /**
+         * Attempts a connection from the server
+         * This is a thread because socket.accept() is a blocking call
+         */
         public void run() {
             BluetoothSocket socket = null;
 
             while(true){
                 try{
-                    socket = serverSocket.accept();
+                    socket = serverSocket.accept();  //blocking call, wont stop until fail or succeed
                 }catch(IOException e){
                     Log.e(TAG, "Socket's accept() method failed", e);
                     break;
@@ -170,7 +223,7 @@ public class BluetoothService{
                 if(socket!=null){
 
 
-                    Log.d(TAG,"READY TO GOOOO");
+                    Log.d(TAG,"READY TO GOOOO");  //We are connected
 
                     check = 1;
 
@@ -187,8 +240,8 @@ public class BluetoothService{
             }
 
             mmConnectedThread = new ConnectedThread(mmSocket);
-            startReadSocket();
-            deviceConnectedIntent.putExtra("checkValue",check);
+            startReadSocket();  //creates connectedThread and starts it to reading
+            deviceConnectedIntent.putExtra("checkValue",check);  //sends connection status to the MainActivity
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             return;
@@ -197,11 +250,20 @@ public class BluetoothService{
 
     }
 
+    /**
+     *
+     * This is the class that manages the connection once made on either the client or server side
+     *
+     */
     private class ConnectedThread extends Thread{
 
-        private byte[] buffer;
+        private byte[] buffer;  //buffer holds the incoming messages
         private final String TAG = "ConnectedThread";
 
+        /**
+         * Takes in the connected socket to read and write from/to
+         * @param socket
+         */
         public ConnectedThread(BluetoothSocket socket){
 
             mmSocket = socket;
@@ -219,11 +281,15 @@ public class BluetoothService{
                 Log.e(TAG,"Error from creating output stream");
             }
 
-            inStream = tempIn;
+            inStream = tempIn;  //sets the streams to write and read
             outStream = tempOut;
 
         }
 
+        /**
+         * This method continuously reads the stream from the connected device
+         * is a thread so this can continue to read no matter what else is running
+         */
         public void run(){
 
             buffer = new byte[1024];
@@ -232,11 +298,11 @@ public class BluetoothService{
             while(true){
                 try{
 
-                    numBytes = inStream.read(buffer);
-                    String incomingMessage = new String(buffer,0,numBytes);
-                    incomingMessage = "Opponent: " + incomingMessage;
+                    numBytes = inStream.read(buffer);  //reads from the device
+                    String incomingMessage = new String(buffer,0,numBytes);  //transfers it into a string
+                    incomingMessage = "Opponent: " + incomingMessage;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
                     Intent incomingMessageIntent = new Intent("incomingMessage");
-                    incomingMessageIntent.putExtra("theMessage",incomingMessage);
+                    incomingMessageIntent.putExtra("theMessage",incomingMessage);  //sends the message to MainActivity
                     LocalBroadcastManager.getInstance(mContext).sendBroadcast(incomingMessageIntent);
 
 
@@ -249,7 +315,11 @@ public class BluetoothService{
                 }
             }
 
-            public void write(byte[] bytes){
+        /**
+         * Writes to the other device an array of bytes taken is a parameter
+         * @param bytes
+         */
+        public void write(byte[] bytes){
                 try{
                     outStream.write(bytes);
 
@@ -263,6 +333,10 @@ public class BluetoothService{
 
         }
 
+    /**
+     * closes the socket and cancels the connection to the other device
+     * should be done when app closes and when the user wants to connect to different device
+     */
     public void cancel(){
         try{
             mmSocket.close();
