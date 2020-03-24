@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScrollView sv;
 
-    Button btnSend, btnDisconnect, btnEnDiscov, btnMakeDiscov,btnOff;
+    Button btnSend, btnDisconnect, btnJoin, btnHost;
+    TextView txtAvailable;
 
 
     /**
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switchToMainLayout();
 
-        switchToSecondaryLayout();
+        switchToJoinHostLayout();
 
         enableBT();
 
@@ -93,37 +94,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
 
-            case R.id.btnClient:
+            case R.id.btnJoin:
 
                 makeDiscoverable();
 
                 break;
 
 
-            case R.id.btnServer:
+            case R.id.btnHost:
 
                 commenceDiscovery(true);  //starts server discovery
 
                 break;
 
-            case R.id.btnOff:
-
-                commenceDiscovery(false);  //turns the server discovery off
-
-                break;
-
-            case R.id.btnClose:
-
-                    closeSockets();  //disconnects any devices
-                    deviceConnected = 0;
-
-                break;
 
             case R.id.btnDisconnect:
 
                 closeSockets();  //disconnects any device
                 Log.d(TAG,"DISCONNECTING from messageing screen");
-                switchToSecondaryLayout();  //switches to the connect options screen
+                switchToJoinHostLayout();  //switches to the connect options screen
                 deviceConnected = 0;
 
                 break;
@@ -143,11 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.msgBox:
-
-                //sv.scrollTo(0, sv.getBottom());
-
-                break;
 
             default:
                 break;
@@ -202,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void makeDiscoverable(){
 
+        lvNewDevices.setVisibility(View.INVISIBLE);
+        txtAvailable.setVisibility(View.INVISIBLE);
+
         Log.d(TAG,"Making device discoverable");
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, ENABLE_DISCOVERABILITY_DURATION);  //sets the amount of time to be discoverable, ENABLE_DISCOVERABILITY_DURATION
@@ -226,6 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkBTPermissions(); //checks to ensure that this permission is enabled on device
                                 //will come up with permission request on phone
                                 //only necessary on new android versios
+        lvNewDevices.setVisibility(View.VISIBLE);
+        txtAvailable.setVisibility(View.VISIBLE);
 
         if(bluetoothAdapter.isDiscovering()){
             discoveredDevices.clear();
@@ -309,21 +298,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Switches the focus of the app to the connection screen
      */
-    public void switchToSecondaryLayout(){
-        setContentView(R.layout.secondary_layout);
-        btnEnDiscov = (Button) findViewById(R.id.btnClient);
-        btnEnDiscov.setOnClickListener(this); // calling onClick() method
+    public void switchToJoinHostLayout(){
+        setContentView(R.layout.join_host_layout);
 
-        btnMakeDiscov = (Button) findViewById(R.id.btnServer);
-        btnMakeDiscov.setOnClickListener(this);
+        btnJoin = (Button) findViewById(R.id.btnJoin);
+        btnJoin.setOnClickListener(this);
 
-        btnOff = (Button) findViewById(R.id.btnOff);
-        btnOff.setOnClickListener(this);
+        btnHost = (Button) findViewById(R.id.btnHost);
+        btnHost.setOnClickListener(this);
+
+        txtAvailable= (TextView) findViewById(R.id.txtAvailable);
+        txtAvailable.setVisibility(View.INVISIBLE);
 
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
 
-
         lvNewDevices.setOnItemClickListener(MainActivity.this);
+
+        lvNewDevices.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -332,7 +323,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void switchToMainLayout(){
         setContentView(R.layout.activity_main);
 
-        mainText = (TextView)findViewById(R.id.txtMain);
     }
 
 
