@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:scrollbars="none"
 
-    <Button
-        android:id="@+id/btnDisconnect"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Disconnect From Device"
-        android:textSize="24sp" />
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
 
-    <ListView
-        android:id="@+id/lvTextMessages"
-        android:layout_width="match_parent"
-        android:layout_height="419dp" />
+        <Button
+            android:id="@+id/btnDisconnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disconnect From Device"
+            android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/msgBox"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:ems="10"
-        android:gravity="bottom|start"
-        android:inputType="textMultiLine" />
+        <ListView
+            android:id="@+id/lvTextMessages"
+            android:layout_width="match_parent"
+            android:layout_height="419dp" />
 
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send"/>
-</LinearLayout>
+        <EditText
+            android:id="@+id/msgBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="bottom|start"
+            android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine" />
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"/>
+    </LinearLayout>
+
+</ScrollView>

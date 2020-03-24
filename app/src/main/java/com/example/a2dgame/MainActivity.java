@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int deviceConnected = 0;
 
+    ScrollView sv;
 
     Button btnSend, btnDisconnect, btnEnDiscov, btnMakeDiscov,btnOff;
 
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
 
+        sv = (ScrollView)findViewById(R.id.scrollView);
     }
 
     /**
@@ -135,10 +138,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msgBox.setText("");
                 str = "Me: " + str;
                 lvTextMsgAdapter.add(str);
+                lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount()-1);
                 //this is where you will send the message in the edit box;
 
                 break;
 
+            case R.id.msgBox:
+
+                //sv.scrollTo(0, sv.getBottom());
+
+                break;
 
             default:
                 break;
@@ -163,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bluetoothAdapter.cancelDiscovery();  //cancels this because it is a resource intensive action
 
         service.startSearchServer(discoveredDevices.get(position)); //starts searching for this device and what UUID they are putting out for a connection
+
     }
 
     /**
@@ -292,6 +302,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         msgBox = (EditText)findViewById(R.id.msgBox);
         lvTextMessages.setAdapter(lvTextMsgAdapter);
 
+        msgBox.setOnClickListener(this);
+
     }
 
     /**
@@ -395,7 +407,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //builder.append(text + "\n");
             lvTextMsgAdapter.add(text);
-            //now this can be set to the text view;
+            lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount()-1);
+            //now this can be set to the text view and scroll slowly to the new message;
         }
     };
 
