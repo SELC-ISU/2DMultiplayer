@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnSinglePlayer"
+        android:layout_width="188dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="127dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="71dp"
+        android:text="Single-Player"
+        app:layout_constraintBottom_toTopOf="@+id/btnTwoPlayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btnTwoPlayer"
+        android:layout_width="188dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="258dp"
+        android:text="Two-Player"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSinglePlayer" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="97dp"
+        android:text="TIC-TAC-TOE"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

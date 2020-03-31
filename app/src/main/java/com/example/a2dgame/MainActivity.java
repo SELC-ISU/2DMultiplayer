@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -14,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,45 +25,51 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButtonToggleGroup;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 
+    public final static String GAME_STR = "G";
+    public final static String CHAT_STR = "C";
+    public final static String MICELLANEOUS_STR = "M";
+
     private static final String TAG = "BLUETOOTH_TAG";
     public final int ENABLE_BT_REQUEST = 1;
-    public final int ENABLE_DISCOVERABILITY_DURATION = 600;
+    public final int ENABLE_DISCOVERABILITY_DURATION = 60;
     public final int ENABLE_DISCOVERABILITY = 2;
 
-    public final int DEVICE_ATTEMPTING_CONNECTION = 2;
-    public final int DEVICE_CONNECTED = 1;
-    public final int DEVICE_CONNECTION_FAILED = 0;
-    public final int DEVICE_CONNECTION_MESSAGE_FAILED = -1;
 
-    StringBuilder builder;
     private AlertDialog dialog;
 
-    BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    BluetoothService service;  //declarations for bluetooth items
+    private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private BluetoothService service;  //declarations for bluetooth items
 
-    public ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
-    public DeviceListAdapter deviceListAdapter;   //declarations for finding devices
-    ListView lvNewDevices;
+    private ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
+    private DeviceListAdapter deviceListAdapter;   //declarations for finding devices
+    private ListView lvNewDevices;
 
-    ListView lvTextMessages;
-    EditText msgBox;
-    ArrayAdapter<String> lvTextMsgAdapter;  //declarations for message sending
-    ArrayList<String> listTexts;
+    private ListView lvTextMessages;
+    private EditText msgBox;
+    private ArrayAdapter<String> lvTextMsgAdapter;  //declarations for message sending
+    private ArrayList<String> listTexts;
 
-    DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
+    public DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
 
     ScrollView sv;
 
-    Button btnSend, btnDisconnect, btnJoin, btnHost;
-    TextView txtAvailable;
+    private Button btnSend, btnDisconnect, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
+            btnThreeGames, btnFiveGames, btnChat, btnBackToStart;
+
+    private TextView txtAvailable;
 
     public boolean newGameMessage = false;
     public String gameMessage = "";
+    public boolean twoPlayer = false;
+
+    public GameType gameType;
 
 
     /**
@@ -75,25 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        switchToMainLayout();
+        switchToStartScreenLayout();
 
-        switchToJoinHostLayout();
-
-        enableBT();
-
-        service = new BluetoothService(MainActivity.this);  //instantiates the bluetoothService object in order to connect to device and perform operations
-
-        builder = new StringBuilder();  //this would be used to build longer strings from many read in messages
-        discoveredDevices = new ArrayList<>();
-
-        listTexts = new ArrayList<>();
-
-        lvTextMsgAdapter =new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTexts);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
-
-        sv = (ScrollView)findViewById(R.id.scrollView);
     }
 
     /**
@@ -125,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 closeSockets();  //disconnects any device
                 Log.d(TAG,"DISCONNECTING from messageing screen");
                 switchToJoinHostLayout();  //switches to the connect options screen
-                deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
 
                 break;
 
@@ -133,9 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 String str = String.valueOf(msgBox.getText());
 
-                Log.d(TAG,"Sending the Message: " + str);
-                byte[] b = str.getBytes();
-                service.write(b);
+                write(str,CHAT_STR);
                 msgBox.setText("");
                 str = "Me: " + str;
                 lvTextMsgAdapter.add(str);
@@ -143,6 +128,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //this is where you will send the message in the edit box;
 
                 break;
+
+            case R.id.btnSinglePlayer:
+                twoPlayer = false;
+                switchToStartGameScreenLayout();
+                break;
+
+            case R.id.btnTwoPlayer:
+
+                twoPlayer = true;
+                switchToJoinHostLayout();
+
+                break;
+
+            case R.id.btnBackToStart:
+                twoPlayer = false;
+                closeSockets();
+                switchToStartGameScreenLayout();
+
+            case R.id.btnChat:
+
+                break;
+
+            case R.id.btnSingleGame:
+
+                gameType = GameType.SINGLE;
+
+                break;
+
+            case R.id.btnThreeGames:
+
+                gameType = GameType.BEST_OF_THREE;
+
+                break;
+
+            case R.id.btnFiveGames:
+
+                gameType = GameType.BEST_OF_FIVE;
+
+                break;
+
 
 
             default:
@@ -188,7 +213,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void closeSockets() {
 
         Log.d(TAG, "Closing sockets");
-        service.cancel();
+
+        if(deviceConnected == DeviceConnection.DEVICE_CONNECTED)
+            deviceConnected = DeviceConnection.DEVICE_DISCONNECTED;
+        else
+            deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
+
+        if(service != null) {
+            service.cancel();
+        }
 
     }
 
@@ -310,9 +343,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+     * Intializes all the objects needed for two player and also checks to see if enabling bluetooth is necessary
      * Switches the focus of the app to the connection screen
      */
     public void switchToJoinHostLayout(){
+
+        enableBT();
+
+        service = new BluetoothService(MainActivity.this);  //instantiates the bluetoothService object in order to connect to device and perform operations
+
+        discoveredDevices = new ArrayList<>();
+
+        listTexts = new ArrayList<>();
+
+        lvTextMsgAdapter =new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTexts);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
+
+        sv = (ScrollView)findViewById(R.id.scrollView);
+
         setContentView(R.layout.join_host_layout);
 
         btnJoin = (Button) findViewById(R.id.btnJoin);
@@ -329,6 +379,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvNewDevices.setOnItemClickListener(MainActivity.this);
 
         lvNewDevices.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * switches the focus of the app to the screen where you pick how many games/chat/go to start
+     */
+    public void switchToStartGameScreenLayout(){
+
+        dismissMessage();
+        dismissMessage();
+        dismissMessage();
+        dismissMessage();
+
+        twoPlayer = false;
+
+        setContentView(R.layout.start_game_screen_layout);
+
+        btnSingleGame = (Button)findViewById(R.id.btnSingleGame);
+        btnSingleGame.setOnClickListener(this);
+
+        btnThreeGames = (Button)findViewById(R.id.btnThreeGames);
+        btnThreeGames.setOnClickListener(this);
+
+        btnFiveGames = (Button)findViewById(R.id.btnFiveGames);
+        btnFiveGames.setOnClickListener(this);
+
+        btnChat = (Button)findViewById(R.id.btnChat);
+        btnChat.setOnClickListener(this);
+
+        if(twoPlayer)
+            btnChat.setVisibility(View.VISIBLE);
+        else
+            btnChat.setVisibility(View.INVISIBLE);
+
+        btnBackToStart = (Button)findViewById(R.id.btnBackToStart);
+        btnBackToStart.setOnClickListener(this);
+
+    }
+
+    /**
+     * Switches to the start screen that you would see when the app load
+     * Initializes all the usable things on the layout
+     */
+    public void switchToStartScreenLayout(){
+
+        setContentView(R.layout.start_screen_layout);
+
+        btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
+        btnSinglePlayer.setOnClickListener(this);
+
+        btnTwoPlayer = (Button) findViewById(R.id.btnTwoPlayer);
+        btnTwoPlayer.setOnClickListener(this);
+
     }
 
     /**
@@ -382,9 +484,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case BluetoothAdapter.SCAN_MODE_CONNECTABLE:
                         Log.d(TAG,"reciever2: Discoverability disabled, still able to recieve connections");
+                        if(deviceConnected != DeviceConnection.DEVICE_CONNECTED)
+                            showMessage("You're device is not visible to the host, please try again.", 1);
                         break;
                     case BluetoothAdapter.SCAN_MODE_NONE:
                         Log.d(TAG,"receiver2: Discoverability off, no able to recieve");
+                        if(deviceConnected != DeviceConnection.DEVICE_CONNECTED)
+                            showMessage("You're device is not visible to the host, please try again.", 1);
                         break;
                     case BluetoothAdapter.STATE_CONNECTING:
                         Log.d(TAG, "receiver2: connecting");
@@ -408,22 +514,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onReceive(Context context, Intent intent) {
 
             String text = intent.getStringExtra("theMessage");
+            String checkStr = Character.toString(text.charAt(0));
+            text = text.substring(1);
 
-            //builder.append(text + "\n");
-            lvTextMsgAdapter.add(text);
-            lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount()-1);
-            int game = 0;
-            if(game == 0){
+            if(checkStr.equals(CHAT_STR)) {
+                text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
+                lvTextMsgAdapter.add(text);
+                lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
+            }
+            else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
                 gameMessage = text;
             }
-            //now this can be set to the text view and scroll slowly to the new message;
+            else if(checkStr.equals(MICELLANEOUS_STR)){
+
+            }
+           //You can add more final Strings at the top to make more text options here just add an if
         }
     };
-
-    public boolean getMessage() {
-        return false;
-    }
 
     /**
      * This receiver takes in the message from the BluetoothService class on how successful the
@@ -442,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG,"CLOSING AlertDialod");
                 dismissMessage();
 
-                switchToMessageLayout();
+                switchToStartGameScreenLayout();
             }
             else if(deviceConnected == DeviceConnection.DEVICE_CONNECTION_FAILED) {
                 Log.d(TAG, "DEVICE CONNECTION FAILED");
@@ -458,7 +566,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(deviceConnected == DeviceConnection.DEVICE_DISCONNECTED){
                 Log.d(TAG,"Other DEvice was Disconnected");
                 closeSockets();
-                switchToJoinHostLayout();
+                dismissMessage();
+                showMessage("Device was disconnected.",1);
+                switchToStartScreenLayout();
             }
 
 
@@ -466,11 +576,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
-
+    /**
+     * Creates an active AlertDialog box that will display a message to the user
+     *
+     * @param str  This is the message that will be displayed
+     * @param check This is the check to determine which of the set layouts made below you want
+     */
     public void showMessage(String str, int check){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setMessage(str);
+
+        Log.d(TAG,"Showing AlertBox with this str: "+str);
 
         if(check == 1){
             builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
@@ -495,7 +612,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+    /**
+     * Dismisses the active AlertDialogBox
+     */
     public void dismissMessage(){
         Log.d(TAG,"log box");
         if(dialog != null) {
@@ -505,15 +624,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public boolean wrtie(String msg){
+    /**
+     * This method makes it easy for any class to utilize the writing to the other device
+     * @param msg   the message
+     * @param checkStr  the identifier at the beginning of the message to tell what this message will be used for
+     * @return
+     */
+    public boolean write(String msg, String checkStr){
 
         if(service != null){
             if(deviceConnected == DeviceConnection.DEVICE_CONNECTED){
+
+                msg = checkStr + msg;
+                Log.d(TAG,"Sending the Message: " + msg);
                 byte[] b = msg.getBytes();
                 service.write(b);
                 return true;
             }
         }
+        Log.d(TAG,"Sending message Failed");
         return false;
 
     }

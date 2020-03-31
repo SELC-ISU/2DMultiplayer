@@ -28,6 +28,8 @@ public class BluetoothService{
     private InputStream inStream;
     private OutputStream outStream;
 
+    private boolean runnable = true;
+
     /**
      * The message consts will be used for easy identification of what kind of messages have been sent through
      * from the other device in order to do the right action
@@ -57,6 +59,7 @@ public class BluetoothService{
      * @param btAdapt
      */
     public void startSearchingClient(BluetoothAdapter btAdapt){
+        runnable = true;
         mmAccept = new AcceptThread(btAdapt);
         mmAccept.start();
         Log.d(TAG,"Starting Searching Client");
@@ -69,6 +72,7 @@ public class BluetoothService{
      * @param device
      */
     public void startSearchServer(BluetoothDevice device){
+        runnable = true;
         mmConnect = new ConnectThread(device);
         mmConnect.start();
         Log.d(TAG, "Starting Search Server");
@@ -81,6 +85,7 @@ public class BluetoothService{
      */
     public void startReadSocket(){
 
+        runnable = true;
         mmConnectedThread.start();
         Log.d(TAG, "The thread of CONNECTEDTHREAD has been started");
 
@@ -137,51 +142,53 @@ public class BluetoothService{
          * is a thread so the call of connect does not block program exection
          */
         public void run() {
-
-            if (!check) {
-                try {
-                    mmSocket.connect();  //waits here for a connection from the accepting side
-                    check = true;  //gets to these two lines if connected
-                    checkEnum = DeviceConnection.DEVICE_CONNECTED;
-                } catch (IOException connectException) {
-                    Log.d(TAG, "ERROR calling connect: closing socket");
+            while (runnable) {
+                if (!check) {
                     try {
-                        mmSocket.close();
-                    } catch (IOException closeException) {
-                        Log.e(TAG, "ERROR connection and then coundlt close");
+                        mmSocket.connect();  //waits here for a connection from the accepting side
+                        check = true;  //gets to these two lines if connected
+                        checkEnum = DeviceConnection.DEVICE_CONNECTED;
+                    } catch (IOException connectException) {
+                        Log.d(TAG, "ERROR calling connect: closing socket");
+                        try {
+                            mmSocket.close();
+                        } catch (IOException closeException) {
+                            Log.e(TAG, "ERROR connection and then coundlt close");
+                        }
+                        return;
                     }
+
+                    InputStream tempIn = null;
+                    OutputStream tempOut = null;
+
+                    try {
+                        tempIn = mmSocket.getInputStream();
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error from creating input stream");
+                    }
+                    try {
+                        tempOut = mmSocket.getOutputStream();
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error from creating output stream");
+                    }
+
+                    inStream = tempIn;
+                    outStream = tempOut;
+
+                    deviceConnectedIntent.putExtra("checkValue", checkEnum.value);  //sends out status of the connection to Main Activity
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
+
+                }
+
+                if (check) {
+                    Log.d(TAG, "We are connected");
+                    mmConnectedThread = new ConnectedThread(mmSocket);  //creates connected thread with the socket that was just succesfully connected
+                    startReadSocket(); //starts reading from this socket
                     return;
                 }
 
-                InputStream tempIn = null;
-                OutputStream tempOut = null;
-
-                try {
-                    tempIn = mmSocket.getInputStream();
-                } catch (IOException e) {
-                    Log.e(TAG, "Error from creating input stream");
-                }
-                try {
-                    tempOut = mmSocket.getOutputStream();
-                } catch (IOException e) {
-                    Log.e(TAG, "Error from creating output stream");
-                }
-
-                inStream = tempIn;
-                outStream = tempOut;
-
-                deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
-                LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
-
             }
-
-            if(check){
-                Log.d(TAG,"We are connected");
-                mmConnectedThread = new ConnectedThread(mmSocket);  //creates connected thread with the socket that was just succesfully connected
-                startReadSocket(); //starts reading from this socket
-                return;
-            }
-
+            return;
         }
 
     }
@@ -223,7 +230,7 @@ public class BluetoothService{
         public void run() {
             BluetoothSocket socket = null;
 
-            while(true){
+            while(true && runnable){
                 try{
 
                     socket = serverSocket.accept();  //blocking call, wont stop until fail or succeed
@@ -316,12 +323,11 @@ public class BluetoothService{
             buffer = new byte[1024];
             int numBytes;
 
-            while(true){
+            while(true && runnable){
                 try{
 
                     numBytes = inStream.read(buffer);  //reads from the device
                     String incomingMessage = new String(buffer,0,numBytes);  //transfers it into a string
-                    incomingMessage = "Opponent: " + incomingMessage;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
                     Intent incomingMessageIntent = new Intent("incomingMessage");
                     incomingMessageIntent.putExtra("theMessage",incomingMessage);  //sends the message to MainActivity
                     LocalBroadcastManager.getInstance(mContext).sendBroadcast(incomingMessageIntent);
@@ -337,6 +343,7 @@ public class BluetoothService{
                 }
 
                 }
+            return;
             }
 
         /**
@@ -362,11 +369,16 @@ public class BluetoothService{
      * should be done when app closes and when the user wants to connect to different device
      */
     public void cancel(){
+        cancelThreads();
         try{
             mmSocket.close();
         }catch (IOException e){
             Log.e(TAG,"count not close the socket");
         }
+    }
+
+    public void cancelThreads(){
+        runnable = false;
     }
 
 

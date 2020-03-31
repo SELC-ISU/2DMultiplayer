@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnSingleGame"
+        android:layout_width="185dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginEnd="113dp"
+        android:layout_marginBottom="32dp"
+        android:text="1 Game"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnThreeGames"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnThreeGames"
+        android:layout_width="185dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="113dp"
+        android:layout_marginBottom="92dp"
+        android:text="best 2 of 3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFiveGames"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSingleGame" />
+
+    <Button
+        android:id="@+id/btnFiveGames"
+        android:layout_width="185dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="113dp"
+        android:layout_marginBottom="126dp"
+        android:text="best 3 of 5"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnChat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnThreeGames" />
+
+    <Button
+        android:id="@+id/btnBackToStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="113dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="21dp"
+        android:text="back to start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnChat"
+        app:layout_constraintTop_toBottomOf="@+id/btnFiveGames" />
+
+    <Button
+        android:id="@+id/btnChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="24dp"
+        android:text="Chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBackToStart"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

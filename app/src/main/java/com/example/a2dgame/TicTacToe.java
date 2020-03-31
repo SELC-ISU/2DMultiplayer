@@ -24,7 +24,7 @@ public class TicTacToe extends Thread{
         if(doublePlayer == true && opponentTurn == false) {
 
             String message = getOwnWhatver();
-            ((MainActivity) context).wrtie(message);
+            ((MainActivity) context).write(message,MainActivity.GAME_STR);
 
         }
         //playing the rest of the game until it looks for more input
