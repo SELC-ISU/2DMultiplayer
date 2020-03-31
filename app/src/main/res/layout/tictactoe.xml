@@ -11,11 +11,14 @@
 
     <ImageView
         android:id="@+id/grid"
+
         android:layout_width="450dp"
         android:layout_height="450dp"
         android:layout_gravity="center"
         android:layout_marginTop="127dp"
         android:src="@drawable/homemade_grid_5"
+
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.205"
@@ -24,6 +27,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
+
         android:id="@+id/ONum1"
         android:layout_width="214dp"
         android:layout_height="146dp"
@@ -197,9 +201,14 @@
         android:textAllCaps="false"
         android:textSize="24sp"
         android:textStyle="bold"
+
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent" />
 
 
+        app:layout_constraintVertical_bias="0.0" />
+    //app:layout_constraintTop_toTopOf="parent"
 </androidx.constraintlayout.widget.ConstraintLayout>

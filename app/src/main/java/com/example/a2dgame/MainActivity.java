@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -32,8 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public final int ENABLE_DISCOVERABILITY_DURATION = 600;
     public final int ENABLE_DISCOVERABILITY = 2;
 
-    TextView mainText;
+    public final int DEVICE_ATTEMPTING_CONNECTION = 2;
+    public final int DEVICE_CONNECTED = 1;
+    public final int DEVICE_CONNECTION_FAILED = 0;
+    public final int DEVICE_CONNECTION_MESSAGE_FAILED = -1;
+
     StringBuilder builder;
+    private AlertDialog dialog;
 
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     BluetoothService service;  //declarations for bluetooth items
@@ -47,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayAdapter<String> lvTextMsgAdapter;  //declarations for message sending
     ArrayList<String> listTexts;
 
-    int deviceConnected = 0;
+    DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
 
     ScrollView sv;
 
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 closeSockets();  //disconnects any device
                 Log.d(TAG,"DISCONNECTING from messageing screen");
                 switchToJoinHostLayout();  //switches to the connect options screen
-                deviceConnected = 0;
+                deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
 
                 break;
 
@@ -173,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * This calls BluetoothService's cancel method in order to close all connections
      */
-    private void closeSockets() {
+    public void closeSockets() {
 
         Log.d(TAG, "Closing sockets");
         service.cancel();
@@ -186,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void makeDiscoverable(){
 
+        discoveredDevices.clear();
+        bluetoothAdapter.cancelDiscovery();
         lvNewDevices.setVisibility(View.INVISIBLE);
         txtAvailable.setVisibility(View.INVISIBLE);
 
@@ -411,22 +422,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            int check = intent.getIntExtra("checkValue",-1);
+            DeviceConnection check = DeviceConnection.enumOf(intent.getIntExtra("checkValue",-1));
 
             deviceConnected = check;
 
-            if(deviceConnected == 1) {
-                switchToMessageLayout();
+            if(deviceConnected == DeviceConnection.DEVICE_CONNECTED) {
+                Log.d(TAG,"CLOSING AlertDialod");
+                dismissMessage();
 
+                switchToMessageLayout();
             }
-            else if(deviceConnected == 0)
-                Log.d(TAG,"DEVICE CONNECTION FAILED");
-            else
+            else if(deviceConnected == DeviceConnection.DEVICE_CONNECTION_FAILED) {
+                Log.d(TAG, "DEVICE CONNECTION FAILED");
+                showMessage("Connection Failed", 1);
+            }
+            else if(deviceConnected == DeviceConnection.DEVICE_CONNECTION_MESSAGE_FAILED)
                 Log.d(TAG,"Intent Not Sent for device connection confirmation");
+            else if(deviceConnected == DeviceConnection.DEVICE_ATTEMPTING_CONNECTION) {
+                Log.d(TAG, "Device Connecting...");
+
+               showMessage("Connecting...", 2);
+            }
+            else if(deviceConnected == DeviceConnection.DEVICE_DISCONNECTED){
+                Log.d(TAG,"Other DEvice was Disconnected");
+                closeSockets();
+                switchToJoinHostLayout();
+            }
 
 
         }
     };
 
+
+
+    public void showMessage(String str, int check){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        builder.setMessage(str);
+
+        if(check == 1){
+            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dismissMessage();
+                }
+            });
+        }
+
+        if(check == 2){
+            builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dismissMessage();
+                    closeSockets();
+                }
+            });
+        }
+
+        dialog = builder.create();
+        dialog.show();
+
+    }
+
+
+
+    public void dismissMessage(){
+        Log.d(TAG,"log box");
+        if(dialog != null) {
+            Log.d(TAG,"Dismissing the Dialog box");
+            dialog.dismiss();
+        }
+
+    }
 
 }
