@@ -4,32 +4,202 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/green_background"
     tools:context=".MainActivity">
+
+    <!-- thi sis a comment -->
 
     <ImageView
         android:id="@+id/grid"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="center_Inside"
-        android:src="@drawable/ticTacToeGrid"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="127dp"
+        android:src="@drawable/homemade_grid_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.205"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/greenBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/ONum1"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="-10dp"
+        tools:layout_editor_absoluteY="175dp" />
+
+    <ImageView
+        android:id="@+id/XNum1"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="184dp"
+        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        //app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum2"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="175dp" />
+
+    <ImageView
+        android:id="@+id/XNum2"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="184dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum3"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="198dp"
+        tools:layout_editor_absoluteY="175dp" />
+
+    <ImageView
+        android:id="@+id/XNum3"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="255dp"
+        android:layout_marginTop="184dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum4"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="-10dp"
+        tools:layout_editor_absoluteY="292dp" />
+
+    <ImageView
+        android:id="@+id/XNum4"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="301dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum5"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="292dp" />
+
+    <ImageView
+        android:id="@+id/XNum5"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="301dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum6"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="198dp"
+        tools:layout_editor_absoluteY="292dp" />
+
+    <ImageView
+        android:id="@+id/XNum6"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="258dp"
+        android:layout_marginTop="301dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum7"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="-10dp"
+        tools:layout_editor_absoluteY="405dp" />
+
+    <ImageView
+        android:id="@+id/XNum7"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="409dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum8"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="405dp" />
+
+    <ImageView
+        android:id="@+id/XNum8"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="149dp"
+        android:layout_marginTop="409dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ONum9"
+        android:layout_width="214dp"
+        android:layout_height="146dp"
+        android:src="@drawable/tic_tac_toe_o"
+        tools:layout_editor_absoluteX="198dp"
+        tools:layout_editor_absoluteY="405dp" />
+
+    <ImageView
+        android:id="@+id/XNum9"
+        android:layout_width="106dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="255dp"
+        android:layout_marginTop="409dp"
+        android:src="@drawable/tic_tac_toe_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtJoinTitle"
+        android:layout_width="291dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="60dp"
+        android:text="Join/Host Game"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
