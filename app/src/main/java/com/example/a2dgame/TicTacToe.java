@@ -8,7 +8,7 @@ public class TicTacToe extends Thread{
     boolean doublePlayer;
     boolean opponentTurn;
 
-    public TicTacToe(Context context){
+    public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
     }
 
