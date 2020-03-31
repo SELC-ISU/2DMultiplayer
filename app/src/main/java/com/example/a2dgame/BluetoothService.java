@@ -104,7 +104,7 @@ public class BluetoothService{
         private final BluetoothDevice mmDevice;  //device to attempt connection
         private final String TAG = "CONNECTING_THREAD";
         private boolean check = false;  //check to see if connection succesful
-        private int checkNum = 0;  //num to send through declaring connection status
+        private DeviceConnection checkEnum = DeviceConnection.DEVICE_NOT_CONNECTED;  //num to send through declaring connection status
 
         /**
          * Takes in a device to attempt a connection with
@@ -115,12 +115,19 @@ public class BluetoothService{
             BluetoothSocket temp = null;
             mmDevice = device;
 
+            checkEnum = DeviceConnection.DEVICE_ATTEMPTING_CONNECTION;
+            deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
+
             try {
 
                 temp = device.createRfcommSocketToServiceRecord(MY_UUID); //starts sending out the UUID to see if its a match on the accepting side
 
             } catch (IOException e) {
                 Log.e(TAG, "Sockets create() method failed", e);
+                checkEnum = DeviceConnection.DEVICE_CONNECTION_FAILED;
+                deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
             }
             mmSocket = temp;
         }
@@ -135,7 +142,7 @@ public class BluetoothService{
                 try {
                     mmSocket.connect();  //waits here for a connection from the accepting side
                     check = true;  //gets to these two lines if connected
-                    checkNum = 1;
+                    checkEnum = DeviceConnection.DEVICE_CONNECTED;
                 } catch (IOException connectException) {
                     Log.d(TAG, "ERROR calling connect: closing socket");
                     try {
@@ -163,7 +170,7 @@ public class BluetoothService{
                 inStream = tempIn;
                 outStream = tempOut;
 
-                deviceConnectedIntent.putExtra("checkValue",checkNum);  //sends out status of the connection to Main Activity
+                deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
                 LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             }
@@ -187,7 +194,7 @@ public class BluetoothService{
         private final BluetoothServerSocket serverSocket;
         private final String NAME = "RFCOMM Listener";
         private final String TAG = "ListeningActivity";
-        private int check = 0;
+        DeviceConnection checkEnum = DeviceConnection.DEVICE_NOT_CONNECTED;
 
         /**
          * Starts listening for the UUID of this app that would be sent by server
@@ -195,6 +202,10 @@ public class BluetoothService{
          * @param btAdapter
          */
         public AcceptThread(BluetoothAdapter btAdapter){
+
+            checkEnum = DeviceConnection.DEVICE_SEARCHING;
+            deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             BluetoothServerSocket tempServer = null;
             try{
@@ -214,9 +225,18 @@ public class BluetoothService{
 
             while(true){
                 try{
+
                     socket = serverSocket.accept();  //blocking call, wont stop until fail or succeed
+
+                    checkEnum = DeviceConnection.DEVICE_ATTEMPTING_CONNECTION;
+                    deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
+
                 }catch(IOException e){
                     Log.e(TAG, "Socket's accept() method failed", e);
+                    checkEnum = DeviceConnection.DEVICE_CONNECTION_FAILED;
+                    deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
                     break;
                 }
 
@@ -225,7 +245,7 @@ public class BluetoothService{
 
                     Log.d(TAG,"READY TO GOOOO");  //We are connected
 
-                    check = 1;
+                    checkEnum = DeviceConnection.DEVICE_CONNECTED;
 
                     mmSocket = socket;
 
@@ -241,7 +261,7 @@ public class BluetoothService{
 
             mmConnectedThread = new ConnectedThread(mmSocket);
             startReadSocket();  //creates connectedThread and starts it to reading
-            deviceConnectedIntent.putExtra("checkValue",check);  //sends connection status to the MainActivity
+            deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends connection status to the MainActivity
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
 
             return;
@@ -259,6 +279,7 @@ public class BluetoothService{
 
         private byte[] buffer;  //buffer holds the incoming messages
         private final String TAG = "ConnectedThread";
+        DeviceConnection checkEnum = DeviceConnection.DEVICE_NOT_CONNECTED;
 
         /**
          * Takes in the connected socket to read and write from/to
@@ -309,6 +330,9 @@ public class BluetoothService{
 
                 }catch(IOException e) {
                     Log.d(TAG, "Input stream disconnected USER",e);
+                    checkEnum = DeviceConnection.DEVICE_DISCONNECTED;
+                    deviceConnectedIntent.putExtra("checkValue",checkEnum.value);  //sends out status of the connection to Main Activity
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(deviceConnectedIntent);
                     break;
                 }
 
