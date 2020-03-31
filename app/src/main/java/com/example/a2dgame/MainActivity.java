@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnSend, btnDisconnect, btnJoin, btnHost;
     TextView txtAvailable;
 
+    public boolean newGameMessage = false;
+    public String gameMessage = "";
+
 
     /**
      * This runs when the app is first started
@@ -409,9 +412,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //builder.append(text + "\n");
             lvTextMsgAdapter.add(text);
             lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount()-1);
+            int game = 0;
+            if(game == 0){
+                newGameMessage = true;
+                gameMessage = text;
+            }
             //now this can be set to the text view and scroll slowly to the new message;
         }
     };
+
+    public boolean getMessage() {
+        return false;
+    }
 
     /**
      * This receiver takes in the message from the BluetoothService class on how successful the
@@ -490,6 +502,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG,"Dismissing the Dialog box");
             dialog.dismiss();
         }
+
+    }
+
+    public boolean wrtie(String msg){
+
+        if(service != null){
+            if(deviceConnected == DeviceConnection.DEVICE_CONNECTED){
+                byte[] b = msg.getBytes();
+                service.write(b);
+                return true;
+            }
+        }
+        return false;
 
     }
 
