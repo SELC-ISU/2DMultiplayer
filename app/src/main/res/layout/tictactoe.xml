@@ -29,11 +29,13 @@
     <ImageView
 
         android:id="@+id/ONum1"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="-10dp"
-        tools:layout_editor_absoluteY="175dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="185dp" />
 
     <ImageView
         android:id="@+id/XNum1"
@@ -47,11 +49,13 @@
 
     <ImageView
         android:id="@+id/ONum2"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="175dp" />
+        android:layout_marginEnd="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="185dp"/>
 
     <ImageView
         android:id="@+id/XNum2"
@@ -65,11 +69,13 @@
 
     <ImageView
         android:id="@+id/ONum3"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="175dp" />
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="185dp"/>
 
     <ImageView
         android:id="@+id/XNum3"
@@ -83,11 +89,13 @@
 
     <ImageView
         android:id="@+id/ONum4"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="-10dp"
-        tools:layout_editor_absoluteY="292dp" />
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp"/>
 
     <ImageView
         android:id="@+id/XNum4"
@@ -101,11 +109,13 @@
 
     <ImageView
         android:id="@+id/ONum5"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="292dp" />
+        android:layout_marginEnd="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp"/>
 
     <ImageView
         android:id="@+id/XNum5"
@@ -119,11 +129,13 @@
 
     <ImageView
         android:id="@+id/ONum6"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="292dp" />
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp"/>
 
     <ImageView
         android:id="@+id/XNum6"
@@ -137,11 +149,13 @@
 
     <ImageView
         android:id="@+id/ONum7"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="-10dp"
-        tools:layout_editor_absoluteY="405dp" />
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="410dp" />
 
     <ImageView
         android:id="@+id/XNum7"
@@ -155,11 +169,13 @@
 
     <ImageView
         android:id="@+id/ONum8"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="405dp" />
+        android:layout_marginEnd="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="410dp" />
 
     <ImageView
         android:id="@+id/XNum8"
@@ -173,11 +189,13 @@
 
     <ImageView
         android:id="@+id/ONum9"
-        android:layout_width="214dp"
-        android:layout_height="146dp"
+        android:layout_width="168dp"
+        android:layout_height="130dp"
         android:src="@drawable/tic_tac_toe_o"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="405dp" />
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="410dp" />
 
     <ImageView
         android:id="@+id/XNum9"
@@ -190,13 +208,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtJoinTitle"
+        android:id="@+id/scoreBox"
         android:layout_width="291dp"
         android:layout_height="41dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="60dp"
-        android:text="Join/Host Game"
+        android:text="Score: "
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="24sp"
