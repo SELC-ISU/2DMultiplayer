@@ -80,7 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        switchToStartScreenLayout();
+       // switchToStartScreenLayout();
+        setContentView(R.layout.tictactoe);
+        //setContentView(R.layout.start_game_screen_layout);
+        //TicTacToe toe = new TicTacToe(MainActivity.this);
+
 
     }
 
@@ -665,6 +669,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
+        return null;
 
     }
 

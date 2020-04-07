@@ -8,7 +8,9 @@ import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TicTacToe extends AppCompatActivity, Thread {
+public class TicTacToe extends AppCompatActivity {
+
+    private ImageView image;
 
     private Context context;
     boolean doublePlayer;
@@ -42,71 +44,78 @@ public class TicTacToe extends AppCompatActivity, Thread {
 
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
+        Game game = new Game();
+        image = findViewById(R.id.ONum3);
+        game.start();
     }
 
-    public void run(){
+    public class Game extends Thread {
 
-        if(doublePlayer == true && opponentTurn == true) {
+        public void run() {
 
-            while (((MainActivity) context).newGameMessage == false) ;
-            ((MainActivity) context).newGameMessage = false;
-            String message = ((MainActivity) context).gameMessage;
-            Scanner sc = new Scanner(message);
-            symbol = sc.next();
-            cellRow = sc.nextInt();
-            cellColumn = sc.nextInt();
-            cell = toCellNumber(cellRow, cellColumn);
+            if (doublePlayer == true && opponentTurn == true) {
+
+                while (((MainActivity) context).newGameMessage == false) ;
+                ((MainActivity) context).newGameMessage = false;
+                String message = ((MainActivity) context).gameMessage;
+                Scanner sc = new Scanner(message);
+                symbol = sc.next();
+                cellRow = sc.nextInt();
+                cellColumn = sc.nextInt();
+                cell = toCellNumber(cellRow, cellColumn);
 
 
-
-        }
-        if(doublePlayer == true && opponentTurn == false) {
-
-            String message = getOwnWhatver();
-            ((MainActivity) context).write(message,MainActivity.GAME_STR);
-
-        }
-        //playing the rest of the game until it looks for more input
-    }
-
-    private String getOwnWhatver() {
-        String msg = "";
-        return msg;
-    }
-
-    /**converts the coordinates from the incoming message into the cell number
-        will hopefully make determining which cell image to change easier
-     */
-    private static int toCellNumber(int row, int column){
-        int tempCell = -1;
-
-        if(row == 0){
-            if(column == 0){
-                tempCell = 1;
-            }else if(column == 1){
-                tempCell = 2;
-            }else if(column == 2){
-                tempCell = 3;
             }
-        }else if(row == 1){
-            if(column == 0){
-                tempCell = 4;
-            }else if(column == 1){
-                tempCell = 5;
-            }else if(column == 2){
-                tempCell = 6;
+            if (doublePlayer == true && opponentTurn == false) {
+
+                String message = getOwnWhatver();
+                ((MainActivity) context).write(message, MainActivity.GAME_STR);
+
             }
-        }else if(row == 2){
-            if(column == 0){
-                tempCell = 7;
-            }else if(column == 1){
-                tempCell = 8;
-            }else if(column == 2){
-                tempCell = 9;
-            }
+            //playing the rest of the game until it looks for more input
         }
 
-        return tempCell;
+        private String getOwnWhatver() {
+            String msg = "";
+            return msg;
+        }
+
+        /**
+         * converts the coordinates from the incoming message into the cell number
+         * will hopefully make determining which cell image to change easier
+         */
+        private int toCellNumber(int row, int column) {
+            int tempCell = -1;
+
+            if (row == 0) {
+                if (column == 0) {
+                    tempCell = 1;
+                } else if (column == 1) {
+                    tempCell = 2;
+                } else if (column == 2) {
+                    tempCell = 3;
+                }
+            } else if (row == 1) {
+                if (column == 0) {
+                    tempCell = 4;
+                } else if (column == 1) {
+                    tempCell = 5;
+                } else if (column == 2) {
+                    tempCell = 6;
+                }
+            } else if (row == 2) {
+                if (column == 0) {
+                    tempCell = 7;
+                } else if (column == 1) {
+                    tempCell = 8;
+                } else if (column == 2) {
+                    tempCell = 9;
+                }
+            }
+
+            return tempCell;
+        }
     }
+
 
 }
