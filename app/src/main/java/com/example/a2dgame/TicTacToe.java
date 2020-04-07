@@ -8,7 +8,7 @@ import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TicTacToe extends AppCompatActivity {
+public class TicTacToe extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView image;
 
@@ -47,9 +47,19 @@ public class TicTacToe extends AppCompatActivity {
         Game game = new Game();
         image = findViewById(R.id.ONum3);
         game.start();
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public class Game extends Thread {
+
+        public Game(){
+
+        }
 
         public void run() {
 
@@ -118,4 +128,20 @@ public class TicTacToe extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+        }
+
+        return false;
+    }
+
 }
+//mA.write(positionOfPeice, MainActivity.GAME_STR);
