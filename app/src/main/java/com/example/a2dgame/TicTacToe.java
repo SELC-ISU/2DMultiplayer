@@ -8,7 +8,7 @@ import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TicTacToe extends AppCompatActivity implements View.OnClickListener{
+public class TicTacToe extends AppCompatActivity{
 
     private ImageView image;
 

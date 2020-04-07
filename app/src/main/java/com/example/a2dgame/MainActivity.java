@@ -1,9 +1,12 @@
 package com.example.a2dgame;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -22,10 +25,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -60,16 +66,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScrollView sv;
 
-    public Button btnSend, btnDisconnect, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
-            btnThreeGames, btnFiveGames, btnChat, btnBackToStart;
+    public Button btnSend, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
+            btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
+
+    public RadioButton btnRadio;
 
     private TextView txtAvailable;
+
+    private ProgressBar spinner;
 
     public boolean newGameMessage = false;
     public String gameMessage = "";
     public boolean twoPlayer = false;
 
     public GameType gameType;
+
+    public boolean isHost = false;
+    public boolean chatActive = false;
 
 
     /**
@@ -80,11 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // switchToStartScreenLayout();
-        setContentView(R.layout.tictactoe);
-        //setContentView(R.layout.start_game_screen_layout);
-        //TicTacToe toe = new TicTacToe(MainActivity.this);
-
+        switchToStartScreenLayout();
+;
 
     }
 
@@ -101,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnJoin:
 
                 makeDiscoverable();
+                isHost = false;
 
                 break;
 
@@ -108,17 +119,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnHost:
 
                 commenceDiscovery(true);  //starts server discovery
+                isHost = true;
 
                 break;
 
-
-            case R.id.btnDisconnect:
-
-                closeSockets();  //disconnects any device
-                Log.d(TAG,"DISCONNECTING from messageing screen");
-                switchToJoinHostLayout();  //switches to the connect options screen
-
-                break;
 
             case R.id.btnSend:
 
@@ -149,8 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 twoPlayer = false;
                 closeSockets();
                 switchToStartScreenLayout();
+                isHost = false;
 
-            case R.id.btnChat:
+            case R.id.btnChat1:
+            case R.id.btnChat2:
+
+                    switchToMessageLayout();
 
                 break;
 
@@ -172,13 +180,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.btnBack:
+
+                if(isHost)
+                    switchToStartGameScreenLayout();
+                else
+                    switchToWaitingLayout();
+
 
 
             default:
                 break;
         }
 
+
+
     }
+
+    /*@Override
+    public void onBackPressed() {
+
+        if(findViewById(R.id.btnHost) != null){
+
+            twoPlayer = false;
+            closeSockets();
+            switchToStartScreenLayout();
+            isHost = false;
+        }
+        else if(findViewById(R.id.btnSinglePlayer) != null){
+            showMessage("You are exiting the app...",3);
+        }
+        else if(findViewById(R.id.btnFiveGames) != null){
+            twoPlayer = false;
+            closeSockets();
+            switchToStartScreenLayout();
+            isHost = false;
+        }
+        super.onBackPressed();
+    }*/
+
 
     /**
      *
@@ -206,6 +246,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy(){
         super.onDestroy();
+
+        unregisterReceiver(receiver);
+        unregisterReceiver(receiver2);
+        unregisterReceiver(receiver3);
+        unregisterReceiver(receiver4);
 
         service.cancel();
 
@@ -328,21 +373,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
 
     }
+    
+
+    public void switchToWaitingLayout(){
+
+        setContentView(R.layout.waiting_screen_layout);
+        spinner = (ProgressBar)findViewById(R.id.pBar);
+        btnChat = (Button)findViewById(R.id.btnChat1);
+        btnChat.setOnClickListener(this);
+        btnRadio = (RadioButton)findViewById(R.id.btnRadio1);
+
+    }
 
     /**
      * Switches the focus of the app to the messaging screen
      */
     public void switchToMessageLayout(){
         setContentView(R.layout.message_layout);
+
+        btnBack = (Button)findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
         lvTextMessages = (ListView) findViewById(R.id.lvTextMessages);
-        btnDisconnect = (Button) findViewById(R.id.btnDisconnect);
-        btnDisconnect.setOnClickListener(this);
         btnSend= (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(this);
         msgBox = (EditText)findViewById(R.id.msgBox);
         lvTextMessages.setAdapter(lvTextMsgAdapter);
 
         msgBox.setOnClickListener(this);
+
+        lvTextMsgAdapter.notifyDataSetChanged();
 
     }
 
@@ -395,8 +454,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dismissMessage();
         dismissMessage();
 
-        twoPlayer = false;
-
         setContentView(R.layout.start_game_screen_layout);
 
         btnSingleGame = (Button)findViewById(R.id.btnSingleGame);
@@ -408,16 +465,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFiveGames = (Button)findViewById(R.id.btnFiveGames);
         btnFiveGames.setOnClickListener(this);
 
-        btnChat = (Button)findViewById(R.id.btnChat);
+        btnChat = (Button)findViewById(R.id.btnChat2);
         btnChat.setOnClickListener(this);
 
-        if(twoPlayer)
+        btnRadio = (RadioButton)findViewById(R.id.btnRadio2);
+        btnRadio.setChecked(false);
+
+        if(twoPlayer) {
+            btnRadio.setVisibility(View.VISIBLE);
             btnChat.setVisibility(View.VISIBLE);
-        else
+        }
+        else {
+            btnRadio.setVisibility(View.INVISIBLE);
             btnChat.setVisibility(View.INVISIBLE);
+        }
 
         btnBackToStart = (Button)findViewById(R.id.btnBackToStart);
         btnBackToStart.setOnClickListener(this);
+
+
+
 
     }
 
@@ -524,7 +591,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
                 lvTextMsgAdapter.add(text);
-                lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
+                try {
+                    lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
+                }catch(NullPointerException e){
+
+                }
+                if(findViewById(R.id.btnRadio2)!= null || findViewById(R.id.btnRadio1) != null){
+                    btnRadio.setChecked(true);
+                }
             }
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
@@ -552,9 +626,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(deviceConnected == DeviceConnection.DEVICE_CONNECTED) {
                 Log.d(TAG,"CLOSING AlertDialod");
+
                 dismissMessage();
 
-                switchToStartGameScreenLayout();
+                if(isHost)
+                    switchToStartGameScreenLayout();
+                else
+                    switchToWaitingLayout();
+
+                dismissMessage();
+
             }
             else if(deviceConnected == DeviceConnection.DEVICE_CONNECTION_FAILED) {
                 Log.d(TAG, "DEVICE CONNECTION FAILED");
@@ -606,6 +687,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int id) {
                     dismissMessage();
                     closeSockets();
+                }
+            });
+        }
+        if(check == 3){
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    System.exit(0);
+                }
+            });
+            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dismissMessage();
                 }
             });
         }
