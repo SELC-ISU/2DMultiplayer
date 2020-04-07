@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScrollView sv;
 
-    private Button btnSend, btnDisconnect, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
+    public Button btnSend, btnDisconnect, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart;
 
     private TextView txtAvailable;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBackToStart:
                 twoPlayer = false;
                 closeSockets();
-                switchToStartGameScreenLayout();
+                switchToStartScreenLayout();
 
             case R.id.btnChat:
 
