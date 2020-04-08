@@ -155,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToStartScreenLayout();
                 isHost = false;
 
+                break;
+
             case R.id.btnChat1:
             case R.id.btnChat2:
 
