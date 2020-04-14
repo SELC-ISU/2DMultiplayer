@@ -372,7 +372,8 @@ public class BluetoothService{
     public void cancel(){
         cancelThreads();
         try{
-            mmSocket.close();
+            if(mmSocket != null)
+                mmSocket.close();
         }catch (IOException e){
             Log.e(TAG,"count not close the socket");
         }

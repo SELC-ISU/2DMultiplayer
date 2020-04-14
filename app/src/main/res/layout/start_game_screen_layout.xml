@@ -10,11 +10,13 @@
         android:id="@+id/btnRadio2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="32dp"
         android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnChat2" />
+        app:layout_constraintEnd_toStartOf="@+id/btnChat2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnSingleGame"
@@ -65,25 +67,21 @@
         android:id="@+id/btnBackToStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="113dp"
         android:layout_marginEnd="21dp"
         android:layout_marginBottom="21dp"
         android:text="back to start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnChat2"
         app:layout_constraintTop_toBottomOf="@+id/btnFiveGames" />
 
     <Button
         android:id="@+id/btnChat2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginStart="13dp"
         android:layout_marginBottom="24dp"
         android:text="Chat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnBackToStart"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btnRadio2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

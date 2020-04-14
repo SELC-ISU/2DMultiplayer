@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
 
         if(findViewById(R.id.btnHost) != null){
@@ -218,8 +218,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switchToStartScreenLayout();
             isHost = false;
         }
-        super.onBackPressed();
-    }*/
+        else if(findViewById(R.id.pBar)!=null){
+            twoPlayer = false;
+            isHost = false;
+            closeSockets();
+        }
+        else if(findViewById(R.id.btnBack)!=null){
+            btnBack.performClick();
+        }
+
+    }
 
 
     /**
@@ -237,6 +245,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG,"ITEM CLICK: you clicked on a device");
 
         bluetoothAdapter.cancelDiscovery();  //cancels this because it is a resource intensive action
+
+        showMessage("Connecting...", 2);
 
         service.startSearchServer(discoveredDevices.get(position)); //starts searching for this device and what UUID they are putting out for a connection
 
@@ -451,11 +461,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchToStartGameScreenLayout(){
 
-        dismissMessage();
-        dismissMessage();
-        dismissMessage();
-        dismissMessage();
-
         setContentView(R.layout.start_game_screen_layout);
 
         btnSingleGame = (Button)findViewById(R.id.btnSingleGame);
@@ -486,6 +491,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBackToStart.setOnClickListener(this);
 
 
+        showMessage("Connected",1);
+        dismissMessage();
 
 
     }
@@ -636,7 +643,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else
                     switchToWaitingLayout();
 
-                dismissMessage();
+
 
             }
             else if(deviceConnected == DeviceConnection.DEVICE_CONNECTION_FAILED) {
@@ -648,7 +655,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(deviceConnected == DeviceConnection.DEVICE_ATTEMPTING_CONNECTION) {
                 Log.d(TAG, "Device Connecting...");
 
-               showMessage("Connecting...", 2);
             }
             else if(deviceConnected == DeviceConnection.DEVICE_DISCONNECTED){
                 Log.d(TAG,"Other DEvice was Disconnected");
@@ -698,7 +704,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.exit(0);
                 }
             });
-            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dismissMessage();
                 }
@@ -719,6 +725,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(dialog != null) {
             Log.d(TAG,"Dismissing the Dialog box");
             dialog.dismiss();
+            dialog = null;
         }
 
     }
