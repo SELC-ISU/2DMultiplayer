@@ -53,6 +53,7 @@ public class BluetoothService{
         Log.d(TAG,"Constructor Called");
     }
 
+
     /**
      * Starts the client to look for a connection with UUID
      * Accepts parameter of the bluetooth lvTextMsgAdapter of the device that will be the client
