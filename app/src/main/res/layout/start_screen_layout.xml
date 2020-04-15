@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#443499">
+    android:background="@color/colorPrimary">
 
     <Button
         android:id="@+id/btnSinglePlayer"
@@ -19,7 +19,7 @@
         android:fontFamily="sans-serif"
         android:text="Single-Player"
         android:textAllCaps="false"
-        android:textColor="#443499"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnTwoPlayer"
@@ -39,7 +39,7 @@
         android:backgroundTintMode="add"
         android:text="Two-Player"
         android:textAllCaps="false"
-        android:textColor="#443499"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
         android:text="TIC-TAC-TOE"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/colorAccent"
         android:textSize="30sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
