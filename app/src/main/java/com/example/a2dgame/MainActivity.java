@@ -3,13 +3,17 @@ package com.example.a2dgame;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -39,6 +43,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+
+    private final String CHANNEL_ID = "tictactoeCh12345324";
 
     public final static String GAME_STR = "G";
     public final static String CHAT_STR = "C";
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         switchToStartScreenLayout();
-;
+        createNotificationChannel();
 
     }
 
@@ -593,6 +599,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
                 lvTextMsgAdapter.add(text);
+                sendNotification(text);
                 try {
                     lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
                 }catch(NullPointerException e){
@@ -710,37 +717,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-   /* public void sendNotification(View v){
 
 
-        //Get an instance of NotificationManager//
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        //.setSmallIcon(R.drawable.notification_icon)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+    public void sendNotification(String gameMessage){
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.tictactoe_notif)
+                .setContentTitle("New Message")
+                .setContentText(gameMessage)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
 
-        // Gets an instance of the NotificationManager service//
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(1,builder.build());
+    }
 
-        NotificationManager mNotificationManager =
-
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // When you issue multiple notifications about the same type of event,
-        // it’s best practice for your app to try to update an existing notification
-        // with this new information, rather than immediately creating a new notification.
-        // If you want to update this notification at a later date, you need to assign it an ID.
-        // You can then use this ID whenever you issue a subsequent notification.
-        // If the previous notification is still visible, the system will update this existing notification,
-        // rather than create a new one. In this example, the notification’s ID is 001//
-
-        mNotificationManager.notify().
-
-                mNotificationManager.notify(001, mBuilder.build());
-    }*/
-
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.cahnnel_name);
+            String description = getString(R.string.cahnnel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     /**
      * Dismisses the active AlertDialogBox

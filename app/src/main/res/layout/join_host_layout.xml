@@ -8,11 +8,11 @@
 
     <ListView
         android:id="@+id/lvNewDevices"
-        android:layout_width="375dp"
-        android:layout_height="373dp"
-        android:layout_marginStart="3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="3dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="107dp"
         android:layout_marginEnd="65dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round_button"
         android:text="Join"
         android:textAllCaps="false"
@@ -54,9 +54,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtAvailable"
         app:layout_constraintEnd_toStartOf="@+id/btnHost"
+        app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtJoinTitle"
-        app:layout_constraintVertical_bias="0.07999998" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnHost"
@@ -78,10 +79,10 @@
         android:id="@+id/txtAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="78dp"
-        android:layout_marginEnd="77dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="3dp"
         android:text="Available Bluetooth Connections"
         android:textAlignment="center"
         android:textAllCaps="false"
