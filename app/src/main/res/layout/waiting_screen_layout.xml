@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/btnRadio"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#443499">
 
     <ProgressBar
         android:id="@+id/pBar"
@@ -16,6 +17,7 @@
         android:layout_marginTop="327dp"
         android:layout_marginEnd="168dp"
         android:layout_marginBottom="328dp"
+        android:indeterminateDrawable="@drawable/pbar_gradient"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +31,8 @@
         android:layout_marginEnd="112dp"
         android:layout_marginBottom="16dp"
         android:text="Waiting for host..."
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/pBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -40,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="19dp"
+        android:background="@drawable/gradient_button"
         android:text="Chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="5dp"
+        android:buttonTint="#FFFFFF"
         android:clickable="false"
         app:layout_constraintEnd_toStartOf="@+id/btnChat1"
         app:layout_constraintTop_toTopOf="parent" />

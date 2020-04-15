@@ -409,8 +409,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSend= (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(this);
         msgBox = (EditText)findViewById(R.id.msgBox);
+        //lvTextMessages.setAdapter(lvTextMsgAdapter);
         lvTextMessages.setAdapter(lvTextMsgAdapter);
-
         msgBox.setOnClickListener(this);
 
         lvTextMsgAdapter.notifyDataSetChanged();
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         listTexts = new ArrayList<>();
 
-        lvTextMsgAdapter =new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTexts);
+        lvTextMsgAdapter =new ArrayAdapter<String>(this, R.layout.messages_adapter, R.id.listContent, listTexts);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
@@ -512,15 +512,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnTwoPlayer.setOnClickListener(this);
 
     }
-
-    /**
-     * Switches the focus of the app to the main screen
-     */
-    public void switchToMainLayout(){
-        setContentView(R.layout.activity_main);
-
-    }
-
 
     /**
      * This reciever takes in any new devices found when discovery is on and puts them to the list of discovered devices
