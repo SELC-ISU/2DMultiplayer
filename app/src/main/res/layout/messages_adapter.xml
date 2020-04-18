@@ -8,8 +8,8 @@
         android:id="@+id/listContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:textSize="18dp">
+        android:textColor="@color/colorSecondary"
+        android:textSize="10dp">
 
     </TextView>
 
@@ -17,7 +17,9 @@
         android:id="@+id/listContent2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"></TextView>
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp">
+    </TextView>
 
 
 </LinearLayout>

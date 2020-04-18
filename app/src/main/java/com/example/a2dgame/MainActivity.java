@@ -1,16 +1,14 @@
 package com.example.a2dgame;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,7 +19,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,15 +33,14 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.google.android.material.tabs.TabLayout;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 
     private final String CHANNEL_ID = "tictactoeCh12345324";
+    private final int NOTIF_ID = 101011;
+    private static final String ACTION_NOTIF = "action_notif";
 
     public final static String GAME_STR = "G";
     public final static String CHAT_STR = "C";
@@ -65,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DeviceListAdapter deviceListAdapter;   //declarations for finding devices
     private ListView lvNewDevices;
 
+    private ArrayList<String> newMessages = new ArrayList<>();
+    private MessageListAdapter messageAdapter;
     private ListView lvTextMessages;
     private EditText msgBox;
-    private ArrayAdapter<String> lvTextMsgAdapter;  //declarations for message sending
-    private ArrayList<String> listTexts;
 
     public DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
 
@@ -81,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView txtAvailable;
 
-    private ProgressBar spinner;
+    private ProgressBar pbar;
+    private ProgressBar pbar2;
 
     public boolean newGameMessage = false;
     public String gameMessage = "";
@@ -90,8 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public GameType gameType;
 
     public boolean isHost = false;
-    public boolean chatActive = false;
 
+    private ActivityManager.RunningAppProcessInfo myProcess;
+    private NotificationManagerCompat notificationManagerCompat;
 
     /**
      * This runs when the app is first started
@@ -100,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+
+        myProcess = new ActivityManager.RunningAppProcessInfo();
 
         switchToStartScreenLayout();
         createNotificationChannel();
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 makeDiscoverable();
                 isHost = false;
+                pbar2.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 commenceDiscovery(true);  //starts server discovery
                 isHost = true;
+                pbar2.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -139,8 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write(str,CHAT_STR);
                 msgBox.setText("");
                 str = "Me: " + str;
-                lvTextMsgAdapter.add(str);
-                lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount()-1);
+
+                newMessages.add(str);
+
+                messageAdapter.notifyDataSetChanged();
+
+                lvTextMessages.smoothScrollToPosition(messageAdapter.getCount()-1);
                 //this is where you will send the message in the edit box;
 
                 break;
@@ -161,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 twoPlayer = false;
                 closeSockets();
                 switchToStartScreenLayout();
+                cancelNotification();
                 isHost = false;
 
                 break;
@@ -169,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnChat2:
 
                     switchToMessageLayout();
+                    cancelNotification();
 
                 break;
 
@@ -235,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnBack.performClick();
         }
 
+        cancelNotification();
     }
 
 
@@ -253,6 +265,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG,"ITEM CLICK: you clicked on a device");
 
         bluetoothAdapter.cancelDiscovery();  //cancels this because it is a resource intensive action
+        lvNewDevices.setVisibility(View.INVISIBLE);
+        txtAvailable.setVisibility(View.INVISIBLE);
+        pbar2.setVisibility(View.INVISIBLE);
 
         showMessage("Connecting...", 2);
 
@@ -267,10 +282,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy(){
         super.onDestroy();
 
-        unregisterReceiver(receiver);
-        unregisterReceiver(receiver2);
-        unregisterReceiver(receiver3);
-        unregisterReceiver(receiver4);
+        cancelNotification();
+
+        try {
+            unregisterReceiver(receiver);
+            unregisterReceiver(receiver2);
+            unregisterReceiver(receiver3);
+            unregisterReceiver(receiver4);
+        }catch (IllegalArgumentException e){}
 
         service.cancel();
 
@@ -398,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void switchToWaitingLayout(){
 
         setContentView(R.layout.waiting_screen_layout);
-        spinner = (ProgressBar)findViewById(R.id.pBar);
+        pbar = (ProgressBar)findViewById(R.id.pBar);
         btnChat = (Button)findViewById(R.id.btnChat1);
         btnChat.setOnClickListener(this);
         btnRadio = (RadioButton)findViewById(R.id.btnRadio1);
@@ -418,10 +437,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSend.setOnClickListener(this);
         msgBox = (EditText)findViewById(R.id.msgBox);
         //lvTextMessages.setAdapter(lvTextMsgAdapter);
-        lvTextMessages.setAdapter(lvTextMsgAdapter);
         msgBox.setOnClickListener(this);
 
-        lvTextMsgAdapter.notifyDataSetChanged();
+        messageAdapter = new MessageListAdapter(MainActivity.this, R.layout.messages_adapter,newMessages);
+        lvTextMessages.setAdapter(messageAdapter);
 
     }
 
@@ -436,10 +455,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         service = new BluetoothService(MainActivity.this);  //instantiates the bluetoothService object in order to connect to device and perform operations
 
         discoveredDevices = new ArrayList<>();
-
-        listTexts = new ArrayList<>();
-
-        lvTextMsgAdapter =new ArrayAdapter<String>(this, R.layout.messages_adapter, R.id.listContent, listTexts);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
@@ -462,6 +477,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvNewDevices.setOnItemClickListener(MainActivity.this);
 
         lvNewDevices.setVisibility(View.INVISIBLE);
+
+        pbar2 = (ProgressBar) findViewById(R.id.pBar2);
+        pbar2.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -532,7 +550,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                discoveredDevices.add(device);
+                if(device.getName()!=null && !discoveredDevices.contains(device))
+                    discoveredDevices.add(device);
 
                 String deviceName = device.getName();
                 String deviceHardwareAddress = device.getAddress(); // MAC address
@@ -565,11 +584,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d(TAG,"reciever2: Discoverability disabled, still able to recieve connections");
                         if(deviceConnected != DeviceConnection.DEVICE_CONNECTED)
                             showMessage("You're device is not visible to the host, please try again.", 1);
+                            if(pbar2 != null)
+                                pbar2.setVisibility(View.INVISIBLE);
                         break;
                     case BluetoothAdapter.SCAN_MODE_NONE:
                         Log.d(TAG,"receiver2: Discoverability off, no able to recieve");
                         if(deviceConnected != DeviceConnection.DEVICE_CONNECTED)
                             showMessage("You're device is not visible to the host, please try again.", 1);
+                        if(pbar2 != null)
+                            pbar2.setVisibility(View.INVISIBLE);
                         break;
                     case BluetoothAdapter.STATE_CONNECTING:
                         Log.d(TAG, "receiver2: connecting");
@@ -598,16 +621,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
-                lvTextMsgAdapter.add(text);
+                newMessages.add(text);
                 sendNotification(text);
                 try {
-                    lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
+                    messageAdapter.notifyDataSetChanged();
+                    lvTextMessages.smoothScrollToPosition(messageAdapter.getCount() - 1);
                 }catch(NullPointerException e){
 
                 }
                 if(findViewById(R.id.btnRadio2)!= null || findViewById(R.id.btnRadio1) != null){
                     btnRadio.setChecked(true);
                 }
+
             }
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
@@ -717,15 +742,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
     public void sendNotification(String gameMessage){
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
 
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setAction(ACTION_NOTIF);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.tictactoe_notif)
@@ -736,8 +761,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setAutoCancel(true);
 
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(1,builder.build());
+        notificationManagerCompat = NotificationManagerCompat.from(this);
+
+        if(!isAppActive()){
+            notificationManagerCompat.notify(NOTIF_ID,builder.build());
+        }
+
+    }
+
+    private void cancelNotification(){
+        if(notificationManagerCompat != null){
+            notificationManagerCompat.cancel(NOTIF_ID);
+        }
     }
 
     private void createNotificationChannel() {
@@ -754,6 +789,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    public boolean isAppActive(){
+        ActivityManager.getMyMemoryState(myProcess);
+        return myProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
     }
 
     /**
