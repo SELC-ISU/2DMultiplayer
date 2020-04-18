@@ -58,6 +58,7 @@ public class TicTacToe extends AppCompatActivity{
                 cellRow = sc.nextInt();
                 cellColumn = sc.nextInt();
                 cell = toCellNumber(cellRow, cellColumn);
+                gameTracker[cellRow][cellColumn] = symbol;
 
 
             }
