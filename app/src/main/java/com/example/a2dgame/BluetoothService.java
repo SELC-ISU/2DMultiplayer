@@ -32,18 +32,6 @@ public class BluetoothService{
     private boolean runnable = true;
 
     /**
-     * The message consts will be used for easy identification of what kind of messages have been sent through
-     * from the other device in order to do the right action
-     */
-    private interface MessageConsts{
-
-        public static final int MESSAGE_READ = 0;
-        public static final int MESSAGE_WRITE = 1;
-        public static final int MESSAGE_TOAST = 2;
-
-    }
-
-    /**
      * Sets the context in order to know which class to send messages to
      * Accepts teh context of the classs calling this connstructor
      * @param context

@@ -1,41 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/scrollView"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/messagesScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true">
 
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="126dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true">
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_button"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="126dp"
-            android:layout_height="wrap_content"
-            android:text="Back" />
+    <ListView
+        android:id="@+id/lvTextMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
-        <ListView
-            android:id="@+id/lvTextMessages"
-            android:layout_width="match_parent"
-            android:layout_height="419dp" />
+    <EditText
+        android:id="@+id/msgBox"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:ems="10"
+        android:gravity="bottom|start"
+        android:hapticFeedbackEnabled="true"
+        android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+        android:longClickable="true"
+        android:textColor="@color/colorAccent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSend"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/msgBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:gravity="bottom|start"
-            android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine" />
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="46dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/button_send"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/msgBox" />
 
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Send"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/txtMessageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="86dp"
+        android:text="Messages"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

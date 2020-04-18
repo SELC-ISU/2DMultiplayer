@@ -2,12 +2,18 @@ package com.example.a2dgame;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -38,6 +44,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+
+    private final String CHANNEL_ID = "tictactoeCh12345324";
 
     public final static String GAME_STR = "G";
     public final static String CHAT_STR = "C";
@@ -101,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         switchToStartScreenLayout();
-;
+        createNotificationChannel();
 
     }
 
@@ -524,8 +532,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSend= (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(this);
         msgBox = (EditText)findViewById(R.id.msgBox);
+        //lvTextMessages.setAdapter(lvTextMsgAdapter);
         lvTextMessages.setAdapter(lvTextMsgAdapter);
-
         msgBox.setOnClickListener(this);
 
         lvTextMsgAdapter.notifyDataSetChanged();
@@ -546,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         listTexts = new ArrayList<>();
 
-        lvTextMsgAdapter =new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTexts);
+        lvTextMsgAdapter =new ArrayAdapter<String>(this, R.layout.messages_adapter, R.id.listContent, listTexts);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
@@ -629,15 +637,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * Switches the focus of the app to the main screen
-     */
-    public void switchToMainLayout(){
-        setContentView(R.layout.activity_main);
-
-    }
-
-
-    /**
      * This reciever takes in any new devices found when discovery is on and puts them to the list of discovered devices
      */
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -715,6 +714,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
                 lvTextMsgAdapter.add(text);
+                sendNotification(text);
                 try {
                     lvTextMessages.smoothScrollToPosition(lvTextMsgAdapter.getCount() - 1);
                 }catch(NullPointerException e){
@@ -831,6 +831,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
+
+
+    public void sendNotification(String gameMessage){
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.tictactoe_notif)
+                .setContentTitle("New Message")
+                .setContentText(gameMessage)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(1,builder.build());
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.cahnnel_name);
+            String description = getString(R.string.cahnnel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     /**
      * Dismisses the active AlertDialogBox

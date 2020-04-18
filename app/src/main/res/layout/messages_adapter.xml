@@ -2,21 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtDeviceName"
+        android:id="@+id/listContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffffff">
+        android:textColor="@color/colorAccent"
+        android:textSize="18dp">
 
     </TextView>
 
     <TextView
-        android:id="@+id/txtDeviceAddress"
+        android:id="@+id/listContent2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#443499"></TextView>
+        android:textColor="@color/colorPrimary"></TextView>
+
 
 </LinearLayout>

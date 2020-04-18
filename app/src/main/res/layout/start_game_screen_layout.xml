@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gameScreenLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <RadioButton
         android:id="@+id/btnRadio2"
@@ -12,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="13dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="36dp"
+        android:background="#00FFFFFF"
+        android:buttonTint="@color/colorAccent"
         android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnChat2"
@@ -26,12 +29,17 @@
         android:layout_marginTop="123dp"
         android:layout_marginEnd="113dp"
         android:layout_marginBottom="32dp"
-        android:text="1 Game"
+        android:background="@drawable/round_button"
+        android:text="One Game"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnThreeGames"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.52" />
 
     <Button
         android:id="@+id/btnThreeGames"
@@ -41,10 +49,15 @@
         android:layout_marginTop="74dp"
         android:layout_marginEnd="113dp"
         android:layout_marginBottom="92dp"
-        android:text="best 2 of 3"
+        android:background="@drawable/round_button"
+        android:text="Best of 3"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnFiveGames"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSingleGame" />
 
@@ -53,35 +66,48 @@
         android:layout_width="185dp"
         android:layout_height="81dp"
         android:layout_marginStart="113dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="113dp"
-        android:layout_marginBottom="126dp"
-        android:text="best 3 of 5"
+        android:layout_marginBottom="200dp"
+        android:background="@drawable/round_button"
+        android:text="Best of 5"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnChat2"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnThreeGames" />
 
     <Button
         android:id="@+id/btnBackToStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="113dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="21dp"
-        android:text="back to start"
+        android:layout_width="123dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/gradient_button"
+        android:text="Back to Start"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFiveGames" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnChat2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/gradient_button"
         android:text="Chat"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRadio2" />
+        app:layout_constraintStart_toEndOf="@+id/btnRadio2"
+        app:layout_constraintTop_toTopOf="@+id/btnBackToStart"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
