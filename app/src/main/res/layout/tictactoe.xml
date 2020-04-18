@@ -34,7 +34,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="15dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp" />
+        android:layout_marginTop="185dp"
+        android:visibility="invisible"/>
+
 
     <ImageView
         android:id="@+id/XNum1"
@@ -44,7 +46,8 @@
         android:layout_marginTop="184dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum2"
@@ -54,7 +57,8 @@
         android:layout_marginEnd="125dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp"/>
+        android:layout_marginTop="185dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum2"
@@ -64,7 +68,8 @@
         android:layout_marginTop="184dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum3"
@@ -74,7 +79,8 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp"/>
+        android:layout_marginTop="185dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum3"
@@ -84,7 +90,8 @@
         android:layout_marginTop="184dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum4"
@@ -94,7 +101,8 @@
         android:layout_marginLeft="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"/>
+        android:layout_marginTop="300dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum4"
@@ -104,7 +112,8 @@
         android:layout_marginTop="301dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum5"
@@ -114,7 +123,8 @@
         android:layout_marginEnd="125dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"/>
+        android:layout_marginTop="300dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum5"
@@ -124,7 +134,8 @@
         android:layout_marginTop="301dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum6"
@@ -134,7 +145,8 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"/>
+        android:layout_marginTop="300dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum6"
@@ -144,7 +156,8 @@
         android:layout_marginTop="301dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum7"
@@ -154,7 +167,8 @@
         android:layout_marginLeft="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp" />
+        android:layout_marginTop="410dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum7"
@@ -164,7 +178,8 @@
         android:layout_marginTop="409dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum8"
@@ -174,7 +189,8 @@
         android:layout_marginEnd="125dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp" />
+        android:layout_marginTop="410dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum8"
@@ -184,7 +200,8 @@
         android:layout_marginTop="409dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ONum9"
@@ -194,7 +211,8 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp" />
+        android:layout_marginTop="410dp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/XNum9"
@@ -204,7 +222,8 @@
         android:layout_marginTop="409dp"
         android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/scoreBox"
