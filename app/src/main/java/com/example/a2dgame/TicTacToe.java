@@ -15,12 +15,13 @@ public class TicTacToe extends AppCompatActivity{
     private Context context;
     boolean doublePlayer;
     boolean opponentTurn;
-    char [][] tracker = new char[3][3];
+    String [][] gameTracker = new String[3][3];
     int cell;
     int cellRow;
     int cellColumn;
     String symbol;
 
+    /*
     private ImageView x1;
     private ImageView x2;
     private ImageView x3;
@@ -40,7 +41,7 @@ public class TicTacToe extends AppCompatActivity{
     private ImageView o7;
     private ImageView o8;
     private ImageView o9;
-
+    */
 
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
@@ -131,12 +132,51 @@ public class TicTacToe extends AppCompatActivity{
 
             return tempCell;
         }
+
+        private int toCoordinates(int cellNum){
+
+            if(cellNum == 1){
+
+            }
+
+        }
+
     }
 
 
-public String getSymbol(){
-        return symbol;
-}
+    public String getSymbol(){
+            return symbol;
+    }
+
+    public void modifyGameTrackerClick(int cellNum){
+
+        if(cellNum == 1){
+            gameTracker[0][0] = symbol;
+        }else if(cellNum == 2){
+            gameTracker[0][1] = symbol;
+        }else if(cellNum == 3){
+            gameTracker[0][2] = symbol;
+        }else if(cellNum == 4){
+            gameTracker[1][0] = symbol;
+        }else if(cellNum == 5){
+            gameTracker[1][1] = symbol;
+        }else if(cellNum == 6){
+            gameTracker[1][2] = symbol;
+        }else if(cellNum == 7){
+            gameTracker[2][0] = symbol;
+        }else if(cellNum == 8){
+            gameTracker[2][1] = symbol;
+        }else if(cellNum == 9){
+            gameTracker[2][2] = symbol;
+        }
+
+    }
+
+    public void modifyGameTrackerIncoming(){
+
+
+
+    }
 
 }
 //mA.write(positionOfPeice, MainActivity.GAME_STR);

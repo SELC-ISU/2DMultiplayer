@@ -207,12 +207,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Beginning of Alex's stuff
             case R.id.ONum1:
 
-                //imageview.setVisibility(View.visible);
+                //determines which imageView in the cell should be set (X or O) and sets it to visible
                 if(ttt.getSymbol().equals("O")){
                     ONum1.setVisibility(View.VISIBLE);
                 }else{
                     XNum1.setVisibility((View.VISIBLE));
                 }
+
+                //sets the value in the string array to either X or O
+                ttt.modifyGameTrackerClick(1);
 
                 break;
 
@@ -222,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum2.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(2);
                 break;
 
             case R.id.ONum3:
@@ -231,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum3.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(3);
                 break;
 
             case R.id.ONum4:
@@ -240,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum4.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(4);
                 break;
 
             case R.id.ONum5:
@@ -249,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum5.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(5);
                 break;
 
             case R.id.ONum6:
@@ -258,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum6.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(6);
                 break;
 
             case R.id.ONum7:
@@ -267,8 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum7.setVisibility((View.VISIBLE));
                 }
-
-
+                ttt.modifyGameTrackerClick(7);
                 break;
 
             case R.id.ONum8:
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum8.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(8);
                 break;
 
             case R.id.ONum9:
@@ -286,20 +288,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum9.setVisibility((View.VISIBLE));
                 }
+                ttt.modifyGameTrackerClick(9);
+
+                break;
+
 
                 /*
                 These all give duplicate errors but we need them because we have to account for either the "X" or "O" image of each cell being touched
                  */
-
-                break;
-
             case R.id.XNum1:
                 if(ttt.getSymbol().equals("O")){
                     ONum1.setVisibility(View.VISIBLE);
                 }else{
                     XNum1.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(1);
 
                 break;
 
@@ -309,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum2.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(2);
                 break;
 
             case R.id.XNum3:
@@ -318,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum3.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(3);
                 break;
 
             case R.id.XNum4:
@@ -327,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum4.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(4);
                 break;
 
             case R.id.XNum5:
@@ -336,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum5.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(5);
                 break;
 
             case R.id.XNum6:
@@ -345,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum6.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(6);
                 break;
 
             case R.id.XNum7:
@@ -354,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum7.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(7);
                 break;
 
             case R.id.XNum8:
@@ -363,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum8.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(8);
                 break;
 
             case R.id.XNum9:
@@ -372,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     XNum9.setVisibility((View.VISIBLE));
                 }
-
+                ttt.modifyGameTrackerClick(9);
                 break;
 
 
