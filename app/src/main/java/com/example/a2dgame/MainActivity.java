@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Button btnSend, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
 
+    //stuff Alex added
+    public ImageView ONum1, ONum2, ONum3, ONum4, ONum5, ONum6, ONum7, ONum8, ONum9;
+    public ImageView XNum1, XNum2, XNum3, XNum4, XNum5, XNum6, XNum7, XNum8, XNum9;
+
     public RadioButton btnRadio;
 
     private TextView txtAvailable;
@@ -84,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean isHost = false;
     public boolean chatActive = false;
 
+    //More Alex stuff (need an instance of TicTacToe for the getSymbol method)
+    TicTacToe ttt = new TicTacToe(MainActivity.this);
 
     /**
      * This runs when the app is first started
@@ -188,6 +195,114 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToStartGameScreenLayout();
                 else
                     switchToWaitingLayout();
+
+            //Beginning of Alex's stuff
+            case R.id.ONum1:
+
+
+                break;
+
+            case R.id.ONum2:
+
+
+
+                break;
+
+            case R.id.ONum3:
+
+
+
+                break;
+
+            case R.id.ONum4:
+
+
+
+                break;
+
+            case R.id.ONum5:
+
+
+
+                break;
+
+            case R.id.ONum6:
+
+
+
+                break;
+
+            case R.id.ONum7:
+
+
+
+                break;
+
+            case R.id.ONum8:
+
+
+
+                break;
+
+            case R.id.ONum9:
+
+
+
+                break;
+
+            case R.id.XNum1:
+
+
+
+                break;
+
+            case R.id.XNum2:
+
+
+
+                break;
+
+            case R.id.XNum3:
+
+
+
+                break;
+
+            case R.id.XNum4:
+
+
+
+                break;
+
+            case R.id.XNum5:
+
+
+
+                break;
+
+            case R.id.XNum6:
+
+
+
+                break;
+
+            case R.id.XNum7:
+
+
+
+                break;
+
+            case R.id.XNum8:
+
+
+
+                break;
+
+            case R.id.XNum9:
+
+
+
+                break;
 
 
 

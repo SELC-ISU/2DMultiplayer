@@ -65,6 +65,9 @@ public class TicTacToe extends AppCompatActivity{
 
             if (doublePlayer == true && opponentTurn == true) {
 
+                //symbol will switch each time it becomes a different player's turn
+                symbol = "X";
+
                 while (((MainActivity) context).newGameMessage == false) ;
                 ((MainActivity) context).newGameMessage = false;
                 String message = ((MainActivity) context).gameMessage;
@@ -77,6 +80,9 @@ public class TicTacToe extends AppCompatActivity{
 
             }
             if (doublePlayer == true && opponentTurn == false) {
+
+                //symbol will switch each time it becomes a different player's turn
+                symbol = "O";
 
                 String message = getOwnWhatver();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
@@ -128,20 +134,9 @@ public class TicTacToe extends AppCompatActivity{
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        int x = (int)event.getX();
-        int y = (int)event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-        }
-
-        return false;
-    }
+public String getSymbol(){
+        return symbol;
+}
 
 }
 //mA.write(positionOfPeice, MainActivity.GAME_STR);
