@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Button btnSend, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
 
+    //stuff Alex added
+    public ImageView ONum1, ONum2, ONum3, ONum4, ONum5, ONum6, ONum7, ONum8, ONum9;
+    public ImageView XNum1, XNum2, XNum3, XNum4, XNum5, XNum6, XNum7, XNum8, XNum9;
+
     public RadioButton btnRadio;
 
     private TextView txtAvailable;
@@ -88,8 +93,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public boolean isHost = false;
 
+
     private ActivityManager.RunningAppProcessInfo myProcess;
     private NotificationManagerCompat notificationManagerCompat;
+
+    //More Alex stuff (need an instance of TicTacToe for the getSymbol method)
+    TicTacToe ttt = new TicTacToe(MainActivity.this);
+
 
     /**
      * This runs when the app is first started
@@ -207,6 +217,180 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToStartGameScreenLayout();
                 else
                     switchToWaitingLayout();
+
+            //Beginning of Alex's stuff
+            case R.id.ONum1:
+
+                //determines which imageView in the cell should be set (X or O) and sets it to visible
+                if(ttt.getSymbol().equals("O")){
+                    ONum1.setVisibility(View.VISIBLE);
+                }else{
+                    XNum1.setVisibility((View.VISIBLE));
+                }
+
+                //sets the value in the string array to either X or O
+                ttt.modifyGameTrackerClick(1);
+
+                break;
+
+            case R.id.ONum2:
+                if(ttt.getSymbol().equals("O")){
+                    ONum2.setVisibility(View.VISIBLE);
+                }else{
+                    XNum2.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(2);
+                break;
+
+            case R.id.ONum3:
+                if(ttt.getSymbol().equals("O")){
+                    ONum3.setVisibility(View.VISIBLE);
+                }else{
+                    XNum3.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(3);
+                break;
+
+            case R.id.ONum4:
+                if(ttt.getSymbol().equals("O")){
+                    ONum4.setVisibility(View.VISIBLE);
+                }else{
+                    XNum4.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(4);
+                break;
+
+            case R.id.ONum5:
+                if(ttt.getSymbol().equals("O")){
+                    ONum5.setVisibility(View.VISIBLE);
+                }else{
+                    XNum5.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(5);
+                break;
+
+            case R.id.ONum6:
+                if(ttt.getSymbol().equals("O")){
+                    ONum6.setVisibility(View.VISIBLE);
+                }else{
+                    XNum6.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(6);
+                break;
+
+            case R.id.ONum7:
+                if(ttt.getSymbol().equals("O")){
+                    ONum7.setVisibility(View.VISIBLE);
+                }else{
+                    XNum7.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(7);
+                break;
+
+            case R.id.ONum8:
+                if(ttt.getSymbol().equals("O")){
+                    ONum8.setVisibility(View.VISIBLE);
+                }else{
+                    XNum8.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(8);
+                break;
+
+            case R.id.ONum9:
+                if(ttt.getSymbol().equals("O")){
+                    ONum9.setVisibility(View.VISIBLE);
+                }else{
+                    XNum9.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(9);
+
+                break;
+
+
+                /*
+                These all give duplicate errors but we need them because we have to account for either the "X" or "O" image of each cell being touched
+                 */
+            case R.id.XNum1:
+                if(ttt.getSymbol().equals("O")){
+                    ONum1.setVisibility(View.VISIBLE);
+                }else{
+                    XNum1.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(1);
+
+                break;
+
+            case R.id.XNum2:
+                if(ttt.getSymbol().equals("O")){
+                    ONum2.setVisibility(View.VISIBLE);
+                }else{
+                    XNum2.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(2);
+                break;
+
+            case R.id.XNum3:
+                if(ttt.getSymbol().equals("O")){
+                    ONum3.setVisibility(View.VISIBLE);
+                }else{
+                    XNum3.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(3);
+                break;
+
+            case R.id.XNum4:
+                if(ttt.getSymbol().equals("O")){
+                    ONum4.setVisibility(View.VISIBLE);
+                }else{
+                    XNum4.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(4);
+                break;
+
+            case R.id.XNum5:
+                if(ttt.getSymbol().equals("O")){
+                    ONum5.setVisibility(View.VISIBLE);
+                }else{
+                    XNum5.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(5);
+                break;
+
+            case R.id.XNum6:
+                if(ttt.getSymbol().equals("O")){
+                    ONum6.setVisibility(View.VISIBLE);
+                }else{
+                    XNum6.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(6);
+                break;
+
+            case R.id.XNum7:
+                if(ttt.getSymbol().equals("O")){
+                    ONum7.setVisibility(View.VISIBLE);
+                }else{
+                    XNum7.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(7);
+                break;
+
+            case R.id.XNum8:
+                if(ttt.getSymbol().equals("O")){
+                    ONum8.setVisibility(View.VISIBLE);
+                }else{
+                    XNum8.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(8);
+                break;
+
+            case R.id.XNum9:
+                if(ttt.getSymbol().equals("O")){
+                    ONum9.setVisibility(View.VISIBLE);
+                }else{
+                    XNum9.setVisibility((View.VISIBLE));
+                }
+                ttt.modifyGameTrackerClick(9);
+                break;
 
 
 
