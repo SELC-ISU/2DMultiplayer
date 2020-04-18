@@ -17,31 +17,12 @@ public class TicTacToe extends AppCompatActivity{
     boolean opponentTurn;
     String [][] gameTracker = new String[3][3];
     int cell;
+    int rowChanged;
+    int colChanged;
     int cellRow;
     int cellColumn;
     String symbol;
 
-    /*
-    private ImageView x1;
-    private ImageView x2;
-    private ImageView x3;
-    private ImageView x4;
-    private ImageView x5;
-    private ImageView x6;
-    private ImageView x7;
-    private ImageView x8;
-    private ImageView x9;
-
-    private ImageView o1;
-    private ImageView o2;
-    private ImageView o3;
-    private ImageView o4;
-    private ImageView o5;
-    private ImageView o6;
-    private ImageView o7;
-    private ImageView o8;
-    private ImageView o9;
-    */
 
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
@@ -67,7 +48,7 @@ public class TicTacToe extends AppCompatActivity{
             if (doublePlayer == true && opponentTurn == true) {
 
                 //symbol will switch each time it becomes a different player's turn
-                symbol = "X";
+                //symbol = "X";
 
                 while (((MainActivity) context).newGameMessage == false) ;
                 ((MainActivity) context).newGameMessage = false;
@@ -83,17 +64,17 @@ public class TicTacToe extends AppCompatActivity{
             if (doublePlayer == true && opponentTurn == false) {
 
                 //symbol will switch each time it becomes a different player's turn
-                symbol = "O";
+                //symbol = "O";
 
-                String message = getOwnWhatver();
+                String message = getOwnMessage();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
 
             }
             //playing the rest of the game until it looks for more input
         }
 
-        private String getOwnWhatver() {
-            String msg = "";
+        private String getOwnMessage() {
+            String msg = symbol + " " + rowChanged + " " + colChanged;
             return msg;
         }
 
@@ -133,13 +114,6 @@ public class TicTacToe extends AppCompatActivity{
             return tempCell;
         }
 
-        private int toCoordinates(int cellNum){
-
-            if(cellNum == 1){
-
-            }
-
-        }
 
     }
 
@@ -152,22 +126,40 @@ public class TicTacToe extends AppCompatActivity{
 
         if(cellNum == 1){
             gameTracker[0][0] = symbol;
+            rowChanged = 0;
+            colChanged = 0;
         }else if(cellNum == 2){
             gameTracker[0][1] = symbol;
+            rowChanged = 0;
+            colChanged = 1;
         }else if(cellNum == 3){
             gameTracker[0][2] = symbol;
+            rowChanged = 0;
+            colChanged = 2;
         }else if(cellNum == 4){
             gameTracker[1][0] = symbol;
+            rowChanged = 1;
+            colChanged = 0;
         }else if(cellNum == 5){
             gameTracker[1][1] = symbol;
+            rowChanged = 1;
+            colChanged = 1;
         }else if(cellNum == 6){
             gameTracker[1][2] = symbol;
+            rowChanged = 1;
+            colChanged = 2;
         }else if(cellNum == 7){
             gameTracker[2][0] = symbol;
+            rowChanged = 2;
+            colChanged = 0;
         }else if(cellNum == 8){
             gameTracker[2][1] = symbol;
+            rowChanged = 2;
+            colChanged = 1;
         }else if(cellNum == 9){
             gameTracker[2][2] = symbol;
+            rowChanged = 2;
+            colChanged = 2;
         }
 
     }
