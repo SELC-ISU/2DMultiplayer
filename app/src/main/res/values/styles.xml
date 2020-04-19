@@ -1,16 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+    <style name="AppTheme" parent="Theme.Design.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorSecondary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.noActionBar">
         <item name="windowNoTitle">true</item>
             <item name="windowActionBar">false</item>
-
     </style>
+
+
 </resources>

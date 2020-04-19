@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
+    <ProgressBar
+        android:id="@+id/pBar2"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="43dp"
+        android:layout_height="38dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:indeterminateDrawable="@drawable/pbar_gradient"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/lvNewDevices"
         android:layout_width="0dp"
