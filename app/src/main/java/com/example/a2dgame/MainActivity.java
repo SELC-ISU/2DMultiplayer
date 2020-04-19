@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //Beginning of Alex's stuff
             case R.id.ONum1:
-
+            case R.id.XNum1:
                 //determines which imageView in the cell should be set (X or O) and sets it to visible
                 if(ttt.getSymbol().equals("O")){
                     ONum1.setVisibility(View.VISIBLE);
@@ -219,93 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+
             case R.id.ONum2:
-                if(ttt.getSymbol().equals("O")){
-                    ONum2.setVisibility(View.VISIBLE);
-                }else{
-                    XNum2.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(2);
-                break;
-
-            case R.id.ONum3:
-                if(ttt.getSymbol().equals("O")){
-                    ONum3.setVisibility(View.VISIBLE);
-                }else{
-                    XNum3.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(3);
-                break;
-
-            case R.id.ONum4:
-                if(ttt.getSymbol().equals("O")){
-                    ONum4.setVisibility(View.VISIBLE);
-                }else{
-                    XNum4.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(4);
-                break;
-
-            case R.id.ONum5:
-                if(ttt.getSymbol().equals("O")){
-                    ONum5.setVisibility(View.VISIBLE);
-                }else{
-                    XNum5.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(5);
-                break;
-
-            case R.id.ONum6:
-                if(ttt.getSymbol().equals("O")){
-                    ONum6.setVisibility(View.VISIBLE);
-                }else{
-                    XNum6.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(6);
-                break;
-
-            case R.id.ONum7:
-                if(ttt.getSymbol().equals("O")){
-                    ONum7.setVisibility(View.VISIBLE);
-                }else{
-                    XNum7.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(7);
-                break;
-
-            case R.id.ONum8:
-                if(ttt.getSymbol().equals("O")){
-                    ONum8.setVisibility(View.VISIBLE);
-                }else{
-                    XNum8.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(8);
-                break;
-
-            case R.id.ONum9:
-                if(ttt.getSymbol().equals("O")){
-                    ONum9.setVisibility(View.VISIBLE);
-                }else{
-                    XNum9.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(9);
-
-                break;
-
-
-                /*
-                These all give duplicate errors but we need them because we have to account for either the "X" or "O" image of each cell being touched
-                 */
-            case R.id.XNum1:
-                if(ttt.getSymbol().equals("O")){
-                    ONum1.setVisibility(View.VISIBLE);
-                }else{
-                    XNum1.setVisibility((View.VISIBLE));
-                }
-                ttt.modifyGameTrackerClick(1);
-
-                break;
-
             case R.id.XNum2:
                 if(ttt.getSymbol().equals("O")){
                     ONum2.setVisibility(View.VISIBLE);
@@ -315,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(2);
                 break;
 
+            case R.id.ONum3:
             case R.id.XNum3:
                 if(ttt.getSymbol().equals("O")){
                     ONum3.setVisibility(View.VISIBLE);
@@ -324,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(3);
                 break;
 
+            case R.id.ONum4:
             case R.id.XNum4:
                 if(ttt.getSymbol().equals("O")){
                     ONum4.setVisibility(View.VISIBLE);
@@ -333,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(4);
                 break;
 
+            case R.id.ONum5:
             case R.id.XNum5:
                 if(ttt.getSymbol().equals("O")){
                     ONum5.setVisibility(View.VISIBLE);
@@ -342,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(5);
                 break;
 
+            case R.id.ONum6:
             case R.id.XNum6:
                 if(ttt.getSymbol().equals("O")){
                     ONum6.setVisibility(View.VISIBLE);
@@ -351,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(6);
                 break;
 
+            case R.id.ONum7:
             case R.id.XNum7:
                 if(ttt.getSymbol().equals("O")){
                     ONum7.setVisibility(View.VISIBLE);
@@ -360,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt.modifyGameTrackerClick(7);
                 break;
 
+            case R.id.ONum8:
             case R.id.XNum8:
                 if(ttt.getSymbol().equals("O")){
                     ONum8.setVisibility(View.VISIBLE);
@@ -370,15 +291,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.XNum9:
+            case R.id.ONum9:
                 if(ttt.getSymbol().equals("O")){
                     ONum9.setVisibility(View.VISIBLE);
                 }else{
                     XNum9.setVisibility((View.VISIBLE));
                 }
                 ttt.modifyGameTrackerClick(9);
+
                 break;
-
-
 
             default:
                 break;
