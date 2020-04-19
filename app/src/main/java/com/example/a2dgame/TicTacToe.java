@@ -74,50 +74,48 @@ public class TicTacToe extends AppCompatActivity{
             //playing the rest of the game until it looks for more input
         }
 
-        private String getOwnMessage() {
-            String msg = symbol + " " + rowChanged + " " + colChanged;
-            return msg;
-        }
-
-        /**
-         * converts the coordinates from the incoming message into the cell number
-         * will hopefully make determining which cell image to change easier
-         */
-        private int toCellNumber(int row, int column) {
-            int tempCell = -1;
-
-            if (row == 0) {
-                if (column == 0) {
-                    tempCell = 1;
-                } else if (column == 1) {
-                    tempCell = 2;
-                } else if (column == 2) {
-                    tempCell = 3;
-                }
-            } else if (row == 1) {
-                if (column == 0) {
-                    tempCell = 4;
-                } else if (column == 1) {
-                    tempCell = 5;
-                } else if (column == 2) {
-                    tempCell = 6;
-                }
-            } else if (row == 2) {
-                if (column == 0) {
-                    tempCell = 7;
-                } else if (column == 1) {
-                    tempCell = 8;
-                } else if (column == 2) {
-                    tempCell = 9;
-                }
-            }
-
-            return tempCell;
-        }
-
-
     }
 
+    private String getOwnMessage() {
+        String msg = symbol + " " + rowChanged + " " + colChanged;
+        return msg;
+    }
+
+    /**
+     * converts the coordinates from the incoming message into the cell number
+     * will hopefully make determining which cell image to change easier
+     */
+    private int toCellNumber(int row, int column) {
+        int tempCell = -1;
+
+        if (row == 0) {
+            if (column == 0) {
+                tempCell = 1;
+            } else if (column == 1) {
+                tempCell = 2;
+            } else if (column == 2) {
+                tempCell = 3;
+            }
+        } else if (row == 1) {
+            if (column == 0) {
+                tempCell = 4;
+            } else if (column == 1) {
+                tempCell = 5;
+            } else if (column == 2) {
+                tempCell = 6;
+            }
+        } else if (row == 2) {
+            if (column == 0) {
+                tempCell = 7;
+            } else if (column == 1) {
+                tempCell = 8;
+            } else if (column == 2) {
+                tempCell = 9;
+            }
+        }
+
+        return tempCell;
+    }
 
     public String getSymbol(){
             return symbol;

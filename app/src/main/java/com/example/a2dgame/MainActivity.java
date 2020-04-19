@@ -959,4 +959,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //More of Alex's stuff
+
+    //Trying to make a method that switches to the game screen
+    public void switchToGameScreenLayout(){
+
+        setContentView(R.layout.start_screen_layout);
+
+        XNum1 = findViewById(R.id.XNum1);
+        XNum1.setOnClickListener(this);
+
+        XNum2 = findViewById(R.id.XNum2);
+        XNum2.setOnClickListener(this);
+
+        XNum3 = findViewById(R.id.XNum3);
+        XNum3.setOnClickListener(this);
+
+        XNum4 = findViewById(R.id.XNum4);
+        XNum4.setOnClickListener(this);
+
+        XNum5 = findViewById(R.id.XNum5);
+        XNum5.setOnClickListener(this);
+
+        XNum6 = findViewById(R.id.XNum6);
+        XNum6.setOnClickListener(this);
+
+        XNum7 = findViewById(R.id.XNum7);
+        XNum7.setOnClickListener(this);
+
+        XNum8 = findViewById(R.id.XNum8);
+        XNum8.setOnClickListener(this);
+
+        XNum9 = findViewById(R.id.XNum9);
+        XNum9.setOnClickListener(this);
+
+        ONum1 = findViewById(R.id.ONum1);
+        ONum1.setOnClickListener(this);
+
+        ONum2 = findViewById(R.id.ONum2);
+        ONum2.setOnClickListener(this);
+
+        ONum3 = findViewById(R.id.ONum3);
+        ONum3.setOnClickListener(this);
+
+        ONum4 = findViewById(R.id.ONum4);
+        ONum4.setOnClickListener(this);
+
+        ONum5 = findViewById(R.id.ONum5);
+        ONum5.setOnClickListener(this);
+
+        ONum6 = findViewById(R.id.ONum6);
+        ONum6.setOnClickListener(this);
+
+        ONum7 = findViewById(R.id.ONum7);
+        ONum7.setOnClickListener(this);
+
+        ONum8 = findViewById(R.id.ONum8);
+        ONum8.setOnClickListener(this);
+
+        ONum9 = findViewById(R.id.ONum9);
+        ONum9.setOnClickListener(this);
+
+    }
+
 }
