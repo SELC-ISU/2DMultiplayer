@@ -21,7 +21,7 @@ public class TicTacToe extends AppCompatActivity{
     int colChanged;
     int cellRow;
     int cellColumn;
-    String symbol;
+    String symbol = "O";
 
 
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
@@ -113,7 +113,8 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     public String getSymbol(){
-            return symbol;
+
+        return symbol;
     }
 
     public void modifyGameTrackerClick(int cellNum){
