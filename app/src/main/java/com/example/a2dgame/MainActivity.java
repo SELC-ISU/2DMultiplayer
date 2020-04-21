@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gameType = GameType.SINGLE;
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
+                //will become host's turn
+                ttt.changeOppTurn();
                 break;
 
             case R.id.btnThreeGames:
@@ -205,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gameType = GameType.BEST_OF_THREE;
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
+                ttt.changeOppTurn();
                 break;
 
             case R.id.btnFiveGames:
@@ -212,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gameType = GameType.BEST_OF_FIVE;
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
+                ttt.changeOppTurn();
                 break;
 
             case R.id.btnBack:

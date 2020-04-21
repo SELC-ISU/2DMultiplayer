@@ -61,11 +61,11 @@ public class TicTacToe extends AppCompatActivity{
 
                 //symbol will switch each time it becomes a different player's turn
                 symbol = "O";
-
                 String message = getOwnMessage();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
 
             }
+
             //playing the rest of the game until it looks for more input
         }
 
@@ -162,6 +162,10 @@ public class TicTacToe extends AppCompatActivity{
 
 
 
+    }
+
+    protected void changeOppTurn(){
+        opponentTurn = false;
     }
 
 }
