@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
 
     //stuff Alex added
-    public ImageView ONum1, ONum2, ONum3, ONum4, ONum5, ONum6, ONum7, ONum8, ONum9;
-    public ImageView XNum1, XNum2, XNum3, XNum4, XNum5, XNum6, XNum7, XNum8, XNum9;
+
+    public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
 
     public RadioButton btnRadio;
 
@@ -226,103 +227,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToWaitingLayout();
 
             //Beginning of Alex's stuff
-            case R.id.ONum1:
-            case R.id.XNum1:
-                //determines which imageView in the cell should be set (X or O) and sets it to visible
-                if(ttt.getSymbol().equals("O")){
-                    //ONum1.setVisibility(View.VISIBLE);
-                    ONum1.setImageAlpha(255);
-                }else{
-                    XNum1.setImageAlpha(255);
-                }
 
-                //sets the value in the string array to either X or O
-                ttt.modifyGameTrackerClick(1);
-
+            case R.id.cell1:
+                cell1.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum2:
-            case R.id.XNum2:
-                if(ttt.getSymbol().equals("O")){
-                    ONum2.setImageAlpha(255);
-                    write(ttt.getOwnMessage(), "G");
-                }else{
-                    XNum2.setImageAlpha(255);
-                    write(ttt.getOwnMessage(), "G");
-
-                }
-                ttt.modifyGameTrackerClick(2);
+            case R.id.cell2:
+                cell2.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum3:
-            case R.id.XNum3:
-                if(ttt.getSymbol().equals("O")){
-                    ONum3.setImageAlpha(255);
-                }else{
-                    XNum3.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(3);
+            case R.id.cell3:
+                cell3.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum4:
-            case R.id.XNum4:
-                if(ttt.getSymbol().equals("O")){
-                    ONum4.setImageAlpha(255);
-                }else{
-                    XNum4.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(4);
+            case R.id.cell4:
+                cell4.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum5:
-            case R.id.XNum5:
-                if(ttt.getSymbol().equals("O")){
-                    ONum5.setImageAlpha(255);
-                }else{
-                    XNum5.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(5);
+
+            case R.id.cell5:
+                Log.d(TAG,"cell5 was pressed");
+                Log.d(TAG,ttt.getSymbol());
+                cell5.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum6:
-            case R.id.XNum6:
-                if(ttt.getSymbol().equals("O")){
-                    ONum6.setImageAlpha(255);
-                }else{
-                    XNum6.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(6);
+            case R.id.cell6:
+                cell6.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum7:
-            case R.id.XNum7:
-                if(ttt.getSymbol().equals("O")){
-                    ONum7.setImageAlpha(255);
-                }else{
-                    XNum7.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(7);
+            case R.id.cell7:
+                cell7.setText(ttt.getSymbol());
                 break;
 
-            case R.id.ONum8:
-            case R.id.XNum8:
-                if(ttt.getSymbol().equals("O")){
-                    ONum8.setImageAlpha(255);
-                }else{
-                    XNum8.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(8);
+            case R.id.cell8:
+                cell8.setText(ttt.getSymbol());
                 break;
 
-            case R.id.XNum9:
-            case R.id.ONum9:
-                if(ttt.getSymbol().equals("O")){
-                    ONum9.setImageAlpha(255);
-                }else{
-                    XNum9.setImageAlpha(255);
-                }
-                ttt.modifyGameTrackerClick(9);
-
+            case R.id.cell9:
+                cell9.setText(ttt.getSymbol());
                 break;
 
             default:
@@ -959,14 +901,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.tictactoe);
 
+        cell1 = findViewById(R.id.cell1);
+        cell1.setOnClickListener(this);
+
+        cell2 = findViewById(R.id.cell2);
+        cell2.setOnClickListener(this);
+
+        cell3 = findViewById(R.id.cell3);
+        cell3.setOnClickListener(this);
+
+        cell4 = findViewById(R.id.cell4);
+        cell4.setOnClickListener(this);
+
+        cell5 = findViewById(R.id.cell5);
+        cell5.setOnClickListener(this);
+
+        cell6 = findViewById(R.id.cell6);
+        cell6.setOnClickListener(this);
+
+        cell7 = findViewById(R.id.cell7);
+        cell7.setOnClickListener(this);
+
+        cell8 = findViewById(R.id.cell8);
+        cell8.setOnClickListener(this);
+
+        cell9 = findViewById(R.id.cell9);
+        cell9.setOnClickListener(this);
+
+/*
         XNum1 = findViewById(R.id.XNum1);
         XNum1.setOnClickListener(this);
+        //XNum1.setVisibility(View.INVISIBLE);
+
 
         XNum2 = findViewById(R.id.XNum2);
         XNum2.setOnClickListener(this);
 
         XNum3 = findViewById(R.id.XNum3);
         XNum3.setOnClickListener(this);
+        //XNum3.setVisibility(View.INVISIBLE);
 
         XNum4 = findViewById(R.id.XNum4);
         XNum4.setOnClickListener(this);
@@ -988,12 +961,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ONum1 = findViewById(R.id.ONum1);
         ONum1.setOnClickListener(this);
+       // ONum1.setVisibility(View.INVISIBLE);
+
 
         ONum2 = findViewById(R.id.ONum2);
         ONum2.setOnClickListener(this);
 
         ONum3 = findViewById(R.id.ONum3);
         ONum3.setOnClickListener(this);
+        //ONum3.setVisibility(View.INVISIBLE);
 
         ONum4 = findViewById(R.id.ONum4);
         ONum4.setOnClickListener(this);
@@ -1007,12 +983,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ONum7 = findViewById(R.id.ONum7);
         ONum7.setOnClickListener(this);
 
+
         ONum8 = findViewById(R.id.ONum8);
         ONum8.setOnClickListener(this);
 
         ONum9 = findViewById(R.id.ONum9);
         ONum9.setOnClickListener(this);
-
+*/
     }
 
 }

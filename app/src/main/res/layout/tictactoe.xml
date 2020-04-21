@@ -25,207 +25,124 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
 
-        android:id="@+id/ONum1"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
+    <TextView
+        android:id="@+id/cell1"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="205dp"
+        android:layout_marginStart="50dp"/>
+
+    <TextView
+        android:id="@+id/cell2"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp"
-        android:alpha="0"/>
-
-
-    <ImageView
-        android:id="@+id/XNum1"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="184dp"
-        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="205dp"
+        android:layout_marginStart="159dp"/>
+
+    <TextView
+        android:id="@+id/cell3"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
-        <!--android:visibility="invisible"-->
-
-
-    <ImageView
-        android:id="@+id/ONum2"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="125dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum2"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="184dp"
-        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="205dp"
+        android:layout_marginStart="265dp"/>
 
-    <ImageView
-        android:id="@+id/ONum3"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/cell4"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="185dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum3"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="255dp"
-        android:layout_marginTop="184dp"
-        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="313dp"
+        android:layout_marginStart="50dp"/>
 
-    <ImageView
-        android:id="@+id/ONum4"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginLeft="15dp"
+
+    <TextView
+        android:id="@+id/cell5"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"
-        android:alpha="0"/>
+        android:layout_marginTop="313dp"
+        android:layout_marginStart="159dp"/>
 
-    <ImageView
-        android:id="@+id/XNum4"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="301dp"
-        android:src="@drawable/tic_tac_toe_x"
+    <TextView
+        android:id="@+id/cell6"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="313dp"
+        android:layout_marginStart="265dp"/>
 
-    <ImageView
-        android:id="@+id/ONum5"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="125dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/cell7"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum5"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="301dp"
-        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="420dp"
+        android:layout_marginStart="50dp"/>
 
-    <ImageView
-        android:id="@+id/ONum6"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/cell8"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="300dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum6"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="258dp"
-        android:layout_marginTop="301dp"
-        android:src="@drawable/tic_tac_toe_x"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="420dp"
+        android:layout_marginStart="159dp"/>
 
-    <ImageView
-        android:id="@+id/ONum7"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginLeft="15dp"
+    <TextView
+        android:id="@+id/cell9"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="65dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum7"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="409dp"
-        android:src="@drawable/tic_tac_toe_x"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/ONum8"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="125dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum8"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="149dp"
-        android:layout_marginTop="409dp"
-        android:src="@drawable/tic_tac_toe_x"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/ONum9"
-        android:layout_width="168dp"
-        android:layout_height="130dp"
-        android:src="@drawable/tic_tac_toe_o"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="410dp"
-        android:alpha="0"/>
-
-    <ImageView
-        android:id="@+id/XNum9"
-        android:layout_width="106dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="255dp"
-        android:layout_marginTop="409dp"
-        android:src="@drawable/tic_tac_toe_x"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0"/>
+        android:layout_marginTop="420dp"
+        android:layout_marginStart="265dp"/>
 
     <TextView
         android:id="@+id/scoreBox"
