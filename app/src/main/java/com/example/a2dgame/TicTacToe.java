@@ -43,7 +43,7 @@ public class TicTacToe extends AppCompatActivity{
             if (doublePlayer == true && opponentTurn == true) {
 
                 //symbol will switch each time it becomes a different player's turn
-                //symbol = "X";
+                symbol = "X";
 
                 while (((MainActivity) context).newGameMessage == false) ;
                 ((MainActivity) context).newGameMessage = false;
@@ -60,7 +60,7 @@ public class TicTacToe extends AppCompatActivity{
             if (doublePlayer == true && opponentTurn == false) {
 
                 //symbol will switch each time it becomes a different player's turn
-                //symbol = "O";
+                symbol = "O";
 
                 String message = getOwnMessage();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
@@ -71,7 +71,7 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
-    private String getOwnMessage() {
+    protected String getOwnMessage() {
         String msg = symbol + " " + rowChanged + " " + colChanged;
         return msg;
     }

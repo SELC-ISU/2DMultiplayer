@@ -196,19 +196,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnSingleGame:
 
                 gameType = GameType.SINGLE;
-
+                switchToGameScreenLayout();
+                write("goToGameScreen", "M");
                 break;
 
             case R.id.btnThreeGames:
 
                 gameType = GameType.BEST_OF_THREE;
-
+                switchToGameScreenLayout();
+                write("goToGameScreen", "M");
                 break;
 
             case R.id.btnFiveGames:
 
                 gameType = GameType.BEST_OF_FIVE;
-
+                switchToGameScreenLayout();
+                write("goToGameScreen", "M");
                 break;
 
             case R.id.btnBack:
@@ -238,8 +241,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.XNum2:
                 if(ttt.getSymbol().equals("O")){
                     ONum2.setVisibility(View.VISIBLE);
+                    write(ttt.getOwnMessage(), "G");
                 }else{
                     XNum2.setVisibility((View.VISIBLE));
+                    write(ttt.getOwnMessage(), "G");
+
                 }
                 ttt.modifyGameTrackerClick(2);
                 break;
@@ -716,6 +722,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * BluetoothService class. The String text recieves this message. This is where any decisions on
      * what kind of message is being sent through should be determined and delt with
      */
+
     private final BroadcastReceiver receiver3 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -742,9 +749,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
                 gameMessage = text;
-            }
-            else if(checkStr.equals(MICELLANEOUS_STR)){
 
+            }
+            else if(checkStr.equals(MICELLANEOUS_STR)) {
+                if(text.equals("goToGameScreen")){
+                    switchToGameScreenLayout();
+                }
             }
            //You can add more final Strings at the top to make more text options here just add an if
         }
@@ -943,7 +953,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Trying to make a method that switches to the game screen
     public void switchToGameScreenLayout(){
 
-        setContentView(R.layout.start_screen_layout);
+        setContentView(R.layout.tictactoe);
 
         XNum1 = findViewById(R.id.XNum1);
         XNum1.setOnClickListener(this);
