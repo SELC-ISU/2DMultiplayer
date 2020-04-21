@@ -230,40 +230,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 cell1.setText(ttt.getSymbol());
+                ttt.modifyGameTrackerClick(1);
                 break;
 
             case R.id.cell2:
                 cell2.setText(ttt.getSymbol());
+                ttt.modifyGameTrackerClick(2);
                 break;
 
             case R.id.cell3:
+                ttt.modifyGameTrackerClick(3);
                 cell3.setText(ttt.getSymbol());
+                System.out.println(ttt.gameTracker[0][2]);
                 break;
 
             case R.id.cell4:
+                ttt.modifyGameTrackerClick(4);
                 cell4.setText(ttt.getSymbol());
                 break;
 
-
             case R.id.cell5:
+                ttt.modifyGameTrackerClick(5);
                 Log.d(TAG,"cell5 was pressed");
                 Log.d(TAG,ttt.getSymbol());
                 cell5.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell6:
+                ttt.modifyGameTrackerClick(6);
                 cell6.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell7:
+                ttt.modifyGameTrackerClick(7);
                 cell7.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell8:
+                ttt.modifyGameTrackerClick(8);
                 cell8.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell9:
+                ttt.modifyGameTrackerClick(9);
                 cell9.setText(ttt.getSymbol());
                 break;
 

@@ -159,10 +159,36 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
-    public void modifyGameTrackerIncoming(){
+    //checks to see if the game has been won
+    public boolean checkIfWon(){
+        if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2])){
+            //if first row is all equal
+            return true;
+        }else if(gameTracker[1][0].equals(gameTracker[1][1]) && gameTracker[1][0].equals(gameTracker[1][2])){
+            //if second row is all equal
+            return true;
+        }else if(gameTracker[2][0].equals(gameTracker[2][1]) && gameTracker[2][0].equals(gameTracker[2][2])){
+            //if third row is all equal
+            return true;
+        }else if(gameTracker[0][0].equals(gameTracker[1][0]) && gameTracker[0][0].equals(gameTracker[2][0])){
+            //if first column is all equal
+            return true;
+        }else if(gameTracker[0][1].equals(gameTracker[1][1]) && gameTracker[0][1].equals(gameTracker[2][1])){
+            //if middle column is all equal
+            return true;
+        }else if(gameTracker[0][2].equals(gameTracker[1][2]) && gameTracker[0][2].equals(gameTracker[2][2])){
+            //check if third column is all equal
+            return true;
+        }else if(gameTracker[0][0].equals(gameTracker[1][1]) && gameTracker[0][0].equals(gameTracker[2][2])){
+            //if diagonal starting in top left is all equal
+            return true;
+        }else if(gameTracker[0][2].equals(gameTracker[1][1]) && gameTracker[0][2].equals(gameTracker[2][0])){
+            //if diagonal starting in top right is all equal
+            return true;
+        }
 
 
-
+        return false;
     }
 
     protected void changeOppTurn(){
