@@ -27,14 +27,9 @@ public class TicTacToe extends AppCompatActivity{
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
         Game game = new Game();
-        image = findViewById(R.id.ONum3);
-        game.start();
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+        game.start();
+
     }
 
     public class Game extends Thread {

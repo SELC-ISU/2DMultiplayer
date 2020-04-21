@@ -938,27 +938,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
-     * This method will return the correct x or o imageView in the ticTacToe class in order to be change the alpha of the image
-     * @param cell   The number of the cell to change
-     * @param symbol Which letter inside the cell needs to be changed (x/o)
-     * @return The correct imageView
-     */
-    public View getImageView(int cell, String symbol){
-
-        if(symbol.equals("X")){
-
-
-
-        }else if(symbol.equals("O")){
-
-
-
-        }
-        return null;
-
-    }
-
     //More of Alex's stuff
 
     //Trying to make a method that switches to the game screen
