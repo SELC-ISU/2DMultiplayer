@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write("goToGameScreen", "M");
                 //will become host's turn
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(1);
                 write("1game", "M");
                 break;
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(3);
                 write("3game", "M");
                 break;
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(5);
                 write("5game", "M");
                 break;
@@ -320,6 +320,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnBack.performClick();
         }else if(findViewById(R.id. cell6) !=null){
             switchToStartGameScreenLayout();
+            if(isHost){
+                ttt.changeSymbolToO();
+            }else{
+                ttt.changeSymbolToX();
+            }
         }
 
         cancelNotification();
@@ -942,9 +947,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("Displaying: You Lost");
                     scoreBox.setText("Game over. You Lost!");
                     clearGrid();
-                }else if(gameMessage.equals(("youWon"))){
+                }else if(gameMessage.equals(("youWon"))){ //i just realized this statement will never actually happen
                     System.out.println("Displaying: You Won");
                     scoreBox.setText("Game over. You Won!");
+                }else if(gameMessage.equals("atDrawClear")){
+                    System.out.println("clear this shit out like a laxative por favor");
+                    ttt.clearArray();
+                    clearGrid();
+
                 }
 
             }
@@ -1172,25 +1182,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String youLost = "youLost";
             String youWon = "youWon";
 
-            if(ttt.checkIfWon()){
-                System.out.println("winner bitch");
-                ttt.incrementScore();
-                System.out.println("Score after win: " + ttt.getScore());
-                scoreBox.setText(ttt.getScoreStatement());
-                if(ttt.checkPlayerVictory()){
-                    scoreBox.setText("Game over. You Won!");
-                    System.out.println("Writing: youLost");
-                    write(youLost, "G");
-                    System.out.println("Should be done writing youLost");
-                }else if(ttt.checkOpponentVictory()){
-                    scoreBox.setText("Game over. You Lost!");
-                    write(youWon, "G");
+            if(!ttt.isAtADraw()) {
+                if (ttt.checkIfWon()) {
+                    System.out.println("winner bitch");
+                    ttt.incrementScore();
+                    System.out.println("Score after win: " + ttt.getScore());
+                    scoreBox.setText(ttt.getScoreStatement());
+                    if (ttt.checkPlayerVictory()) {
+                        scoreBox.setText("Game over. You Won!");
+                        System.out.println("Writing: youLost");
+                        write(youLost, "G");
+                        System.out.println("Should be done writing youLost");
+                    } else if (ttt.checkOpponentVictory()) {
+                        scoreBox.setText("Game over. You Lost!");
+                        write(youWon, "G");
+                    }
+                    ttt.clearArray();
+                    clearGrid();
+                    write(cellClear, "G");
+                } else {
+                    write(cellName, "G");
                 }
+            }else{
+
                 ttt.clearArray();
                 clearGrid();
-                write(cellClear, "G");
-            }else {
-                write(cellName, "G");
+
+
+                switchToGameScreenLayout();
+                ttt.changeSymbolToO();
+                write("atDrawClear", "G");
             }
         }
     }

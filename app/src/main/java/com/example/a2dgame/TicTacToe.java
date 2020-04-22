@@ -42,6 +42,8 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
+
+
     public class Game extends Thread {
 
         public Game(){
@@ -55,29 +57,18 @@ public class TicTacToe extends AppCompatActivity{
             if (doublePlayer == true && opponentTurn == true) {
                 //when it is the other person's turn (listening for new message)
                 System.out.println("running run inside oppTurn true");
-                //symbol will switch each time it becomes a different player's turn
-                //symbol = "X";
+
 
                 while (((MainActivity) context).newGameMessage == false);
 
                 ((MainActivity) context).newGameMessage = false;
-                /*
-                String message = ((MainActivity) context).gameMessage;
-                Scanner sc = new Scanner(message);
-                symbol = sc.next();
-                cellRow = sc.nextInt();
-                cellColumn = sc.nextInt();
-                cell = toCellNumber(cellRow, cellColumn);
-                gameTracker[cellRow][cellColumn] = symbol;
-                */
 
 
             }
             if (doublePlayer == true && opponentTurn == false) {
                 //when it is your turn (sending out selected cell)
                 System.out.println("running run inside oppTurn false");
-                //symbol will switch each time it becomes a different player's turn
-                //symbol = "O";
+
                 String message = getOwnMessage();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
 
@@ -241,8 +232,12 @@ public class TicTacToe extends AppCompatActivity{
         return opponentTurn;
     }
 
-    protected void changeSymbol(){
+    protected void changeSymbolToO(){
         symbol = "O";
+    }
+
+    protected void changeSymbolToX(){
+        symbol = "X";
     }
 
     protected void incrementScore(){
@@ -329,6 +324,16 @@ public class TicTacToe extends AppCompatActivity{
             }
         }
         return true;
+    }
+
+    protected String getReverseSymbol(){
+        if(symbol.equals("X")){
+            return "O";
+        }else if(symbol.equals("O")){
+            return "X";
+        }else{
+            return "ya done fucked up A-Aron";
+        }
     }
 
 }
