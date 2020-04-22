@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, scoreBox;
 
     boolean tempDoublePlayer = false;
+    boolean tempIsHost = false;
 
     public RadioButton btnRadio;
 
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NotificationManagerCompat notificationManagerCompat;
 
     //More Alex stuff (need an instance of TicTacToe for the getSymbol method)
-    TicTacToe ttt = new TicTacToe(MainActivity.this);
+    TicTacToe ttt;
 
 
 
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-
+        //System.out.println("Opponent turn beginning of onClick: " + ttt.getOpponentTurn());
         switch (v.getId()) {
 
             case R.id.btnJoin:
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 commenceDiscovery(true);  //starts server discovery
                 isHost = true;
                 pbar2.setVisibility(View.VISIBLE);
-
+                tempIsHost = true;
                 break;
 
 
@@ -236,52 +237,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Beginning of Alex's stuff
 
             case R.id.cell1:
-                cell1.setText(ttt.getSymbol());
-                ttt.afterClick(1);
-
+                System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
+                if(ttt.getOpponentTurn() == false) {
+                    cell1.setText(ttt.getSymbol());
+                    ttt.afterClick(1);
+                }
                 break;
 
             case R.id.cell2:
-                cell2.setText(ttt.getSymbol());
-                ttt.afterClick(2);
+                if(ttt.getOpponentTurn() == false) {
+                    cell2.setText(ttt.getSymbol());
+                    ttt.afterClick(2);
+                }
                 break;
 
             case R.id.cell3:
-                ttt.afterClick(3);
-                cell3.setText(ttt.getSymbol());
-                //System.out.println(ttt.gameTracker[0][2]);
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(3);
+                    cell3.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell4:
-                ttt.afterClick(4);
-                cell4.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(4);
+                    cell4.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell5:
-                ttt.afterClick(5);
-                Log.d(TAG,"cell5 was pressed");
-                Log.d(TAG,ttt.getSymbol());
-                cell5.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(5);
+                    cell5.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell6:
-                ttt.afterClick(6);
-                cell6.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(6);
+                    cell6.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell7:
-                ttt.afterClick(7);
-                cell7.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(7);
+                    cell7.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell8:
-                ttt.afterClick(8);
-                cell8.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(8);
+                    cell8.setText(ttt.getSymbol());
+                }
                 break;
 
             case R.id.cell9:
-                ttt.afterClick(9);
-                cell9.setText(ttt.getSymbol());
+                if(ttt.getOpponentTurn() == false) {
+                    ttt.afterClick(9);
+                    cell9.setText(ttt.getSymbol());
+                }
                 break;
 
             default:
@@ -617,9 +633,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchToGameScreenLayout(){
 
-        TicTacToe ttt = new TicTacToe(MainActivity.this);
+        if(tempDoublePlayer) {
+            if(tempIsHost == true){
+                ttt = new TicTacToe(MainActivity.this, true, false);
+            }else{
+                ttt = new TicTacToe(MainActivity.this, true, true);
+            }
 
-        //ttt.changeSymbol();
+        }else if(tempDoublePlayer == false){
+            if(tempIsHost == true) {
+                ttt = new TicTacToe(MainActivity.this, false, false);
+            }else{
+                ttt = new TicTacToe(MainActivity.this, true, true);
+            }
+        }
 
         setContentView(R.layout.tictactoe);
 
@@ -654,7 +681,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         scoreBox.setText(ttt.getScoreStatement());
 
-        if(tempDoublePlayer){
+        System.out.println("temp double player: " + tempDoublePlayer);
+
+        if(tempDoublePlayer == true){
             ttt.setDoublePlayer(true);
         }
 

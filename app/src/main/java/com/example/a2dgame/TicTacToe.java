@@ -15,7 +15,7 @@ public class TicTacToe extends AppCompatActivity{
 
     private Context context;
     boolean doublePlayer;
-    boolean opponentTurn;
+    boolean opponentTurn = true;
     String [][] gameTracker = new String[3][3];
     int cell;
     int rowChanged;
@@ -27,8 +27,11 @@ public class TicTacToe extends AppCompatActivity{
     int oppScore = 0;
 
 
-    public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
+    public TicTacToe(Context context, boolean setTo, boolean oppTurn){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
+        doublePlayer = setTo;
+        opponentTurn = oppTurn;
+        System.out.println("opponent turn in constructor: " + opponentTurn);
         Game game = new Game();
         game.start();
 
@@ -42,9 +45,10 @@ public class TicTacToe extends AppCompatActivity{
 
         public void run() {
             System.out.println("running run outside");
-            System.out.println("Double player " + doublePlayer);
+            System.out.println("Double player in outside run: " + doublePlayer);
+            System.out.println("Opponent turn in outside run: " + opponentTurn);
             if (doublePlayer == true && opponentTurn == true) {
-                System.out.println("running run");
+                System.out.println("running run inside oppTurn true");
                 //symbol will switch each time it becomes a different player's turn
                 //symbol = "X";
 
@@ -61,7 +65,7 @@ public class TicTacToe extends AppCompatActivity{
 
             }
             if (doublePlayer == true && opponentTurn == false) {
-                System.out.println("running run");
+                System.out.println("running run inside oppTurn false");
                 //symbol will switch each time it becomes a different player's turn
                 //symbol = "O";
                 String message = getOwnMessage();
@@ -201,6 +205,11 @@ public class TicTacToe extends AppCompatActivity{
 
     protected void setDoublePlayer(boolean set){
         doublePlayer = set;
+        System.out.println("double player value in end of setDoublePlayer" + doublePlayer);
+    }
+
+    protected boolean getOpponentTurn(){
+        return opponentTurn;
     }
 
     protected void changeSymbol(){
