@@ -278,6 +278,7 @@ public class TicTacToe extends AppCompatActivity{
                 gameTracker[i][j] = "";
             }
         }
+        System.out.println(getGameTracker());
     }
 
     protected void setNumGames(int n){

@@ -771,6 +771,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
                 gameMessage = text;
+                System.out.println("Game message: " + gameMessage);
                 if(gameMessage.equals("cell1")){
                     cell1.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
@@ -930,9 +931,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ttt.incrementOppScore();
                     scoreBox.setText(ttt.getScoreStatement());
                     ttt.changeOppTurn();
-                }else if(gameMessage.equals("youLost")){
+                }else if(gameMessage.equals("youLostGclearAndIncrement1") || gameMessage.equals("youLostGclearAndIncrement2") || gameMessage.equals("youLostGclearAndIncrement3") || gameMessage.equals("youLostGclearAndIncrement4") ||
+                        gameMessage.equals("youLostGclearAndIncrement5") || gameMessage.equals("youLostGclearAndIncrement6") || gameMessage.equals("youLostGclearAndIncrement7") || gameMessage.equals("youLostGclearAndIncrement8") ||
+                        gameMessage.equals("youLostGclearAndIncrement9")){
                     System.out.println("Displaying: You Lost");
                     scoreBox.setText("Game over. You Lost!");
+                    clearGrid();
                 }else if(gameMessage.equals(("youWon"))){
                     System.out.println("Displaying: You Won");
                     scoreBox.setText("Game over. You Won!");
@@ -1160,20 +1164,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cellNum.setText(ttt.getSymbol());
             ttt.afterClick(num);
 
+            String youLost = "youLost";
+            String youWon = "youWon";
+
             if(ttt.checkIfWon()){
                 System.out.println("winner bitch");
                 ttt.incrementScore();
                 System.out.println("Score after win: " + ttt.getScore());
                 scoreBox.setText(ttt.getScoreStatement());
-                ttt.clearArray();
                 if(ttt.checkPlayerVictory()){
                     scoreBox.setText("Game over. You Won!");
                     System.out.println("Writing: youLost");
-                    write("youLost", "G");
+                    write(youLost, "G");
+                    System.out.println("Should be done writing youLost");
                 }else if(ttt.checkOpponentVictory()){
-                    write("youWon", "G");
                     scoreBox.setText("Game over. You Lost!");
+                    write(youWon, "G");
                 }
+                ttt.clearArray();
                 clearGrid();
                 write(cellClear, "G");
             }else {
