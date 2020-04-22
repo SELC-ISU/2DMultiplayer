@@ -195,14 +195,16 @@ public class TicTacToe extends AppCompatActivity{
             //if diagonal starting in top right is all equal
             return true;
         }
-
-
         return false;
     }
 
     protected void changeOppTurn(){
 
         opponentTurn = false;
+    }
+
+    protected void setOpponentTurnTrue(){
+        opponentTurn = true;
     }
 
     protected void setDoublePlayer(boolean set){
@@ -243,14 +245,14 @@ public class TicTacToe extends AppCompatActivity{
         //Scanner sc = new Scanner(message);
 
         modifyGameTrackerClick(n);
-
+        setOpponentTurnTrue();
         /*
         if(checkIfWon()){
             //do stuff
             incrementScore();
-            ((MainActivity) context).write("incrementScore", MainActivity.MICELLANEOUS_STR);
-        }
-        */
+            //((MainActivity) context).write("incrementScore", MainActivity.MICELLANEOUS_STR);
+        }*/
+
         //String message = getOwnMessage();
         //((MainActivity) context).write(message, MainActivity.GAME_STR);
 
