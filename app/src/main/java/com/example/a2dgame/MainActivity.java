@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write("goToGameScreen", "M");
                 //will become host's turn
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(1);
                 write("1game", "M");
                 break;
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(3);
                 write("3game", "M");
                 break;
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
-                ttt.changeSymbol();
+                ttt.changeSymbolToO();
                 ttt.setNumGames(5);
                 write("5game", "M");
                 break;
@@ -317,6 +317,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnBack.performClick();
         }else if(findViewById(R.id. cell6) !=null){
             switchToStartGameScreenLayout();
+            if(isHost){
+                ttt.changeSymbolToO();
+            }else{
+                ttt.changeSymbolToX();
+            }
         }
 
         cancelNotification();
@@ -939,12 +944,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("Displaying: You Lost");
                     scoreBox.setText("Game over. You Lost!");
                     clearGrid();
-                }else if(gameMessage.equals(("youWon"))){
+                }else if(gameMessage.equals(("youWon"))){ //i just realized this statement will never actually happen
                     System.out.println("Displaying: You Won");
                     scoreBox.setText("Game over. You Won!");
                 }else if(gameMessage.equals("atDrawClear")){
+                    System.out.println("clear this shit out like a laxative por favor");
                     ttt.clearArray();
                     clearGrid();
+
                 }
 
             }
@@ -1194,8 +1201,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     write(cellName, "G");
                 }
             }else{
+
                 ttt.clearArray();
                 clearGrid();
+
+
+                switchToGameScreenLayout();
+                ttt.changeSymbolToO();
                 write("atDrawClear", "G");
             }
         }
