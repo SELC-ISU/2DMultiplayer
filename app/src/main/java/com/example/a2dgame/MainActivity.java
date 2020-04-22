@@ -315,6 +315,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(findViewById(R.id.btnBack)!=null){
             btnBack.performClick();
+        }else if(findViewById(R.id. cell6) !=null){
+            switchToStartGameScreenLayout();
         }
 
         cancelNotification();
