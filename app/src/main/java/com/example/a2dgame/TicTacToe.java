@@ -312,4 +312,23 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
+    protected boolean isAtADraw(){
+        if(!checkVictory() && checkIfAllFull()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    protected boolean checkIfAllFull(){
+        for(int i = 0; i <=2; i++){
+            for(int j = 0; j<=2; j++){
+                if(gameTracker[i][j].equals("")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
