@@ -48,6 +48,7 @@ public class TicTacToe extends AppCompatActivity{
             System.out.println("Double player in outside run: " + doublePlayer);
             System.out.println("Opponent turn in outside run: " + opponentTurn);
             if (doublePlayer == true && opponentTurn == true) {
+                //when it is the other person's turn (listening for new message)
                 System.out.println("running run inside oppTurn true");
                 //symbol will switch each time it becomes a different player's turn
                 //symbol = "X";
@@ -65,6 +66,7 @@ public class TicTacToe extends AppCompatActivity{
 
             }
             if (doublePlayer == true && opponentTurn == false) {
+                //when it is your turn (sending out selected cell)
                 System.out.println("running run inside oppTurn false");
                 //symbol will switch each time it becomes a different player's turn
                 //symbol = "O";

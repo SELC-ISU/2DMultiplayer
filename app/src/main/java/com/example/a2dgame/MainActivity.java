@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     cell1.setText(ttt.getSymbol());
                     ttt.afterClick(1);
+                    write("cell1", "G");
                 }
                 break;
 
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     cell2.setText(ttt.getSymbol());
                     ttt.afterClick(2);
+                    write("cell2", "G");
                 }
                 break;
 
@@ -255,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(3);
                     cell3.setText(ttt.getSymbol());
+                    write("cell3", "G");
                 }
                 break;
 
@@ -262,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(4);
                     cell4.setText(ttt.getSymbol());
+                    write("cell4", "G");
                 }
                 break;
 
@@ -269,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(5);
                     cell5.setText(ttt.getSymbol());
+                    write("cell5", "G");
                 }
                 break;
 
@@ -276,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(6);
                     cell6.setText(ttt.getSymbol());
+                    write("cell6", "G");
                 }
                 break;
 
@@ -283,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(7);
                     cell7.setText(ttt.getSymbol());
+                    write("cell7", "G");
                 }
                 break;
 
@@ -290,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(8);
                     cell8.setText(ttt.getSymbol());
+                    write("cell8", "G");
                 }
                 break;
 
@@ -297,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(ttt.getOpponentTurn() == false) {
                     ttt.afterClick(9);
                     cell9.setText(ttt.getSymbol());
+                    write("cell9", "G");
                 }
                 break;
 
@@ -790,6 +799,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
                 gameMessage = text;
+                if(gameMessage.equals("cell1")){
+                    cell1.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell2")) {
+                    cell2.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell3")) {
+                    cell3.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell4")) {
+                    cell4.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell5")) {
+                    cell5.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell6")) {
+                    cell6.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell7")) {
+                    cell7.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell8")) {
+                    cell8.setText(ttt.getSymbol());
+                }else if(gameMessage.equals("cell9")) {
+                    cell9.setText(ttt.getSymbol());
+                }
 
             }
             else if(checkStr.equals(MICELLANEOUS_STR)) {
