@@ -24,7 +24,7 @@ public class TicTacToe extends AppCompatActivity{
     String symbol = "X";
     int score = 0;
     int oppScore = 0;
-
+    int numGames;
 
     public TicTacToe(Context context, boolean setTo, boolean oppTurn){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
@@ -278,7 +278,37 @@ public class TicTacToe extends AppCompatActivity{
                 gameTracker[i][j] = "";
             }
         }
+    }
 
+    protected void setNumGames(int n){
+        numGames = n;
+    }
+
+    protected boolean checkVictory(){
+        System.out.println("Num games in checkVictory: " + numGames);
+        System.out.println("Opp score in checkVictory: " + oppScore);
+        System.out.println("Score in checkVictory: " + score);
+        if(score  > (numGames / 2) ||  score > (numGames / 2)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    protected boolean checkOpponentVictory(){
+        if(oppScore > (numGames / 2)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    protected boolean checkPlayerVictory(){
+        if(score > (numGames / 2)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

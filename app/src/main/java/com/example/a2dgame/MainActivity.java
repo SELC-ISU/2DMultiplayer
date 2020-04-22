@@ -208,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //will become host's turn
                 ttt.changeOppTurn();
                 ttt.changeSymbol();
+                ttt.setNumGames(1);
+                write("1game", "M");
                 break;
 
             case R.id.btnThreeGames:
@@ -217,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
                 ttt.changeSymbol();
+                ttt.setNumGames(3);
+                write("3game", "M");
                 break;
 
             case R.id.btnFiveGames:
@@ -226,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
                 ttt.changeSymbol();
+                ttt.setNumGames(5);
+                write("5game", "M");
                 break;
 
             case R.id.btnBack:
@@ -239,176 +245,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
-                if(!ttt.getOpponentTurn()) {
-                    cell1.setText(ttt.getSymbol());
-                    ttt.afterClick(1);
+                onCellTouch(cell1, "cell1", "clearAndIncrement1", 1);
 
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement1", "G");
-                    }else {
-                        write("cell1", "G");
-                    }
-                }
                 break;
 
             case R.id.cell2:
-                if(!ttt.getOpponentTurn()) {
-                    cell2.setText(ttt.getSymbol());
-                    ttt.afterClick(2);
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement2", "G");
-                    }else {
-                        write("cell2", "G");
-                    }
-                }
+                onCellTouch(cell2, "cell2" ,"clearAndIncrement2", 2);
                 break;
 
             case R.id.cell3:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(3);
-                    cell3.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement3", "G");
-                    }else {
-                        write("cell3", "G");
-                    }
-                }
+                onCellTouch(cell3, "cell3","clearAndIncrement3", 3);
                 break;
 
             case R.id.cell4:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(4);
-                    cell4.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement4", "G");
-                    }else {
-                        write("cell4", "G");
-                    }
-                }
+                onCellTouch(cell4, "cell4", "clearAndIncrement4", 4);
                 break;
 
             case R.id.cell5:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(5);
-                    cell5.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement5", "G");
-                    }else {
-                        write("cell5", "G");
-                    }
-                }
+                onCellTouch(cell5, "cell5", "clearAndIncrement5", 5);
                 break;
 
             case R.id.cell6:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(6);
-                    cell6.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement6", "G");
-                    }else {
-                        write("cell6", "G");
-                    }
-                }
+                onCellTouch(cell6, "cell6", "clearAndIncrement6", 6);
                 break;
 
             case R.id.cell7:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(7);
-                    cell7.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement7", "G");
-                    }else {
-                        write("cell7", "G");
-                    }
-                }
+                onCellTouch(cell7, "cell7", "clearAndIncrement7", 7);
                 break;
 
             case R.id.cell8:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(8);
-                    cell8.setText(ttt.getSymbol());
-
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement8", "G");
-                    }else {
-                        write("cell8", "G");
-                    }
-                }
+                onCellTouch(cell8, "cell8", "clearAndIncrement8", 8);
                 break;
 
             case R.id.cell9:
-                if(!ttt.getOpponentTurn()) {
-                    ttt.afterClick(9);
-                    cell9.setText(ttt.getSymbol());
-
-                    System.out.println("getGameTracker at cell 9: " + ttt.getGameTracker());
-                    System.out.println("About to be a winner");
-                    if(ttt.checkIfWon()){
-                        System.out.println("winner bitch");
-                        ttt.incrementScore();
-                        System.out.println("Score after win: " + ttt.getScore());
-                        scoreBox.setText(ttt.getScoreStatement());
-                        ttt.clearArray();
-                        clearGrid();
-                        write("clearAndIncrement9", "G");
-                    }else {
-                        write("cell9", "G");
-                    }
-                }
+                onCellTouch(cell9, "cell9", "clearAndIncrement9", 9);
                 break;
 
             default:
@@ -1060,8 +930,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ttt.incrementOppScore();
                     scoreBox.setText(ttt.getScoreStatement());
                     ttt.changeOppTurn();
-
-
+                }else if(gameMessage.equals("youLost")){
+                    System.out.println("Displaying: You Lost");
+                    scoreBox.setText("Game over. You Lost!");
+                }else if(gameMessage.equals(("youWon"))){
+                    System.out.println("Displaying: You Won");
+                    scoreBox.setText("Game over. You Won!");
                 }
 
             }
@@ -1070,6 +944,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToGameScreenLayout();
                 }else if(text.equals("incrementScore")){
                     ttt.incrementScore();
+                }else if(text.equals("1game")){
+                    ttt.setNumGames(1);
+                }else if(text.equals("3game")){
+                    ttt.setNumGames(3);
+                }else if(text.equals("5game")){
+                    ttt.setNumGames(5);
                 }
             }
            //You can add more final Strings at the top to make more text options here just add an if
@@ -1273,10 +1153,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cell7.setText("");
         cell8.setText("");
         cell9.setText("");
+    }
 
+    protected void onCellTouch(TextView cellNum, String cellName, String cellClear, int num){
+        if(!ttt.getOpponentTurn() && !ttt.checkVictory()) {
+            cellNum.setText(ttt.getSymbol());
+            ttt.afterClick(num);
 
-
-
+            if(ttt.checkIfWon()){
+                System.out.println("winner bitch");
+                ttt.incrementScore();
+                System.out.println("Score after win: " + ttt.getScore());
+                scoreBox.setText(ttt.getScoreStatement());
+                ttt.clearArray();
+                if(ttt.checkPlayerVictory()){
+                    scoreBox.setText("Game over. You Won!");
+                    System.out.println("Writing: youLost");
+                    write("youLost", "G");
+                }else if(ttt.checkOpponentVictory()){
+                    write("youWon", "G");
+                    scoreBox.setText("Game over. You Lost!");
+                }
+                clearGrid();
+                write(cellClear, "G");
+            }else {
+                write(cellName, "G");
+            }
+        }
     }
 
 }
