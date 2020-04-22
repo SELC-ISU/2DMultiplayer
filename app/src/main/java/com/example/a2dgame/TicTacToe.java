@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TicTacToe extends AppCompatActivity{
 
+    private static String TAG = "TICTACTOE";
+
     private ImageView image;
 
     private Context context;
@@ -25,10 +27,17 @@ public class TicTacToe extends AppCompatActivity{
     int score = 0;
     int oppScore = 0;
     int numGames;
+    private ComputerPlayer player;
 
     public TicTacToe(Context context, boolean setTo, boolean oppTurn){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
         doublePlayer = setTo;
+
+        if(!doublePlayer){
+            player = new ComputerPlayer(context,"O",gameTracker);
+            Log.d(TAG,"Computer Created");
+        }
+
         opponentTurn = oppTurn;
         System.out.println("opponent turn in constructor: " + opponentTurn);
         Game game = new Game();
@@ -51,30 +60,38 @@ public class TicTacToe extends AppCompatActivity{
         }
 
         public void run() {
-            System.out.println("running run outside");
-            System.out.println("Double player in outside run: " + doublePlayer);
-            System.out.println("Opponent turn in outside run: " + opponentTurn);
-            if (doublePlayer == true && opponentTurn == true) {
-                //when it is the other person's turn (listening for new message)
-                System.out.println("running run inside oppTurn true");
+            while (true) {
+                System.out.println("running run outside");
+                System.out.println("Double player in outside run: " + doublePlayer);
+                System.out.println("Opponent turn in outside run: " + opponentTurn);
+
+                if (doublePlayer == true && opponentTurn == true) {
+                    //when it is the other person's turn (listening for new message)
+                    System.out.println("running run inside oppTurn true");
+                    Log.d(TAG, "We wait for client to pick");
+
+                    while (((MainActivity) context).newGameMessage == false) ;
+
+                    ((MainActivity) context).newGameMessage = false;
 
 
-                while (((MainActivity) context).newGameMessage == false);
+                } else if (doublePlayer == false && opponentTurn == true) {
+                    Log.d(TAG, "We wait for computer to pick");
+                    player.placeMove();
+                    Log.d(TAG, "Computer Picked");
+                    changeOppTurn();
+                } else if (doublePlayer == true && opponentTurn == false) {
+                    //when it is your turn (sending out selected cell)
+                    Log.d(TAG, "We wait for Host to pick");
+                    System.out.println("running run inside oppTurn false");
 
-                ((MainActivity) context).newGameMessage = false;
+                    String message = getOwnMessage();
+                    ((MainActivity) context).write(message, MainActivity.GAME_STR);
 
+                }
 
+                //playing the rest of the game until it looks for more input
             }
-            if (doublePlayer == true && opponentTurn == false) {
-                //when it is your turn (sending out selected cell)
-                System.out.println("running run inside oppTurn false");
-
-                String message = getOwnMessage();
-                ((MainActivity) context).write(message, MainActivity.GAME_STR);
-
-            }
-
-            //playing the rest of the game until it looks for more input
         }
 
     }
@@ -201,10 +218,16 @@ public class TicTacToe extends AppCompatActivity{
 
     protected void changeSymbolToO(){
         symbol = "O";
+        if(!doublePlayer){
+            player.changeSymbol("X");
+        }
     }
 
     protected void changeSymbolToX(){
         symbol = "X";
+        if(!doublePlayer){
+            player.changeSymbol("O");
+        }
     }
 
     protected void incrementScore(){

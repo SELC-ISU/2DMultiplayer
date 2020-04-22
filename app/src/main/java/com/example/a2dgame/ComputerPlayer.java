@@ -252,4 +252,12 @@ public class ComputerPlayer {
         return false;
     }
 
+    /**
+     * Allows for the game to switch between pieces for the players
+     * @param sym
+     */
+    public void changeSymbol(String sym){
+        symbol = sym;
+    }
+
 }

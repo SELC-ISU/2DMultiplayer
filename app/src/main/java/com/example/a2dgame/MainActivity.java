@@ -321,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnBack.performClick();
         }else if(findViewById(R.id. cell6) !=null){
 
-            if(isHost){
+
+            if(isHost || !twoPlayer){
                 ttt.changeSymbolToO();
                 switchToStartGameScreenLayout();
             }else{
@@ -634,12 +635,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ttt = new TicTacToe(MainActivity.this, true, true);
             }
 
-        }else if(tempDoublePlayer == false){
-            if(tempIsHost == true) {
-                ttt = new TicTacToe(MainActivity.this, false, false);
-            }else{
-                ttt = new TicTacToe(MainActivity.this, true, true);
-            }
+        }else if(!twoPlayer){
+            Log.d(TAG,"Constructor for Tic made Single PLayer");
+            ttt = new TicTacToe(MainActivity.this, false, false);
+
         }
 
         setContentView(R.layout.tictactoe);
@@ -1041,6 +1040,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void onCellTouch(TextView cellNum, int r, int c){
+        Log.d(TAG,"USER pick position");
         if(!ttt.getOpponentTurn() && !ttt.checkVictory()) {
             cellNum.setText(ttt.getSymbol());
             ttt.afterClick(r,c);
@@ -1066,7 +1066,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     clearGrid();
                     write(GAME_CLEAR+pos, MainActivity.GAME_STR);
                 } else {
-                    write(GAME_CONT+pos, MainActivity.GAME_STR);
+                    Log.d(TAG,"Continueing Play");
+                    if(twoPlayer)
+                        write(GAME_CONT+pos, MainActivity.GAME_STR);
+                    else
+                        ttt.setOpponentTurnTrue();
                 }
             }else{
 
