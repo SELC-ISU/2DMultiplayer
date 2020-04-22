@@ -134,45 +134,12 @@ public class TicTacToe extends AppCompatActivity{
         return "Oh shit";
     }
 
-    public void modifyGameTrackerClick(int cellNum){
+    public void modifyGameTrackerClick(int row, int col){
 
-        if(cellNum == 1){
-            gameTracker[0][0] = symbol;
-            rowChanged = 0;
-            colChanged = 0;
-        }else if(cellNum == 2){
-            gameTracker[0][1] = symbol;
-            rowChanged = 0;
-            colChanged = 1;
-        }else if(cellNum == 3){
-            gameTracker[0][2] = symbol;
-            rowChanged = 0;
-            colChanged = 2;
-        }else if(cellNum == 4){
-            gameTracker[1][0] = symbol;
-            rowChanged = 1;
-            colChanged = 0;
-        }else if(cellNum == 5){
-            gameTracker[1][1] = symbol;
-            rowChanged = 1;
-            colChanged = 1;
-        }else if(cellNum == 6){
-            gameTracker[1][2] = symbol;
-            rowChanged = 1;
-            colChanged = 2;
-        }else if(cellNum == 7){
-            gameTracker[2][0] = symbol;
-            rowChanged = 2;
-            colChanged = 0;
-        }else if(cellNum == 8){
-            gameTracker[2][1] = symbol;
-            rowChanged = 2;
-            colChanged = 1;
-        }else if(cellNum == 9){
-            gameTracker[2][2] = symbol;
-            rowChanged = 2;
-            colChanged = 2;
-        }
+
+        gameTracker[row][col] = symbol;
+        rowChanged = row;
+        colChanged = col;
 
     }
 
@@ -260,9 +227,9 @@ public class TicTacToe extends AppCompatActivity{
         return "Score: " + score + " - " + oppScore;
     }
 
-    protected void afterClick(int n){
+    protected void afterClick(int r, int c){
 
-        modifyGameTrackerClick(n);
+        modifyGameTrackerClick(r,c);
         setOpponentTurnTrue();
 
     }

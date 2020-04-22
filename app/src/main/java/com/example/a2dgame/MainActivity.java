@@ -19,16 +19,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -36,7 +33,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -47,7 +43,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public final static String GAME_STR = "G";
     public final static String CHAT_STR = "C";
-    public final static String MICELLANEOUS_STR = "M";
+    public final static String MISCELLANEOUS_SIR = "M";
+
+    public final static String GAME_LOSE = "youLost";
+    public final static String GAME_WIN = "youWon";
+    public final static String GAME_CLEAR = "Clear:";
+    public final static String GAME_CONT = "Normal:";
+    public final static String GAME_DRAW = "DRAW:";
+
+    public final static String MISCELLANEOUS_TO_GAME_SCREEN = "toGameScreen";
+    private static final String MISCELLANEOUS_INCREMENT = "incrementScore";
 
     private static final String TAG = "BLUETOOTH_TAG";
     public final int ENABLE_BT_REQUEST = 1;
@@ -76,11 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Button btnSend, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
 
-    //stuff Alex added
-
-    public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, scoreBox;
-
     TextView[][] tvArray = new TextView[3][3];
+    TextView scoreBox;
 
     boolean tempDoublePlayer = false;
     boolean tempIsHost = false;
@@ -93,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar pbar2;
 
     public boolean newGameMessage = false;
-    public String gameMessage = "";
     public boolean twoPlayer = false;
 
     public GameType gameType;
@@ -206,34 +207,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 gameType = GameType.SINGLE;
                 switchToGameScreenLayout();
-                write("goToGameScreen", "M");
+                write(MISCELLANEOUS_TO_GAME_SCREEN, MainActivity.MISCELLANEOUS_SIR);
                 //will become host's turn
                 ttt.changeOppTurn();
                 ttt.changeSymbolToO();
-                ttt.setNumGames(1);
-                write("1game", "M");
+                ttt.setNumGames(gameType.totalGames);
+                write(GameType.SINGLE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
 
             case R.id.btnThreeGames:
 
                 gameType = GameType.BEST_OF_THREE;
                 switchToGameScreenLayout();
-                write("goToGameScreen", "M");
+                write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
                 ttt.changeOppTurn();
                 ttt.changeSymbolToO();
-                ttt.setNumGames(3);
-                write("3game", "M");
+                ttt.setNumGames(gameType.totalGames);
+                write(GameType.BEST_OF_THREE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
 
             case R.id.btnFiveGames:
 
                 gameType = GameType.BEST_OF_FIVE;
                 switchToGameScreenLayout();
-                write("goToGameScreen", "M");
+                write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
                 ttt.changeOppTurn();
                 ttt.changeSymbolToO();
-                ttt.setNumGames(5);
-                write("5game", "M");
+                ttt.setNumGames(gameType.totalGames);
+                write(GameType.BEST_OF_FIVE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
 
             case R.id.btnBack:
@@ -242,45 +243,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToStartGameScreenLayout();
                 else
                     switchToWaitingLayout();
-
+                break;
             //Beginning of Alex's stuff
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
-                onCellTouch(cell1, "cell1", "clearAndIncrement1", 1);
+                onCellTouch(tvArray[0][0], 0,0);
 
                 break;
 
             case R.id.cell2:
-                onCellTouch(cell2, "cell2" ,"clearAndIncrement2", 2);
+                onCellTouch(tvArray[0][1], 0,1);
                 break;
 
             case R.id.cell3:
-                onCellTouch(cell3, "cell3","clearAndIncrement3", 3);
+                onCellTouch(tvArray[0][2], 0,2);
                 break;
 
             case R.id.cell4:
-                onCellTouch(cell4, "cell4", "clearAndIncrement4", 4);
+                onCellTouch(tvArray[1][0], 1,0);
                 break;
 
             case R.id.cell5:
-                onCellTouch(cell5, "cell5", "clearAndIncrement5", 5);
+                onCellTouch(tvArray[1][1], 1,1);
                 break;
 
             case R.id.cell6:
-                onCellTouch(cell6, "cell6", "clearAndIncrement6", 6);
+                onCellTouch(tvArray[1][2], 1,2);
                 break;
 
             case R.id.cell7:
-                onCellTouch(cell7, "cell7", "clearAndIncrement7", 7);
+                onCellTouch(tvArray[2][0], 2,0);
                 break;
 
             case R.id.cell8:
-                onCellTouch(cell8, "cell8", "clearAndIncrement8", 8);
+                onCellTouch(tvArray[2][1], 2,1);
                 break;
 
             case R.id.cell9:
-                onCellTouch(cell9, "cell9", "clearAndIncrement9", 9);
+                onCellTouch(tvArray[2][2], 2,2);
                 break;
 
             default:
@@ -319,11 +320,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(findViewById(R.id.btnBack)!=null){
             btnBack.performClick();
         }else if(findViewById(R.id. cell6) !=null){
-            switchToStartGameScreenLayout();
+
             if(isHost){
                 ttt.changeSymbolToO();
+                switchToStartGameScreenLayout();
             }else{
                 ttt.changeSymbolToX();
+                switchToWaitingLayout();
             }
         }
 
@@ -641,32 +644,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.tictactoe);
 
-        cell1 = findViewById(R.id.cell1);
-        cell1.setOnClickListener(this);
+        tvArray[0][0] = findViewById(R.id.cell1);
+        tvArray[0][0].setOnClickListener(this);
 
-        cell2 = findViewById(R.id.cell2);
-        cell2.setOnClickListener(this);
+        tvArray[0][1] = findViewById(R.id.cell2);
+        tvArray[0][1].setOnClickListener(this);
 
-        cell3 = findViewById(R.id.cell3);
-        cell3.setOnClickListener(this);
+        tvArray[0][2] = findViewById(R.id.cell3);
+        tvArray[0][2].setOnClickListener(this);
 
-        cell4 = findViewById(R.id.cell4);
-        cell4.setOnClickListener(this);
+        tvArray[1][0] = findViewById(R.id.cell4);
+        tvArray[1][0].setOnClickListener(this);
 
-        cell5 = findViewById(R.id.cell5);
-        cell5.setOnClickListener(this);
+        tvArray[1][1] = findViewById(R.id.cell5);
+        tvArray[1][1].setOnClickListener(this);
 
-        cell6 = findViewById(R.id.cell6);
-        cell6.setOnClickListener(this);
+        tvArray[1][2] = findViewById(R.id.cell6);
+        tvArray[1][2].setOnClickListener(this);
 
-        cell7 = findViewById(R.id.cell7);
-        cell7.setOnClickListener(this);
+        tvArray[2][0] = findViewById(R.id.cell7);
+        tvArray[2][0].setOnClickListener(this);
 
-        cell8 = findViewById(R.id.cell8);
-        cell8.setOnClickListener(this);
+        tvArray[2][1] = findViewById(R.id.cell8);
+        tvArray[2][1].setOnClickListener(this);
 
-        cell9 = findViewById(R.id.cell9);
-        cell9.setOnClickListener(this);
+        tvArray[2][2] = findViewById(R.id.cell9);
+        tvArray[2][2].setOnClickListener(this);
 
         scoreBox = findViewById(R.id.scoreBox);
 
@@ -780,195 +783,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else if(checkStr.equals(GAME_STR)){
                 newGameMessage = true;
-                gameMessage = text;
-                System.out.println("Game message: " + gameMessage);
-                if(gameMessage.equals("cell1")){
-                    cell1.setText(ttt.getOpponentSymbol());
+                System.out.println("Game message: " + text);
+
+                if(text.contains(GAME_CONT)){
+                    int indexOf = text.indexOf(':');
+                    text = text.substring(indexOf+1);
+                    int r = Integer.parseInt(text.substring(0,text.indexOf(',')));
+                    int c = Integer.parseInt(text.substring(text.indexOf(',')+1));
+
+                    setBoardPos(r,c,ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
-                    ttt.gameTracker[0][0] = ttt.getOpponentSymbol();
+                    ttt.gameTracker[r][c] = ttt.getOpponentSymbol();
 
+                }
+                else if(text.contains(GAME_CLEAR)){
+                    int indexOf = text.indexOf(':');
+                    text = text.substring(indexOf+1);
+                    int r = Integer.parseInt(text.substring(0,text.indexOf(',')));
+                    int c = Integer.parseInt(text.substring(text.indexOf(',')+1));
 
-                }else if(gameMessage.equals("cell2")) {
-                    cell2.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[0][1] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell3")) {
-                    cell3.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[0][2] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell4")) {
-                    cell4.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[1][0] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell5")) {
-                    cell5.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[1][1] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell6")) {
-                    cell6.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[1][2] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell7")) {
-                    cell7.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[2][0] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell8")) {
-                    cell8.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[2][1] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("cell9")) {
-                    cell9.setText(ttt.getOpponentSymbol());
-                    ttt.changeOppTurn();
-                    ttt.gameTracker[2][2] = ttt.getOpponentSymbol();
-
-
-                }else if(gameMessage.equals("clearAndIncrement1")){
                     ttt.clearArray();
                     System.out.println("clearing grid");
-
-                    cell1.setText(ttt.getOpponentSymbol());
+                    setBoardPos(r,c,ttt.getOpponentSymbol());
                     clearGrid();
-                    ttt.gameTracker[0][0] = ttt.getOpponentSymbol();
+                    ttt.gameTracker[r][c] = ttt.getOpponentSymbol();
                     ttt.incrementOppScore();
                     scoreBox.setText(ttt.getScoreStatement());
                     ttt.changeOppTurn();
 
-                }else if(gameMessage.equals("clearAndIncrement2")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell2.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[0][1] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement3")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell3.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[0][2] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement4")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell4.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[1][0] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement5")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell5.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[1][1] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement6")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell6.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[1][2] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement7")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell7.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[2][0] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement8")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell8.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[2][1] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-
-
-                }else if(gameMessage.equals("clearAndIncrement9")){
-                    ttt.clearArray();
-                    System.out.println("clearing grid");
-
-                    cell9.setText(ttt.getOpponentSymbol());
-                    clearGrid();
-                    ttt.gameTracker[2][2] = ttt.getOpponentSymbol();
-                    ttt.incrementOppScore();
-                    scoreBox.setText(ttt.getScoreStatement());
-                    ttt.changeOppTurn();
-                }else if(gameMessage.equals("youLostGclearAndIncrement1") || gameMessage.equals("youLostGclearAndIncrement2") || gameMessage.equals("youLostGclearAndIncrement3") || gameMessage.equals("youLostGclearAndIncrement4") ||
-                        gameMessage.equals("youLostGclearAndIncrement5") || gameMessage.equals("youLostGclearAndIncrement6") || gameMessage.equals("youLostGclearAndIncrement7") || gameMessage.equals("youLostGclearAndIncrement8") ||
-                        gameMessage.equals("youLostGclearAndIncrement9")){
+                }
+                else if(text.contains(GAME_LOSE)){
                     System.out.println("Displaying: You Lost");
                     scoreBox.setText("Game over. You Lost!");
                     clearGrid();
-                }else if(gameMessage.equals(("youWon"))){ //i just realized this statement will never actually happen
+                }
+                else if(text.contains(GAME_WIN)){
                     System.out.println("Displaying: You Won");
                     scoreBox.setText("Game over. You Won!");
-                }else if(gameMessage.equals("atDrawClear")){
+                }
+                else if(text.contains(GAME_DRAW)){
                     System.out.println("clear this shit out like a laxative por favor");
                     ttt.clearArray();
                     clearGrid();
-
                 }
 
             }
-            else if(checkStr.equals(MICELLANEOUS_STR)) {
-                if(text.equals("goToGameScreen")){
+            else if(checkStr.equals(MISCELLANEOUS_SIR)) {
+                if(text.equals(MISCELLANEOUS_TO_GAME_SCREEN)){
                     switchToGameScreenLayout();
-                }else if(text.equals("incrementScore")){
+                }else if(text.equals(MISCELLANEOUS_INCREMENT)){
                     ttt.incrementScore();
-                }else if(text.equals("1game")){
-                    ttt.setNumGames(1);
-                }else if(text.equals("3game")){
-                    ttt.setNumGames(3);
-                }else if(text.equals("5game")){
-                    ttt.setNumGames(5);
+                }else if(text.equals(GameType.SINGLE.toString())){
+                    ttt.setNumGames(GameType.SINGLE.totalGames);
+                }else if(text.equals(GameType.BEST_OF_FIVE.toString())){
+                    ttt.setNumGames(GameType.BEST_OF_THREE.totalGames);
+                }else if(text.equals(GameType.BEST_OF_FIVE.toString())){
+                    ttt.setNumGames(GameType.BEST_OF_FIVE.totalGames);
                 }
             }
            //You can add more final Strings at the top to make more text options here just add an if
@@ -1163,24 +1033,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void clearGrid(){
-        cell1.setText("");
-        cell2.setText("");
-        cell3.setText("");
-        cell4.setText("");
-        cell5.setText("");
-        cell6.setText("");
-        cell7.setText("");
-        cell8.setText("");
-        cell9.setText("");
+        for(int i = 0; i<3;i++){
+            for(int j = 0; j<3; j++){
+                tvArray[i][j].setText("");
+            }
+        }
     }
 
-    protected void onCellTouch(TextView cellNum, String cellName, String cellClear, int num){
+    protected void onCellTouch(TextView cellNum, int r, int c){
         if(!ttt.getOpponentTurn() && !ttt.checkVictory()) {
             cellNum.setText(ttt.getSymbol());
-            ttt.afterClick(num);
+            ttt.afterClick(r,c);
 
-            String youLost = "youLost";
-            String youWon = "youWon";
+            String pos = r+","+c;
 
             if(!ttt.isAtADraw()) {
                 if (ttt.checkIfWon()) {
@@ -1191,17 +1056,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (ttt.checkPlayerVictory()) {
                         scoreBox.setText("Game over. You Won!");
                         System.out.println("Writing: youLost");
-                        write(youLost, "G");
+                        write(GAME_LOSE, MainActivity.GAME_STR);
                         System.out.println("Should be done writing youLost");
                     } else if (ttt.checkOpponentVictory()) {
                         scoreBox.setText("Game over. You Lost!");
-                        write(youWon, "G");
+                        write(GAME_WIN, MainActivity.GAME_STR);
                     }
                     ttt.clearArray();
                     clearGrid();
-                    write(cellClear, "G");
+                    write(GAME_CLEAR+pos, MainActivity.GAME_STR);
                 } else {
-                    write(cellName, "G");
+                    write(GAME_CONT+pos, MainActivity.GAME_STR);
                 }
             }else{
 
@@ -1211,7 +1076,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 switchToGameScreenLayout();
                 ttt.changeSymbolToO();
-                write("atDrawClear", "G");
+                write(GAME_DRAW, MainActivity.GAME_STR);
             }
         }
     }
