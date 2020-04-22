@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.*;
 import java.util.Scanner;
-import android.view.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +34,12 @@ public class TicTacToe extends AppCompatActivity{
         Game game = new Game();
         game.start();
 
+        for(int i = 0; i <=2; i++){
+            for(int j = 0; j<=2; j++){
+                gameTracker[i][j] = "";
+            }
+        }
+
     }
 
     public class Game extends Thread {
@@ -53,8 +58,10 @@ public class TicTacToe extends AppCompatActivity{
                 //symbol will switch each time it becomes a different player's turn
                 //symbol = "X";
 
-                while (((MainActivity) context).newGameMessage == false) ;
+                while (((MainActivity) context).newGameMessage == false);
+
                 ((MainActivity) context).newGameMessage = false;
+                /*
                 String message = ((MainActivity) context).gameMessage;
                 Scanner sc = new Scanner(message);
                 symbol = sc.next();
@@ -62,6 +69,7 @@ public class TicTacToe extends AppCompatActivity{
                 cellColumn = sc.nextInt();
                 cell = toCellNumber(cellRow, cellColumn);
                 gameTracker[cellRow][cellColumn] = symbol;
+                */
 
 
             }
@@ -177,39 +185,47 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
-    //checks to see if the game has been won
+    //checks to see if there are three in a row
     public boolean checkIfWon(){
-        if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2])){
-            //if first row is all equal
+
+        if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2]) && (gameTracker[0][0].equals("X") || gameTracker[0][0].equals("O"))){
+            //if first row is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[1][0].equals(gameTracker[1][1]) && gameTracker[1][0].equals(gameTracker[1][2])){
-            //if second row is all equal
+        }else if(gameTracker[1][0].equals(gameTracker[1][1]) && gameTracker[1][0].equals(gameTracker[1][2]) && (gameTracker[1][0].equals("X") || gameTracker[1][0].equals("O"))){
+            //if second row is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[2][0].equals(gameTracker[2][1]) && gameTracker[2][0].equals(gameTracker[2][2])){
-            //if third row is all equal
+        }else if(gameTracker[2][0].equals(gameTracker[2][1]) && gameTracker[2][0].equals(gameTracker[2][2]) && (gameTracker[2][0].equals("X") || gameTracker[2][0].equals("O"))){
+            //if third row is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[0][0].equals(gameTracker[1][0]) && gameTracker[0][0].equals(gameTracker[2][0])){
-            //if first column is all equal
+        }else if(gameTracker[0][0].equals(gameTracker[1][0]) && gameTracker[0][0].equals(gameTracker[2][0]) && (gameTracker[0][0].equals("X") || gameTracker[0][0].equals("O"))){
+            //if first column is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[0][1].equals(gameTracker[1][1]) && gameTracker[0][1].equals(gameTracker[2][1])){
-            //if middle column is all equal
+        }else if(gameTracker[0][1].equals(gameTracker[1][1]) && gameTracker[0][1].equals(gameTracker[2][1]) && (gameTracker[0][1].equals("X") || gameTracker[0][1].equals("O"))){
+            //if middle column is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[0][2].equals(gameTracker[1][2]) && gameTracker[0][2].equals(gameTracker[2][2])){
-            //check if third column is all equal
+        }else if(gameTracker[0][2].equals(gameTracker[1][2]) && gameTracker[0][2].equals(gameTracker[2][2]) && (gameTracker[0][2].equals("X") || gameTracker[0][2].equals("O"))){
+            //check if third column is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[0][0].equals(gameTracker[1][1]) && gameTracker[0][0].equals(gameTracker[2][2])){
-            //if diagonal starting in top left is all equal
+        }else if(gameTracker[0][0].equals(gameTracker[1][1]) && gameTracker[0][0].equals(gameTracker[2][2]) && (gameTracker[0][0].equals("X") || gameTracker[0][0].equals("O"))){
+            //if diagonal starting in top left is all equal and X or O (not "")
             return true;
-        }else if(gameTracker[0][2].equals(gameTracker[1][1]) && gameTracker[0][2].equals(gameTracker[2][0])){
-            //if diagonal starting in top right is all equal
+        }else if(gameTracker[0][2].equals(gameTracker[1][1]) && gameTracker[0][2].equals(gameTracker[2][0]) && (gameTracker[0][2].equals("X") || gameTracker[0][2].equals("O"))){
+            //if diagonal starting in top right is all equal and X or O (not "")
             return true;
+        }else {
+            return false;
         }
-        return false;
     }
 
     protected void changeOppTurn(){
 
         opponentTurn = false;
+    }
+
+    //i couldn't get .toString to work
+    protected String getGameTracker(){
+        return "Row 1: " + gameTracker[0][0] + gameTracker[0][1] + gameTracker[0][2] + " Row 2: " + gameTracker[1][0] + gameTracker[1][1] + gameTracker[1][2]
+                +  " Row 3: " + gameTracker[2][0] + gameTracker[2][1] + gameTracker[2][2];
     }
 
     protected void setOpponentTurnTrue(){

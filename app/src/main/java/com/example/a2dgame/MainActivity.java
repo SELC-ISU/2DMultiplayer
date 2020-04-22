@@ -36,6 +36,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -238,74 +239,130 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     cell1.setText(ttt.getSymbol());
                     ttt.afterClick(1);
                     write("cell1", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell2:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     cell2.setText(ttt.getSymbol());
                     ttt.afterClick(2);
                     write("cell2", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell3:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(3);
                     cell3.setText(ttt.getSymbol());
                     write("cell3", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell4:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(4);
                     cell4.setText(ttt.getSymbol());
                     write("cell4", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell5:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(5);
                     cell5.setText(ttt.getSymbol());
                     write("cell5", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell6:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(6);
                     cell6.setText(ttt.getSymbol());
                     write("cell6", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell7:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(7);
                     cell7.setText(ttt.getSymbol());
                     write("cell7", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell8:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(8);
                     cell8.setText(ttt.getSymbol());
                     write("cell8", "G");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
             case R.id.cell9:
-                if(ttt.getOpponentTurn() == false) {
+                if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(9);
                     cell9.setText(ttt.getSymbol());
                     write("cell9", "G");
+                    System.out.println("getGameTracker at cell 9: " + ttt.getGameTracker());
+                    System.out.println("About to be a winner");
+                    if(ttt.checkIfWon()){
+                        System.out.println("winner bitch");
+                        ttt.incrementScore();
+                        System.out.println("Score after win: " + ttt.getScore());
+                        scoreBox.setText(ttt.getScoreStatement());
+                    }
                 }
                 break;
 
@@ -802,30 +859,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(gameMessage.equals("cell1")){
                     cell1.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[0][0] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell2")) {
                     cell2.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[0][1] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell3")) {
                     cell3.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[0][2] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell4")) {
                     cell4.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[1][0] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell5")) {
                     cell5.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[1][1] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell6")) {
                     cell6.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[1][2] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell7")) {
                     cell7.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[2][0] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell8")) {
                     cell8.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[2][1] = ttt.getOpponentSymbol();
+
+
                 }else if(gameMessage.equals("cell9")) {
                     cell9.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
+                    ttt.gameTracker[2][2] = ttt.getOpponentSymbol();
+
+
+
                 }
 
             }
