@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, scoreBox;
 
+    boolean tempDoublePlayer = false;
+
     public RadioButton btnRadio;
 
     private TextView txtAvailable;
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 twoPlayer = true;
                 switchToJoinHostLayout();
+                tempDoublePlayer = true;
 
                 break;
 
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write("goToGameScreen", "M");
                 //will become host's turn
                 ttt.changeOppTurn();
+                ttt.changeSymbol();
                 break;
 
             case R.id.btnThreeGames:
@@ -210,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
+                ttt.changeSymbol();
                 break;
 
             case R.id.btnFiveGames:
@@ -218,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write("goToGameScreen", "M");
                 ttt.changeOppTurn();
+                ttt.changeSymbol();
                 break;
 
             case R.id.btnBack:
@@ -232,9 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.cell1:
                 cell1.setText(ttt.getSymbol());
                 ttt.afterClick(1);
-                if(ttt.checkIfWon()){
-                    scoreBox.setText("Score: " + ttt.getScore() + " - " + ttt.getOppScore());
-                }
+
                 break;
 
             case R.id.cell2:
@@ -613,7 +617,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchToGameScreenLayout(){
 
-        ttt.changeSymbol();
+        TicTacToe ttt = new TicTacToe(MainActivity.this);
+
+        //ttt.changeSymbol();
 
         setContentView(R.layout.tictactoe);
 
@@ -645,6 +651,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cell9.setOnClickListener(this);
 
         scoreBox = findViewById(R.id.scoreBox);
+
+        scoreBox.setText(ttt.getScoreStatement());
+
+        if(tempDoublePlayer){
+            ttt.setDoublePlayer(true);
+        }
+
+        System.out.println("TTT double player: " + ttt.doublePlayer);
 
     }
 
@@ -946,9 +960,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
 
     }
-
-
-    //More of Alex's stuff
 
 
 

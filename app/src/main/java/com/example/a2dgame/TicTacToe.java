@@ -30,7 +30,6 @@ public class TicTacToe extends AppCompatActivity{
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
         this.context = context;
         Game game = new Game();
-
         game.start();
 
     }
@@ -42,7 +41,8 @@ public class TicTacToe extends AppCompatActivity{
         }
 
         public void run() {
-
+            System.out.println("running run outside");
+            System.out.println("Double player " + doublePlayer);
             if (doublePlayer == true && opponentTurn == true) {
                 System.out.println("running run");
                 //symbol will switch each time it becomes a different player's turn
@@ -199,6 +199,10 @@ public class TicTacToe extends AppCompatActivity{
         opponentTurn = false;
     }
 
+    protected void setDoublePlayer(boolean set){
+        doublePlayer = set;
+    }
+
     protected void changeSymbol(){
         symbol = "O";
     }
@@ -219,18 +223,23 @@ public class TicTacToe extends AppCompatActivity{
         return oppScore;
     }
 
+    protected String getScoreStatement(){
+        return "Score: " + score + " - " + oppScore;
+    }
+
     protected void afterClick(int n){
         //String message = ((MainActivity) context).gameMessage;
         //Scanner sc = new Scanner(message);
 
         modifyGameTrackerClick(n);
 
+        /*
         if(checkIfWon()){
             //do stuff
             incrementScore();
             ((MainActivity) context).write("incrementScore", MainActivity.MICELLANEOUS_STR);
         }
-
+        */
         //String message = getOwnMessage();
         //((MainActivity) context).write(message, MainActivity.GAME_STR);
 
