@@ -242,12 +242,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     cell1.setText(ttt.getSymbol());
                     ttt.afterClick(1);
-                    write("cell1", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement1", "G");
+                    }else {
+                        write("cell1", "G");
                     }
                 }
                 break;
@@ -256,12 +261,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     cell2.setText(ttt.getSymbol());
                     ttt.afterClick(2);
-                    write("cell2", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement2", "G");
+                    }else {
+                        write("cell2", "G");
                     }
                 }
                 break;
@@ -270,12 +280,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(3);
                     cell3.setText(ttt.getSymbol());
-                    write("cell3", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement3", "G");
+                    }else {
+                        write("cell3", "G");
                     }
                 }
                 break;
@@ -284,12 +299,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(4);
                     cell4.setText(ttt.getSymbol());
-                    write("cell4", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement4", "G");
+                    }else {
+                        write("cell4", "G");
                     }
                 }
                 break;
@@ -298,12 +318,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(5);
                     cell5.setText(ttt.getSymbol());
-                    write("cell5", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement5", "G");
+                    }else {
+                        write("cell5", "G");
                     }
                 }
                 break;
@@ -312,12 +337,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(6);
                     cell6.setText(ttt.getSymbol());
-                    write("cell6", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement6", "G");
+                    }else {
+                        write("cell6", "G");
                     }
                 }
                 break;
@@ -326,12 +356,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(7);
                     cell7.setText(ttt.getSymbol());
-                    write("cell7", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement7", "G");
+                    }else {
+                        write("cell7", "G");
                     }
                 }
                 break;
@@ -340,12 +375,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(8);
                     cell8.setText(ttt.getSymbol());
-                    write("cell8", "G");
+
                     if(ttt.checkIfWon()){
                         System.out.println("winner bitch");
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement8", "G");
+                    }else {
+                        write("cell8", "G");
                     }
                 }
                 break;
@@ -354,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!ttt.getOpponentTurn()) {
                     ttt.afterClick(9);
                     cell9.setText(ttt.getSymbol());
-                    write("cell9", "G");
+
                     System.out.println("getGameTracker at cell 9: " + ttt.getGameTracker());
                     System.out.println("About to be a winner");
                     if(ttt.checkIfWon()){
@@ -362,6 +402,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         ttt.incrementScore();
                         System.out.println("Score after win: " + ttt.getScore());
                         scoreBox.setText(ttt.getScoreStatement());
+                        ttt.clearArray();
+                        clearGrid();
+                        write("clearAndIncrement9", "G");
+                    }else {
+                        write("cell9", "G");
                     }
                 }
                 break;
@@ -910,6 +955,112 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ttt.gameTracker[2][2] = ttt.getOpponentSymbol();
 
 
+                }else if(gameMessage.equals("clearAndIncrement1")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell1.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[0][0] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+                }else if(gameMessage.equals("clearAndIncrement2")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell2.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[0][1] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement3")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell3.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[0][2] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement4")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell4.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[1][0] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement5")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell5.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[1][1] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement6")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell6.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[1][2] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement7")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell7.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[2][0] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement8")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell8.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[2][1] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
+
+                }else if(gameMessage.equals("clearAndIncrement9")){
+                    ttt.clearArray();
+                    System.out.println("clearing grid");
+
+                    cell9.setText(ttt.getOpponentSymbol());
+                    clearGrid();
+                    ttt.gameTracker[2][2] = ttt.getOpponentSymbol();
+                    ttt.incrementOppScore();
+                    scoreBox.setText(ttt.getScoreStatement());
+                    ttt.changeOppTurn();
+
 
                 }
 
@@ -1112,6 +1263,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    protected void clearGrid(){
+        cell1.setText("");
+        cell2.setText("");
+        cell3.setText("");
+        cell4.setText("");
+        cell5.setText("");
+        cell6.setText("");
+        cell7.setText("");
+        cell8.setText("");
+        cell9.setText("");
 
+
+
+
+    }
 
 }

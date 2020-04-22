@@ -266,20 +266,18 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     protected void afterClick(int n){
-        //String message = ((MainActivity) context).gameMessage;
-        //Scanner sc = new Scanner(message);
 
         modifyGameTrackerClick(n);
         setOpponentTurnTrue();
-        /*
-        if(checkIfWon()){
-            //do stuff
-            incrementScore();
-            //((MainActivity) context).write("incrementScore", MainActivity.MICELLANEOUS_STR);
-        }*/
 
-        //String message = getOwnMessage();
-        //((MainActivity) context).write(message, MainActivity.GAME_STR);
+    }
+
+    protected void clearArray(){
+        for(int i = 0; i <=2; i++){
+            for(int j = 0; j<=2; j++){
+                gameTracker[i][j] = "";
+            }
+        }
 
     }
 
