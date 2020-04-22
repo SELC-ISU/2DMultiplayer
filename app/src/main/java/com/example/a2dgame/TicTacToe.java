@@ -126,6 +126,15 @@ public class TicTacToe extends AppCompatActivity{
         return symbol;
     }
 
+    protected String getOpponentSymbol(){
+        if(symbol.equals("O")){
+            return "X";
+        }else if(symbol.equals("X")){
+            return "O";
+        }
+        return "Oh shit";
+    }
+
     public void modifyGameTrackerClick(int cellNum){
 
         if(cellNum == 1){

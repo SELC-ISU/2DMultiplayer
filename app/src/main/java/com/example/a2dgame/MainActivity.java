@@ -800,31 +800,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newGameMessage = true;
                 gameMessage = text;
                 if(gameMessage.equals("cell1")){
-                    cell1.setText(ttt.getSymbol());
+                    cell1.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell2")) {
-                    cell2.setText(ttt.getSymbol());
+                    cell2.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell3")) {
-                    cell3.setText(ttt.getSymbol());
+                    cell3.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell4")) {
-                    cell4.setText(ttt.getSymbol());
+                    cell4.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell5")) {
-                    cell5.setText(ttt.getSymbol());
+                    cell5.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell6")) {
-                    cell6.setText(ttt.getSymbol());
+                    cell6.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell7")) {
-                    cell7.setText(ttt.getSymbol());
+                    cell7.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell8")) {
-                    cell8.setText(ttt.getSymbol());
+                    cell8.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }else if(gameMessage.equals("cell9")) {
-                    cell9.setText(ttt.getSymbol());
+                    cell9.setText(ttt.getOpponentSymbol());
                     ttt.changeOppTurn();
                 }
 
