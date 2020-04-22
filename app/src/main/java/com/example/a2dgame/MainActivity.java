@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, scoreBox;
 
+    TextView[][] tvArray = new TextView[3][3];
+
     boolean tempDoublePlayer = false;
     boolean tempIsHost = false;
 
@@ -312,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             twoPlayer = false;
             isHost = false;
             closeSockets();
+            switchToStartScreenLayout();
         }
         else if(findViewById(R.id.btnBack)!=null){
             btnBack.performClick();
@@ -1191,5 +1194,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    public void setBoardPos(int r, int c, String sym) {
+
+        tvArray[r][c].setText(sym);
+
+    }
+
 
 }
