@@ -1,6 +1,7 @@
 package com.example.a2dgame;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.*;
 import java.util.Scanner;
@@ -21,7 +22,9 @@ public class TicTacToe extends AppCompatActivity{
     int colChanged;
     int cellRow;
     int cellColumn;
-    String symbol = "O";
+    String symbol = "X";
+    int score = 0;
+    int oppScore = 0;
 
 
     public TicTacToe(Context context){  //this will be used in MainActivity like, TicTacToe ttt = new TicTacToe(MainActivity.this);
@@ -41,9 +44,9 @@ public class TicTacToe extends AppCompatActivity{
         public void run() {
 
             if (doublePlayer == true && opponentTurn == true) {
-
+                System.out.println("running run");
                 //symbol will switch each time it becomes a different player's turn
-                symbol = "X";
+                //symbol = "X";
 
                 while (((MainActivity) context).newGameMessage == false) ;
                 ((MainActivity) context).newGameMessage = false;
@@ -58,9 +61,9 @@ public class TicTacToe extends AppCompatActivity{
 
             }
             if (doublePlayer == true && opponentTurn == false) {
-
+                System.out.println("running run");
                 //symbol will switch each time it becomes a different player's turn
-                symbol = "O";
+                //symbol = "O";
                 String message = getOwnMessage();
                 ((MainActivity) context).write(message, MainActivity.GAME_STR);
 
@@ -192,8 +195,45 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     protected void changeOppTurn(){
+
         opponentTurn = false;
     }
 
+    protected void changeSymbol(){
+        symbol = "O";
+    }
+
+    protected void incrementScore(){
+        score++;
+    }
+
+    protected void incrementOppScore(){
+        oppScore++;
+    }
+
+    protected int getScore(){
+        return score;
+    }
+
+    protected int getOppScore(){
+        return oppScore;
+    }
+
+    protected void afterClick(int n){
+        //String message = ((MainActivity) context).gameMessage;
+        //Scanner sc = new Scanner(message);
+
+        modifyGameTrackerClick(n);
+
+        if(checkIfWon()){
+            //do stuff
+            incrementScore();
+            ((MainActivity) context).write("incrementScore", MainActivity.MICELLANEOUS_STR);
+        }
+
+        //String message = getOwnMessage();
+        //((MainActivity) context).write(message, MainActivity.GAME_STR);
+
+    }
+
 }
-//mA.write(positionOfPeice, MainActivity.GAME_STR);

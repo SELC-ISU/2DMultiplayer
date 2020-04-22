@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //stuff Alex added
 
-    public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
+    public TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, scoreBox;
 
     public RadioButton btnRadio;
 
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //More Alex stuff (need an instance of TicTacToe for the getSymbol method)
     TicTacToe ttt = new TicTacToe(MainActivity.this);
+
 
 
     /**
@@ -230,49 +231,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 cell1.setText(ttt.getSymbol());
-                ttt.modifyGameTrackerClick(1);
+                ttt.afterClick(1);
+                if(ttt.checkIfWon()){
+                    scoreBox.setText("Score: " + ttt.getScore() + " - " + ttt.getOppScore());
+                }
                 break;
 
             case R.id.cell2:
                 cell2.setText(ttt.getSymbol());
-                ttt.modifyGameTrackerClick(2);
+                ttt.afterClick(2);
                 break;
 
             case R.id.cell3:
-                ttt.modifyGameTrackerClick(3);
+                ttt.afterClick(3);
                 cell3.setText(ttt.getSymbol());
-                System.out.println(ttt.gameTracker[0][2]);
+                //System.out.println(ttt.gameTracker[0][2]);
                 break;
 
             case R.id.cell4:
-                ttt.modifyGameTrackerClick(4);
+                ttt.afterClick(4);
                 cell4.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell5:
-                ttt.modifyGameTrackerClick(5);
+                ttt.afterClick(5);
                 Log.d(TAG,"cell5 was pressed");
                 Log.d(TAG,ttt.getSymbol());
                 cell5.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell6:
-                ttt.modifyGameTrackerClick(6);
+                ttt.afterClick(6);
                 cell6.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell7:
-                ttt.modifyGameTrackerClick(7);
+                ttt.afterClick(7);
                 cell7.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell8:
-                ttt.modifyGameTrackerClick(8);
+                ttt.afterClick(8);
                 cell8.setText(ttt.getSymbol());
                 break;
 
             case R.id.cell9:
-                ttt.modifyGameTrackerClick(9);
+                ttt.afterClick(9);
                 cell9.setText(ttt.getSymbol());
                 break;
 
@@ -605,6 +609,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**Switches to the game screen and initializes everything on the layout
+     */
+    public void switchToGameScreenLayout(){
+
+        ttt.changeSymbol();
+
+        setContentView(R.layout.tictactoe);
+
+        cell1 = findViewById(R.id.cell1);
+        cell1.setOnClickListener(this);
+
+        cell2 = findViewById(R.id.cell2);
+        cell2.setOnClickListener(this);
+
+        cell3 = findViewById(R.id.cell3);
+        cell3.setOnClickListener(this);
+
+        cell4 = findViewById(R.id.cell4);
+        cell4.setOnClickListener(this);
+
+        cell5 = findViewById(R.id.cell5);
+        cell5.setOnClickListener(this);
+
+        cell6 = findViewById(R.id.cell6);
+        cell6.setOnClickListener(this);
+
+        cell7 = findViewById(R.id.cell7);
+        cell7.setOnClickListener(this);
+
+        cell8 = findViewById(R.id.cell8);
+        cell8.setOnClickListener(this);
+
+        cell9 = findViewById(R.id.cell9);
+        cell9.setOnClickListener(this);
+
+        scoreBox = findViewById(R.id.scoreBox);
+
+    }
+
     /**
      * This reciever takes in any new devices found when discovery is on and puts them to the list of discovered devices
      */
@@ -709,6 +752,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(checkStr.equals(MICELLANEOUS_STR)) {
                 if(text.equals("goToGameScreen")){
                     switchToGameScreenLayout();
+                }else if(text.equals("incrementScore")){
+                    ttt.incrementScore();
                 }
             }
            //You can add more final Strings at the top to make more text options here just add an if
@@ -905,100 +950,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //More of Alex's stuff
 
-    //Trying to make a method that switches to the game screen
-    public void switchToGameScreenLayout(){
 
-        setContentView(R.layout.tictactoe);
-
-        cell1 = findViewById(R.id.cell1);
-        cell1.setOnClickListener(this);
-
-        cell2 = findViewById(R.id.cell2);
-        cell2.setOnClickListener(this);
-
-        cell3 = findViewById(R.id.cell3);
-        cell3.setOnClickListener(this);
-
-        cell4 = findViewById(R.id.cell4);
-        cell4.setOnClickListener(this);
-
-        cell5 = findViewById(R.id.cell5);
-        cell5.setOnClickListener(this);
-
-        cell6 = findViewById(R.id.cell6);
-        cell6.setOnClickListener(this);
-
-        cell7 = findViewById(R.id.cell7);
-        cell7.setOnClickListener(this);
-
-        cell8 = findViewById(R.id.cell8);
-        cell8.setOnClickListener(this);
-
-        cell9 = findViewById(R.id.cell9);
-        cell9.setOnClickListener(this);
-
-/*
-        XNum1 = findViewById(R.id.XNum1);
-        XNum1.setOnClickListener(this);
-        //XNum1.setVisibility(View.INVISIBLE);
-
-
-        XNum2 = findViewById(R.id.XNum2);
-        XNum2.setOnClickListener(this);
-
-        XNum3 = findViewById(R.id.XNum3);
-        XNum3.setOnClickListener(this);
-        //XNum3.setVisibility(View.INVISIBLE);
-
-        XNum4 = findViewById(R.id.XNum4);
-        XNum4.setOnClickListener(this);
-
-        XNum5 = findViewById(R.id.XNum5);
-        XNum5.setOnClickListener(this);
-
-        XNum6 = findViewById(R.id.XNum6);
-        XNum6.setOnClickListener(this);
-
-        XNum7 = findViewById(R.id.XNum7);
-        XNum7.setOnClickListener(this);
-
-        XNum8 = findViewById(R.id.XNum8);
-        XNum8.setOnClickListener(this);
-
-        XNum9 = findViewById(R.id.XNum9);
-        XNum9.setOnClickListener(this);
-
-        ONum1 = findViewById(R.id.ONum1);
-        ONum1.setOnClickListener(this);
-       // ONum1.setVisibility(View.INVISIBLE);
-
-
-        ONum2 = findViewById(R.id.ONum2);
-        ONum2.setOnClickListener(this);
-
-        ONum3 = findViewById(R.id.ONum3);
-        ONum3.setOnClickListener(this);
-        //ONum3.setVisibility(View.INVISIBLE);
-
-        ONum4 = findViewById(R.id.ONum4);
-        ONum4.setOnClickListener(this);
-
-        ONum5 = findViewById(R.id.ONum5);
-        ONum5.setOnClickListener(this);
-
-        ONum6 = findViewById(R.id.ONum6);
-        ONum6.setOnClickListener(this);
-
-        ONum7 = findViewById(R.id.ONum7);
-        ONum7.setOnClickListener(this);
-
-
-        ONum8 = findViewById(R.id.ONum8);
-        ONum8.setOnClickListener(this);
-
-        ONum9 = findViewById(R.id.ONum9);
-        ONum9.setOnClickListener(this);
-*/
-    }
 
 }
