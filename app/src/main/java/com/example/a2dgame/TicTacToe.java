@@ -39,6 +39,13 @@ public class TicTacToe extends AppCompatActivity{
         this.context = context;
         doublePlayer = setTo;
 
+        if(oppTurn == true){
+            symbol = "X";
+        }
+        else{
+            symbol = "O";
+        }
+
         if(!doublePlayer){
             player = new ComputerPlayer(context,"O",gameTracker);
             Log.d(TAG,"Computer Created");
@@ -83,20 +90,19 @@ public class TicTacToe extends AppCompatActivity{
 
                 } else if (doublePlayer == false && opponentTurn == true) {
                     Log.d(TAG, "We wait for computer to pick");
-                    player.placeMove();
-                    Log.d(TAG, "Computer Picked");
+                    player.placeMove(); //computer picked moved RGHT HERE
+                    Log.d(TAG, "Computer Picked"); //do all opponent winning checks and anything that you would do for a person
                     changeOppTurn();
                 }else if(doublePlayer == false && opponentTurn == false){
 
-
+                    //onCellTouchSinglePlayer
 
                 } else if (doublePlayer == true && opponentTurn == false) {
                     //when it is your turn (sending out selected cell)
                     Log.d(TAG, "We wait for Host to pick");
                     System.out.println("running run inside oppTurn false");
 
-                    String message = getOwnMessage();
-                    ((MainActivity) context).write(message, MainActivity.GAME_STR);
+
 
                 }
 
@@ -106,46 +112,7 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
-    protected String getOwnMessage() {
-        String msg = symbol + " " + rowChanged + " " + colChanged;
-        return msg;
-    }
 
-    /**
-     * converts the coordinates from the incoming message into the cell number
-     * will hopefully make determining which cell image to change easier
-     */
-    private int toCellNumber(int row, int column) {
-        int tempCell = -1;
-
-        if (row == 0) {
-            if (column == 0) {
-                tempCell = 1;
-            } else if (column == 1) {
-                tempCell = 2;
-            } else if (column == 2) {
-                tempCell = 3;
-            }
-        } else if (row == 1) {
-            if (column == 0) {
-                tempCell = 4;
-            } else if (column == 1) {
-                tempCell = 5;
-            } else if (column == 2) {
-                tempCell = 6;
-            }
-        } else if (row == 2) {
-            if (column == 0) {
-                tempCell = 7;
-            } else if (column == 1) {
-                tempCell = 8;
-            } else if (column == 2) {
-                tempCell = 9;
-            }
-        }
-
-        return tempCell;
-    }
 
     public String getSymbol(){
 
@@ -217,10 +184,6 @@ public class TicTacToe extends AppCompatActivity{
         opponentTurn = true;
     }
 
-    protected void setDoublePlayer(boolean set){
-        doublePlayer = set;
-        System.out.println("double player value in end of setDoublePlayer" + doublePlayer);
-    }
 
     protected boolean getOpponentTurn(){
         return opponentTurn;
@@ -324,10 +287,12 @@ public class TicTacToe extends AppCompatActivity{
     protected void onCellTouch(TextView cellNum, int r, int c){
         Log.d(TAG,"USER pick position");
         if(!getOpponentTurn() && !checkVictory()) {
-            cellNum.setText(getSymbol());
+            //cellNum.setText(getSymbol());
+            ((MainActivity)context).setBoardPos(r,c,getSymbol());
             afterClick(r,c);
 
             String pos = r+","+c;
+            String check = "nothing";
 
             if(!isAtADraw()) {
                 if (checkIfWon()) {
@@ -339,17 +304,19 @@ public class TicTacToe extends AppCompatActivity{
                         //scoreBox.setText("Game over. You Won!");
                         System.out.println("Writing: youLost");
                         ((MainActivity) context).write(GAME_LOSE, MainActivity.GAME_STR);
+                        check = GAME_LOSE;
                         System.out.println("Should be done writing youLost");
                     } else if (checkOpponentVictory()) {
                         //scoreBox.setText("Game over. You Lost!");
                         ((MainActivity) context).write(GAME_WIN, MainActivity.GAME_STR);
+                        check = GAME_WIN;
                     }
                     clearArray();
                     ((MainActivity) context).clearGrid();
-                    ((MainActivity) context).write(GAME_CLEAR+pos, MainActivity.GAME_STR);
+                    ((MainActivity) context).write(GAME_CLEAR+pos+"."+check, MainActivity.GAME_STR);
                 } else {
                     Log.d(TAG,"Continueing Play");
-                    if(((MainActivity) context).getTwoPlayer())
+                    if(doublePlayer)
                         ((MainActivity) context).write(GAME_CONT+pos, MainActivity.GAME_STR);
                     else
                         setOpponentTurnTrue();
@@ -366,5 +333,9 @@ public class TicTacToe extends AppCompatActivity{
             }
         }
     }
+
+
+
+    //onCellTouchMain(){ checks if twoplyaer, if twoplayer (Call onCellTouchDouble) else (call OncellTouchSingle)
 
 }

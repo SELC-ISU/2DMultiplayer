@@ -84,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView[][] tvArray = new TextView[3][3];
     TextView scoreBox;
 
-    boolean tempDoublePlayer = false;
-    boolean tempIsHost = false;
 
     public RadioButton btnRadio;
 
@@ -152,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 commenceDiscovery(true);  //starts server discovery
                 isHost = true;
                 pbar2.setVisibility(View.VISIBLE);
-                tempIsHost = true;
+
                 break;
 
 
@@ -206,22 +204,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnSingleGame:
 
                 gameType = GameType.SINGLE;
-                switchToGameScreenLayout();
+
                 write(MISCELLANEOUS_TO_GAME_SCREEN, MainActivity.MISCELLANEOUS_SIR);
                 //will become host's turn
-                ttt.changeOppTurn();
-                ttt.reverseSymbol();
+                switchToGameScreenLayout();
+               // ttt.changeOppTurn();
+
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.SINGLE.toString(),  MainActivity.MISCELLANEOUS_SIR);
+
                 break;
 
             case R.id.btnThreeGames:
 
                 gameType = GameType.BEST_OF_THREE;
-                switchToGameScreenLayout();
                 write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
-                ttt.changeOppTurn();
-                ttt.reverseSymbol();
+                switchToGameScreenLayout();
+                //ttt.changeOppTurn();
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.BEST_OF_THREE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
@@ -229,10 +228,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnFiveGames:
 
                 gameType = GameType.BEST_OF_FIVE;
-                switchToGameScreenLayout();
+
                 write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
-                ttt.changeOppTurn();
-                ttt.reverseSymbol();
+                switchToGameScreenLayout();
+                //ttt.changeOppTurn();
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.BEST_OF_FIVE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
@@ -629,18 +628,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void switchToGameScreenLayout(){
 
 
-        if(twoPlayer) {
-            if(isHost == true){
-                ttt = new TicTacToe(MainActivity.this, true, false);
-            }else{
-                ttt = new TicTacToe(MainActivity.this, true, true);
-            }
-
-        }else if(!twoPlayer){
-            Log.d(TAG,"Constructor for Tic made Single PLayer");
-            ttt = new TicTacToe(MainActivity.this, false, false);
-
-        }
 
         setContentView(R.layout.tictactoe);
 
@@ -671,32 +658,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvArray[2][2] = findViewById(R.id.cell9);
         tvArray[2][2].setOnClickListener(this);
 
-        if(tempDoublePlayer) {
-            if(tempIsHost == true){
-                ttt = new TicTacToe(MainActivity.this, true, false);
-            }else{
-                ttt = new TicTacToe(MainActivity.this, true, true);
-            }
-
-        }else if(!twoPlayer){
-            Log.d(TAG,"Constructor for Tic made Single PLayer");
-            ttt = new TicTacToe(MainActivity.this, false, true);
-
-        }
 
         scoreBox = findViewById(R.id.scoreBox);
 
+        ttt = new TicTacToe(MainActivity.this, twoPlayer, !isHost);
+
         scoreBox.setText(ttt.getScoreStatement());
 
-        System.out.println("temp double player: " + tempDoublePlayer);
 
-
-
-        if(tempDoublePlayer == true){
-            ttt.setDoublePlayer(true);
-        }
-
-        System.out.println("TTT double player: " + ttt.doublePlayer);
 
     }
 
@@ -780,6 +749,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String text = intent.getStringExtra("theMessage");
             String checkStr = Character.toString(text.charAt(0));
             text = text.substring(1);
+            Log.d(TAG,"SNew message; " + text);
 
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
@@ -816,6 +786,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     text = text.substring(indexOf+1);
                     int r = Integer.parseInt(text.substring(0,text.indexOf(',')));
                     int c = Integer.parseInt(text.substring(text.indexOf(',')+1));
+                    String w = text.substring(text.indexOf('.')+1);
+                    if(w.equals(GAME_LOSE)){}
+                        //dolosestuff;
+                    if(w.equals(GAME_WIN)){}
+                        //dolosestuff;
+                    if(w.equals("nothing")){}
+                        //dolosestuff;
 
                     ttt.clearArray();
                     System.out.println("clearing grid");
@@ -846,6 +823,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else if(checkStr.equals(MISCELLANEOUS_SIR)) {
                 if(text.equals(MISCELLANEOUS_TO_GAME_SCREEN)){
                     switchToGameScreenLayout();
+                    Log.d(TAG,"Swtching to game screen");
                 }else if(text.equals(MISCELLANEOUS_INCREMENT)){
                     ttt.incrementScore();
                 }else if(text.equals(GameType.SINGLE.toString())){
