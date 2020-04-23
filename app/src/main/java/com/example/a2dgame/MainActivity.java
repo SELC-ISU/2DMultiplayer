@@ -628,6 +628,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchToGameScreenLayout(){
 
+
         if(twoPlayer) {
             if(isHost == true){
                 ttt = new TicTacToe(MainActivity.this, true, false);
@@ -670,11 +671,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvArray[2][2] = findViewById(R.id.cell9);
         tvArray[2][2].setOnClickListener(this);
 
+        if(tempDoublePlayer) {
+            if(tempIsHost == true){
+                ttt = new TicTacToe(MainActivity.this, true, false);
+            }else{
+                ttt = new TicTacToe(MainActivity.this, true, true);
+            }
+
+        }else if(!twoPlayer){
+            Log.d(TAG,"Constructor for Tic made Single PLayer");
+            ttt = new TicTacToe(MainActivity.this, false, true);
+
+        }
+
         scoreBox = findViewById(R.id.scoreBox);
 
         scoreBox.setText(ttt.getScoreStatement());
 
         System.out.println("temp double player: " + tempDoublePlayer);
+
+
 
         if(tempDoublePlayer == true){
             ttt.setDoublePlayer(true);
