@@ -14,6 +14,12 @@ public class TicTacToe extends AppCompatActivity{
 
     private ImageView image;
 
+    public final static String GAME_LOSE = "youLost";
+    public final static String GAME_WIN = "youWon";
+    public final static String GAME_CLEAR = "Clear:";
+    public final static String GAME_CONT = "Normal:";
+    public final static String GAME_DRAW = "DRAW:";
+
     private Context context;
     boolean doublePlayer;
     boolean opponentTurn = true;
@@ -80,6 +86,10 @@ public class TicTacToe extends AppCompatActivity{
                     player.placeMove();
                     Log.d(TAG, "Computer Picked");
                     changeOppTurn();
+                }else if(doublePlayer == false && opponentTurn == false){
+
+
+
                 } else if (doublePlayer == true && opponentTurn == false) {
                     //when it is your turn (sending out selected cell)
                     Log.d(TAG, "We wait for Host to pick");
@@ -216,19 +226,6 @@ public class TicTacToe extends AppCompatActivity{
         return opponentTurn;
     }
 
-    protected void changeSymbolToO(){
-        symbol = "O";
-        if(!doublePlayer){
-            player.changeSymbol("X");
-        }
-    }
-
-    protected void changeSymbolToX(){
-        symbol = "X";
-        if(!doublePlayer){
-            player.changeSymbol("O");
-        }
-    }
 
     protected void incrementScore(){
         score++;
@@ -316,13 +313,57 @@ public class TicTacToe extends AppCompatActivity{
         return true;
     }
 
-    protected String getReverseSymbol(){
+    protected void reverseSymbol(){
         if(symbol.equals("X")){
-            return "O";
+            symbol = "O";
         }else if(symbol.equals("O")){
-            return "X";
-        }else{
-            return "ya done fucked up A-Aron";
+            symbol = "X";
+        }
+    }
+
+    protected void onCellTouch(TextView cellNum, int r, int c){
+        Log.d(TAG,"USER pick position");
+        if(!getOpponentTurn() && !checkVictory()) {
+            cellNum.setText(getSymbol());
+            afterClick(r,c);
+
+            String pos = r+","+c;
+
+            if(!isAtADraw()) {
+                if (checkIfWon()) {
+                    System.out.println("winner bitch");
+                    incrementScore();
+                    System.out.println("Score after win: " + getScore());
+                    //scoreBox.setText(ttt.getScoreStatement());
+                    if (checkPlayerVictory()) {
+                        //scoreBox.setText("Game over. You Won!");
+                        System.out.println("Writing: youLost");
+                        ((MainActivity) context).write(GAME_LOSE, MainActivity.GAME_STR);
+                        System.out.println("Should be done writing youLost");
+                    } else if (checkOpponentVictory()) {
+                        //scoreBox.setText("Game over. You Lost!");
+                        ((MainActivity) context).write(GAME_WIN, MainActivity.GAME_STR);
+                    }
+                    clearArray();
+                    ((MainActivity) context).clearGrid();
+                    ((MainActivity) context).write(GAME_CLEAR+pos, MainActivity.GAME_STR);
+                } else {
+                    Log.d(TAG,"Continueing Play");
+                    if(((MainActivity) context).getTwoPlayer())
+                        ((MainActivity) context).write(GAME_CONT+pos, MainActivity.GAME_STR);
+                    else
+                        setOpponentTurnTrue();
+                }
+            }else{
+
+                clearArray();
+                ((MainActivity) context).clearGrid();
+
+
+                ((MainActivity) context).switchToGameScreenLayout();
+                reverseSymbol();
+                ((MainActivity) context).write(GAME_DRAW, MainActivity.GAME_STR);
+            }
         }
     }
 

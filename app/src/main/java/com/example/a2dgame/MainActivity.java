@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 twoPlayer = true;
                 switchToJoinHostLayout();
-                tempDoublePlayer = true;
+                //tempDoublePlayer = true;
 
                 break;
 
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 write(MISCELLANEOUS_TO_GAME_SCREEN, MainActivity.MISCELLANEOUS_SIR);
                 //will become host's turn
                 ttt.changeOppTurn();
-                ttt.changeSymbolToO();
+                ttt.reverseSymbol();
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.SINGLE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
                 ttt.changeOppTurn();
-                ttt.changeSymbolToO();
+                ttt.reverseSymbol();
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.BEST_OF_THREE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 write(MISCELLANEOUS_TO_GAME_SCREEN,  MainActivity.MISCELLANEOUS_SIR);
                 ttt.changeOppTurn();
-                ttt.changeSymbolToO();
+                ttt.reverseSymbol();
                 ttt.setNumGames(gameType.totalGames);
                 write(GameType.BEST_OF_FIVE.toString(),  MainActivity.MISCELLANEOUS_SIR);
                 break;
@@ -248,40 +248,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
-                onCellTouch(tvArray[0][0], 0,0);
+                ttt.onCellTouch(tvArray[0][0], 0,0);
 
                 break;
 
             case R.id.cell2:
-                onCellTouch(tvArray[0][1], 0,1);
+                ttt.onCellTouch(tvArray[0][1], 0,1);
                 break;
 
             case R.id.cell3:
-                onCellTouch(tvArray[0][2], 0,2);
+                ttt.onCellTouch(tvArray[0][2], 0,2);
                 break;
 
             case R.id.cell4:
-                onCellTouch(tvArray[1][0], 1,0);
+                ttt.onCellTouch(tvArray[1][0], 1,0);
                 break;
 
             case R.id.cell5:
-                onCellTouch(tvArray[1][1], 1,1);
+                ttt.onCellTouch(tvArray[1][1], 1,1);
                 break;
 
             case R.id.cell6:
-                onCellTouch(tvArray[1][2], 1,2);
+                ttt.onCellTouch(tvArray[1][2], 1,2);
                 break;
 
             case R.id.cell7:
-                onCellTouch(tvArray[2][0], 2,0);
+                ttt.onCellTouch(tvArray[2][0], 2,0);
                 break;
 
             case R.id.cell8:
-                onCellTouch(tvArray[2][1], 2,1);
+                ttt.onCellTouch(tvArray[2][1], 2,1);
                 break;
 
             case R.id.cell9:
-                onCellTouch(tvArray[2][2], 2,2);
+                ttt.onCellTouch(tvArray[2][2], 2,2);
                 break;
 
             default:
@@ -323,10 +323,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             if(isHost || !twoPlayer){
-                ttt.changeSymbolToO();
+                ttt.reverseSymbol();
                 switchToStartGameScreenLayout();
             }else{
-                ttt.changeSymbolToX();
+                ttt.reverseSymbol();
                 switchToWaitingLayout();
             }
         }
@@ -628,8 +628,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchToGameScreenLayout(){
 
-        if(tempDoublePlayer) {
-            if(tempIsHost == true){
+        if(twoPlayer) {
+            if(isHost == true){
                 ttt = new TicTacToe(MainActivity.this, true, false);
             }else{
                 ttt = new TicTacToe(MainActivity.this, true, true);
@@ -1039,6 +1039,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
     protected void onCellTouch(TextView cellNum, int r, int c){
         Log.d(TAG,"USER pick position");
         if(!ttt.getOpponentTurn() && !ttt.checkVictory()) {
@@ -1052,14 +1053,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("winner bitch");
                     ttt.incrementScore();
                     System.out.println("Score after win: " + ttt.getScore());
-                    scoreBox.setText(ttt.getScoreStatement());
+                    //scoreBox.setText(ttt.getScoreStatement());
                     if (ttt.checkPlayerVictory()) {
-                        scoreBox.setText("Game over. You Won!");
+                        //scoreBox.setText("Game over. You Won!");
                         System.out.println("Writing: youLost");
                         write(GAME_LOSE, MainActivity.GAME_STR);
                         System.out.println("Should be done writing youLost");
                     } else if (ttt.checkOpponentVictory()) {
-                        scoreBox.setText("Game over. You Lost!");
+                        //scoreBox.setText("Game over. You Lost!");
                         write(GAME_WIN, MainActivity.GAME_STR);
                     }
                     ttt.clearArray();
@@ -1079,11 +1080,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 switchToGameScreenLayout();
-                ttt.changeSymbolToO();
+                ttt.reverseSymbol();
                 write(GAME_DRAW, MainActivity.GAME_STR);
             }
         }
-    }
+    }*/
 
     public void setBoardPos(int r, int c, String sym) {
 
@@ -1091,5 +1092,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public boolean getTwoPlayer(){
+            return twoPlayer;
+    }
 
 }
