@@ -33,6 +33,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -247,47 +248,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
-                ttt.onCellTouch(tvArray[0][0], 0,0);
+                ttt.onCellTouchMain(tvArray[0][0], 0,0);
 
                 break;
 
             case R.id.cell2:
-                ttt.onCellTouch(tvArray[0][1], 0,1);
+                ttt.onCellTouchMain(tvArray[0][1], 0,1);
                 break;
 
             case R.id.cell3:
-                ttt.onCellTouch(tvArray[0][2], 0,2);
+                ttt.onCellTouchMain(tvArray[0][2], 0,2);
                 break;
 
             case R.id.cell4:
-                ttt.onCellTouch(tvArray[1][0], 1,0);
+                ttt.onCellTouchMain(tvArray[1][0], 1,0);
                 break;
 
             case R.id.cell5:
-                ttt.onCellTouch(tvArray[1][1], 1,1);
+                ttt.onCellTouchMain(tvArray[1][1], 1,1);
                 break;
 
             case R.id.cell6:
-                ttt.onCellTouch(tvArray[1][2], 1,2);
+                ttt.onCellTouchMain(tvArray[1][2], 1,2);
                 break;
 
             case R.id.cell7:
-                ttt.onCellTouch(tvArray[2][0], 2,0);
+                ttt.onCellTouchMain(tvArray[2][0], 2,0);
                 break;
 
             case R.id.cell8:
-                ttt.onCellTouch(tvArray[2][1], 2,1);
+                ttt.onCellTouchMain(tvArray[2][1], 2,1);
                 break;
 
             case R.id.cell9:
-                ttt.onCellTouch(tvArray[2][2], 2,2);
+                ttt.onCellTouchMain(tvArray[2][2], 2,2);
                 break;
 
             default:
                 break;
         }
-
-
 
     }
 
@@ -782,24 +781,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 else if(text.contains(GAME_CLEAR)){
-                    int indexOf = text.indexOf(':');
+                    //So u have to do something like Integer.parseInt(substring(whatever is in there, text.indexof('.'))
+                    int indexOf = text.indexOf(':');//changed : to ,
                     text = text.substring(indexOf+1);
+                    System.out.println("Here is text: " + text);
+
                     int r = Integer.parseInt(text.substring(0,text.indexOf(',')));
-                    int c = Integer.parseInt(text.substring(text.indexOf(',')+1));
+                    int c = Integer.parseInt(text.substring(text.indexOf(',')+1, text.indexOf('.')));
                     String w = text.substring(text.indexOf('.')+1);
+
                     if(w.equals(GAME_LOSE)){}
                         //dolosestuff;
+                        System.out.println("Entered lose doStuff");
+                        scoreBox.setText(ttt.getScoreStatement());
                     if(w.equals(GAME_WIN)){}
                         //dolosestuff;
+                    System.out.println("Entered lose doStuff");
+                        scoreBox.setText(ttt.getScoreStatement());
                     if(w.equals("nothing")){}
                         //dolosestuff;
+                    System.out.println("Entered nothing doStuff");
 
                     ttt.clearArray();
                     System.out.println("clearing grid");
                     setBoardPos(r,c,ttt.getOpponentSymbol());
                     clearGrid();
                     ttt.gameTracker[r][c] = ttt.getOpponentSymbol();
+                    System.out.println("About to increment score in MA G");
                     ttt.incrementOppScore();
+                    System.out.println("Score is now: " + ttt.getScoreStatement());
                     scoreBox.setText(ttt.getScoreStatement());
                     ttt.changeOppTurn();
 
@@ -825,7 +835,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchToGameScreenLayout();
                     Log.d(TAG,"Swtching to game screen");
                 }else if(text.equals(MISCELLANEOUS_INCREMENT)){
+                    System.out.println("About to increment score in MA M");
                     ttt.incrementScore();
+                    System.out.println("Score is now: " + ttt.getScoreStatement());
                 }else if(text.equals(GameType.SINGLE.toString())){
                     ttt.setNumGames(GameType.SINGLE.totalGames);
                 }else if(text.equals(GameType.BEST_OF_FIVE.toString())){
@@ -1032,53 +1044,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
-    /*
-    protected void onCellTouch(TextView cellNum, int r, int c){
-        Log.d(TAG,"USER pick position");
-        if(!ttt.getOpponentTurn() && !ttt.checkVictory()) {
-            cellNum.setText(ttt.getSymbol());
-            ttt.afterClick(r,c);
-
-            String pos = r+","+c;
-
-            if(!ttt.isAtADraw()) {
-                if (ttt.checkIfWon()) {
-                    System.out.println("winner bitch");
-                    ttt.incrementScore();
-                    System.out.println("Score after win: " + ttt.getScore());
-                    //scoreBox.setText(ttt.getScoreStatement());
-                    if (ttt.checkPlayerVictory()) {
-                        //scoreBox.setText("Game over. You Won!");
-                        System.out.println("Writing: youLost");
-                        write(GAME_LOSE, MainActivity.GAME_STR);
-                        System.out.println("Should be done writing youLost");
-                    } else if (ttt.checkOpponentVictory()) {
-                        //scoreBox.setText("Game over. You Lost!");
-                        write(GAME_WIN, MainActivity.GAME_STR);
-                    }
-                    ttt.clearArray();
-                    clearGrid();
-                    write(GAME_CLEAR+pos, MainActivity.GAME_STR);
-                } else {
-                    Log.d(TAG,"Continueing Play");
-                    if(twoPlayer)
-                        write(GAME_CONT+pos, MainActivity.GAME_STR);
-                    else
-                        ttt.setOpponentTurnTrue();
-                }
-            }else{
-
-                ttt.clearArray();
-                clearGrid();
-
-
-                switchToGameScreenLayout();
-                ttt.reverseSymbol();
-                write(GAME_DRAW, MainActivity.GAME_STR);
-            }
-        }
-    }*/
 
     public void setBoardPos(int r, int c, String sym) {
 

@@ -25,8 +25,6 @@ public class TicTacToe extends AppCompatActivity{
     boolean opponentTurn = true;
     String [][] gameTracker = new String[3][3];
     int cell;
-    int rowChanged;
-    int colChanged;
     int cellRow;
     int cellColumn;
     String symbol = "X";
@@ -74,9 +72,9 @@ public class TicTacToe extends AppCompatActivity{
 
         public void run() {
             while (true) {
-                System.out.println("running run outside");
-                System.out.println("Double player in outside run: " + doublePlayer);
-                System.out.println("Opponent turn in outside run: " + opponentTurn);
+                //System.out.println("running run outside");
+                //System.out.println("Double player in outside run: " + doublePlayer);
+                //System.out.println("Opponent turn in outside run: " + opponentTurn);
 
                 if (doublePlayer == true && opponentTurn == true) {
                     //when it is the other person's turn (listening for new message)
@@ -92,7 +90,31 @@ public class TicTacToe extends AppCompatActivity{
                     Log.d(TAG, "We wait for computer to pick");
                     player.placeMove(); //computer picked moved RGHT HERE
                     Log.d(TAG, "Computer Picked"); //do all opponent winning checks and anything that you would do for a person
+
+                    if(!isAtADraw()){
+                        if(checkIfWonSpecific(getOpponentSymbol())){
+                            //oppScore++;
+                            ((MainActivity) context).scoreBox.setText(getScoreStatement());
+                            ((MainActivity) context).clearGrid();
+                            clearArray();
+
+                        }/*else if(checkIfWonSpecific(getSymbol())){
+                            score++;
+                            ((MainActivity) context).scoreBox.setText(getScoreStatement());
+                            ((MainActivity) context).clearGrid();
+                            clearArray();
+
+                        }*/
+
+
+                    }else{
+                        ((MainActivity) context).clearGrid();
+                        clearArray();
+                    }
+
+
                     changeOppTurn();
+
                 }else if(doublePlayer == false && opponentTurn == false){
 
                     //onCellTouchSinglePlayer
@@ -130,14 +152,12 @@ public class TicTacToe extends AppCompatActivity{
 
     public void modifyGameTrackerClick(int row, int col){
 
-
         gameTracker[row][col] = symbol;
-        rowChanged = row;
-        colChanged = col;
 
     }
 
     //checks to see if there are three in a row
+
     public boolean checkIfWon(){
 
         if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2]) && (gameTracker[0][0].equals("X") || gameTracker[0][0].equals("O"))){
@@ -162,6 +182,37 @@ public class TicTacToe extends AppCompatActivity{
             //if diagonal starting in top left is all equal and X or O (not "")
             return true;
         }else if(gameTracker[0][2].equals(gameTracker[1][1]) && gameTracker[0][2].equals(gameTracker[2][0]) && (gameTracker[0][2].equals("X") || gameTracker[0][2].equals("O"))){
+            //if diagonal starting in top right is all equal and X or O (not "")
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean checkIfWonSpecific(String temp){
+
+        if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2]) && (gameTracker[0][0].equals(temp))){
+            //if first row is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[1][0].equals(gameTracker[1][1]) && gameTracker[1][0].equals(gameTracker[1][2]) && (gameTracker[1][0].equals(temp))){
+            //if second row is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[2][0].equals(gameTracker[2][1]) && gameTracker[2][0].equals(gameTracker[2][2]) && (gameTracker[2][0].equals(temp))){
+            //if third row is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[0][0].equals(gameTracker[1][0]) && gameTracker[0][0].equals(gameTracker[2][0]) && (gameTracker[0][0].equals(temp))){
+            //if first column is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[0][1].equals(gameTracker[1][1]) && gameTracker[0][1].equals(gameTracker[2][1]) && (gameTracker[0][1].equals(temp))){
+            //if middle column is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[0][2].equals(gameTracker[1][2]) && gameTracker[0][2].equals(gameTracker[2][2]) && (gameTracker[0][2].equals(temp))){
+            //check if third column is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[0][0].equals(gameTracker[1][1]) && gameTracker[0][0].equals(gameTracker[2][2]) && (gameTracker[0][0].equals(temp))){
+            //if diagonal starting in top left is all equal and X or O (not "")
+            return true;
+        }else if(gameTracker[0][2].equals(gameTracker[1][1]) && gameTracker[0][2].equals(gameTracker[2][0]) && (gameTracker[0][2].equals(temp))){
             //if diagonal starting in top right is all equal and X or O (not "")
             return true;
         }else {
@@ -207,7 +258,13 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     protected String getScoreStatement(){
-        return "Score: " + score + " - " + oppScore;
+        if(checkPlayerVictory()){
+            return "Game over. You won!";
+        }else if(checkOpponentVictory()){
+            return "Game over. You lost!";
+        }else {
+            return "Score: " + score + " - " + oppScore;
+        }
     }
 
     protected void afterClick(int r, int c){
@@ -223,7 +280,7 @@ public class TicTacToe extends AppCompatActivity{
                 gameTracker[i][j] = "";
             }
         }
-        System.out.println(getGameTracker());
+        //System.out.println(getGameTracker());
     }
 
     protected void setNumGames(int n){
@@ -232,9 +289,10 @@ public class TicTacToe extends AppCompatActivity{
 
     protected boolean checkVictory(){
         System.out.println("Num games in checkVictory: " + numGames);
+        System.out.println(getScoreStatement());
         System.out.println("Opp score in checkVictory: " + oppScore);
         System.out.println("Score in checkVictory: " + score);
-        if(score  > (numGames / 2) ||  score > (numGames / 2)){
+        if(score  > (numGames / 2) ||  oppScore > (numGames / 2)){
             return true;
         }else{
             return false;
@@ -284,8 +342,9 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
-    protected void onCellTouch(TextView cellNum, int r, int c){
+    protected void onCellTouchDouble(TextView cellNum, int r, int c){
         Log.d(TAG,"USER pick position");
+        System.out.println("Beginning of onCellTouchDouble");
         if(!getOpponentTurn() && !checkVictory()) {
             //cellNum.setText(getSymbol());
             ((MainActivity)context).setBoardPos(r,c,getSymbol());
@@ -297,7 +356,8 @@ public class TicTacToe extends AppCompatActivity{
             if(!isAtADraw()) {
                 if (checkIfWon()) {
                     System.out.println("winner bitch");
-                    incrementScore();
+                    score++;
+                    ((MainActivity) context).scoreBox.setText(getScoreStatement());
                     System.out.println("Score after win: " + getScore());
                     //scoreBox.setText(ttt.getScoreStatement());
                     if (checkPlayerVictory()) {
@@ -334,8 +394,55 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
+    public void onCellTouchSingle(TextView cellNum, int r, int c) {
+        if (!checkVictory()) {
+            ((MainActivity) context).setBoardPos(r, c, getSymbol());
+            afterClick(r, c);
 
 
-    //onCellTouchMain(){ checks if twoplyaer, if twoplayer (Call onCellTouchDouble) else (call OncellTouchSingle)
+            if (!isAtADraw()) {
+                if (checkIfWonSpecific(getSymbol())) {
+                    score++;
+                    ((MainActivity) context).scoreBox.setText(getScoreStatement());
+
+                    clearArray();
+                    ((MainActivity) context).clearGrid();
+
+                } /*else if (checkIfWonSpecific(getOpponentSymbol())) {
+                    oppScore++;
+                    ((MainActivity) context).scoreBox.setText(getScoreStatement());
+
+                    clearArray();
+                    ((MainActivity) context).clearGrid();
+
+                }*/
+
+
+            } else {
+                clearArray();
+                ((MainActivity) context).clearGrid();
+
+            }
+
+        }
+
+        if (checkPlayerVictory()) {
+            ((MainActivity) context).scoreBox.setText(getScoreStatement());
+            clearArray();
+            ((MainActivity) context).clearGrid();
+
+        }
+
+        setOpponentTurnTrue();
+
+    }
+
+    public void onCellTouchMain(TextView cellNum, int r, int c){
+        if(doublePlayer){
+            onCellTouchDouble(cellNum, r, c);
+        }else{
+            onCellTouchSingle(cellNum, r, c);
+        }
+    }
 
 }
