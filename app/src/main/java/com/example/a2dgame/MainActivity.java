@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                // ttt.changeOppTurn();
 
                 ttt.setNumGames(gameType.totalGames);
-                write(GameType.SINGLE.toString(),  MainActivity.MISCELLANEOUS_SIR);
+                write("one",  MainActivity.MISCELLANEOUS_SIR);
 
                 break;
 
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 //ttt.changeOppTurn();
                 ttt.setNumGames(gameType.totalGames);
-                write(GameType.BEST_OF_THREE.toString(),  MainActivity.MISCELLANEOUS_SIR);
+                write("three",  MainActivity.MISCELLANEOUS_SIR);
                 break;
 
             case R.id.btnFiveGames:
@@ -234,7 +234,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switchToGameScreenLayout();
                 //ttt.changeOppTurn();
                 ttt.setNumGames(gameType.totalGames);
-                write(GameType.BEST_OF_FIVE.toString(),  MainActivity.MISCELLANEOUS_SIR);
+                write("five",  MainActivity.MISCELLANEOUS_SIR);
+
                 break;
 
             case R.id.btnBack:
@@ -749,6 +750,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String checkStr = Character.toString(text.charAt(0));
             text = text.substring(1);
             Log.d(TAG,"SNew message; " + text);
+            Log.d(TAG,"checkStr; " + checkStr);
 
             if(checkStr.equals(CHAT_STR)) {
                 text = "Opponent: " + text;  //this is just added temp. for the chat fucntion, later implementation will be in a different location
@@ -792,6 +794,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if(w.equals(GAME_LOSE)){}
                         //dolosestuff;
+                        ttt.incrementOppScore();
                         System.out.println("Entered lose doStuff");
                         scoreBox.setText(ttt.getScoreStatement());
                     if(w.equals(GAME_WIN)){}
@@ -808,8 +811,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     clearGrid();
                     ttt.gameTracker[r][c] = ttt.getOpponentSymbol();
                     System.out.println("About to increment score in MA G");
-                    ttt.incrementOppScore();
-                    System.out.println("Score is now: " + ttt.getScoreStatement());
+
+
+
+
+                    //ttt.incrementOppScore();
+
+
+
+
+                    System.out.println("Score is now: " + ttt.getScore() + "-" + ttt.getOppScore());
                     scoreBox.setText(ttt.getScoreStatement());
                     ttt.changeOppTurn();
 
@@ -831,6 +842,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
             else if(checkStr.equals(MISCELLANEOUS_SIR)) {
+                Log.d(TAG,"Now in MISCELLANEOUS_SIR");
                 if(text.equals(MISCELLANEOUS_TO_GAME_SCREEN)){
                     switchToGameScreenLayout();
                     Log.d(TAG,"Swtching to game screen");
@@ -838,11 +850,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("About to increment score in MA M");
                     ttt.incrementScore();
                     System.out.println("Score is now: " + ttt.getScoreStatement());
-                }else if(text.equals(GameType.SINGLE.toString())){
+                }else if(text.equals("one")){
                     ttt.setNumGames(GameType.SINGLE.totalGames);
-                }else if(text.equals(GameType.BEST_OF_FIVE.toString())){
+                }else if(text.equals("three")){
+                    Log.d(TAG,"set to three games");
                     ttt.setNumGames(GameType.BEST_OF_THREE.totalGames);
-                }else if(text.equals(GameType.BEST_OF_FIVE.toString())){
+                }else if(text.equals("five")){
                     ttt.setNumGames(GameType.BEST_OF_FIVE.totalGames);
                 }
             }

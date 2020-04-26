@@ -376,9 +376,9 @@ public class TicTacToe extends AppCompatActivity{
                     ((MainActivity) context).write(GAME_CLEAR+pos+"."+check, MainActivity.GAME_STR);
                 } else {
                     Log.d(TAG,"Continueing Play");
-                    if(doublePlayer)
+                    //if(doublePlayer)
                         ((MainActivity) context).write(GAME_CONT+pos, MainActivity.GAME_STR);
-                    else
+                    //else
                         setOpponentTurnTrue();
                 }
             }else{
