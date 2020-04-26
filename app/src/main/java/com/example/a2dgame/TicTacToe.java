@@ -23,6 +23,7 @@ public class TicTacToe extends AppCompatActivity{
     private Context context;
     boolean doublePlayer;
     boolean opponentTurn = true;
+    boolean forceStop = true;
     String [][] gameTracker = new String[3][3];
     int cell;
     int cellRow;
@@ -88,15 +89,18 @@ public class TicTacToe extends AppCompatActivity{
 
                 } else if (doublePlayer == false && opponentTurn == true) {
                     Log.d(TAG, "We wait for computer to pick");
-                    player.placeMove(); //computer picked moved RGHT HERE
+                    if(forceStop) {
+                        player.placeMove(); //computer picked moved RGHT HERE
+                    }
                     Log.d(TAG, "Computer Picked"); //do all opponent winning checks and anything that you would do for a person
 
-                    if(!isAtADraw()){
+                    if(!isAtADraw() || (isAtADraw() && checkIfWonSpecific(getOpponentSymbol()))){ //added everything after (and including) the || for testing
                         if(checkIfWonSpecific(getOpponentSymbol())){
-                            //oppScore++;
+                            oppScore++;
                             ((MainActivity) context).scoreBox.setText(getScoreStatement());
                             ((MainActivity) context).clearGrid();
                             clearArray();
+
 
                         }/*else if(checkIfWonSpecific(getSymbol())){
                             score++;
@@ -112,6 +116,9 @@ public class TicTacToe extends AppCompatActivity{
                         clearArray();
                     }
 
+                    if(checkOpponentVictory()){
+                        forceStop = false;
+                    }
 
                     changeOppTurn();
 
@@ -190,6 +197,8 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     public boolean checkIfWonSpecific(String temp){
+
+        Log.d(TAG,"Now in checkIfWon Specific. Symbol being checked is: " + temp);
 
         if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2]) && (gameTracker[0][0].equals(temp))){
             //if first row is all equal and X or O (not "")
@@ -395,11 +404,11 @@ public class TicTacToe extends AppCompatActivity{
     }
 
     public void onCellTouchSingle(TextView cellNum, int r, int c) {
-        if (!checkVictory()) {
+        if ((!checkVictory()) && (forceStop)) {
             ((MainActivity) context).setBoardPos(r, c, getSymbol());
             afterClick(r, c);
 
-
+            Log.d(TAG,"ForceStop: " + forceStop);
             if (!isAtADraw()) {
                 if (checkIfWonSpecific(getSymbol())) {
                     score++;
@@ -430,7 +439,8 @@ public class TicTacToe extends AppCompatActivity{
             ((MainActivity) context).scoreBox.setText(getScoreStatement());
             clearArray();
             ((MainActivity) context).clearGrid();
-
+            Log.d(TAG,"should be setting forceStop false");
+            forceStop = false;
         }
 
         setOpponentTurnTrue();
