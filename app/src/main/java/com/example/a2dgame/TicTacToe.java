@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.*;
-import java.util.Scanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,12 +21,9 @@ public class TicTacToe extends AppCompatActivity{
 
     private Context context;
     boolean doublePlayer;
-    boolean opponentTurn = true;
+    boolean opponentTurn;
     boolean forceStop = true;
     String [][] gameTracker = new String[3][3];
-    int cell;
-    int cellRow;
-    int cellColumn;
     String symbol = "X";
     int score = 0;
     int oppScore = 0;
@@ -102,14 +98,7 @@ public class TicTacToe extends AppCompatActivity{
                             clearArray();
 
 
-                        }/*else if(checkIfWonSpecific(getSymbol())){
-                            score++;
-                            ((MainActivity) context).scoreBox.setText(getScoreStatement());
-                            ((MainActivity) context).clearGrid();
-                            clearArray();
-
-                        }*/
-
+                        }
 
                     }else{
                         ((MainActivity) context).clearGrid();
@@ -131,11 +120,8 @@ public class TicTacToe extends AppCompatActivity{
                     Log.d(TAG, "We wait for Host to pick");
                     System.out.println("running run inside oppTurn false");
 
-
-
                 }
 
-                //playing the rest of the game until it looks for more input
             }
         }
 
@@ -165,6 +151,10 @@ public class TicTacToe extends AppCompatActivity{
 
     //checks to see if there are three in a row
 
+    /**
+     * Checks to see if there are three in a row, no matter the symbol
+     * @return If there are three of the same symbol in a row
+     */
     public boolean checkIfWon(){
 
         if(gameTracker[0][0].equals(gameTracker[0][1]) && gameTracker[0][0].equals(gameTracker[0][2]) && (gameTracker[0][0].equals("X") || gameTracker[0][0].equals("O"))){
@@ -196,6 +186,11 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
+    /**
+     * Checks to see if there are three of the specified symbol in a row
+     * @param temp The specified symbol
+     * @return The there are three of symbol temp in a row
+     */
     public boolean checkIfWonSpecific(String temp){
 
         Log.d(TAG,"Now in checkIfWon Specific. Symbol being checked is: " + temp);
@@ -266,6 +261,10 @@ public class TicTacToe extends AppCompatActivity{
         return oppScore;
     }
 
+    /**
+     * Creates the correct score statement to be displayed on the game screen layout
+     * @return The string of the correct score
+     */
     protected String getScoreStatement(){
         if(checkPlayerVictory()){
             return "Game over. You won!";
@@ -296,6 +295,10 @@ public class TicTacToe extends AppCompatActivity{
         numGames = n;
     }
 
+    /**
+     * This method checks if a player has won the game
+     * @return Whether a player has reached the required number of rounds won to win the whole game
+     */
     protected boolean checkVictory(){
         System.out.println("Num games in checkVictory: " + numGames);
         System.out.println(getScoreStatement());
@@ -351,6 +354,15 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
+    /**
+     * Handles all of the functions that happen when a user touches a cell in a multiplayer game.
+     * This includes making sure that it is their turn, displaying the symbol in their selected cell,
+     * sending their selection to the opponent, and clearing everything if the round has become a draw after
+     * their selection
+     * @param cellNum The number of the cell that was touched
+     * @param r The row of the cell that was touched
+     * @param c The column of the cell that was touched
+     */
     protected void onCellTouchDouble(TextView cellNum, int r, int c){
         Log.d(TAG,"USER pick position");
         System.out.println("Beginning of onCellTouchDouble");
@@ -403,6 +415,14 @@ public class TicTacToe extends AppCompatActivity{
         }
     }
 
+    /**
+     * Handles everything that happens when a cell is touched in single player. This method is
+     * very similar to onCellTouchDouble, with slightly less functionality because it doesn't have to
+     * send the selection to another player's device.
+     * @param cellNum The number of the cell that was touched
+     * @param r The row of the cell that was touched
+     * @param c The column of the cell that was touched
+     */
     public void onCellTouchSingle(TextView cellNum, int r, int c) {
         if ((!checkVictory()) && (forceStop)) {
             ((MainActivity) context).setBoardPos(r, c, getSymbol());
@@ -419,15 +439,7 @@ public class TicTacToe extends AppCompatActivity{
 
                     player.resetMoves();
 
-                } /*else if (checkIfWonSpecific(getOpponentSymbol())) {
-                    oppScore++;
-                    ((MainActivity) context).scoreBox.setText(getScoreStatement());
-
-                    clearArray();
-                    ((MainActivity) context).clearGrid();
-
-                }*/
-
+                }
 
             } else {
                 clearArray();
@@ -451,6 +463,13 @@ public class TicTacToe extends AppCompatActivity{
 
     }
 
+    /**
+     * When a cell is touched, this method determines whether to call onCellTouchDouble or
+     * onCellTouchSingle based on if the game is single player or two player
+     * @param cellNum The number of the cell that was touched
+     * @param r The row of the cell that was touched
+     * @param c The column of the cell that was touched
+     */
     public void onCellTouchMain(TextView cellNum, int r, int c){
         if(doublePlayer){
             onCellTouchDouble(cellNum, r, c);

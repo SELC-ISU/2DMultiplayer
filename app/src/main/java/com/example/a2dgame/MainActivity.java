@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TicTacToe ttt;
 
     private TextView[][] tvArray = new TextView[3][3];
-    private TextView scoreBox;
+    protected TextView scoreBox;
 
     private TextView txtAvailable;
 
