@@ -37,10 +37,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+    private static final String TAG = "MAIN_ACTIVITY";
+
+    //Notification Declarations/Initializations CONSTS
 
     private final String CHANNEL_ID = "tictactoeCh12345324";
     private final int NOTIF_ID = 101011;
     private static final String ACTION_NOTIF = "action_notif";
+
+    //Bluetooth Message Declarations/Initializations CONSTS
 
     public final static String GAME_STR = "G";
     public final static String CHAT_STR = "C";
@@ -56,59 +61,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String MISCELLANEOUS_INCREMENT = "incrementScore";
     private static final String MISCELLANEOUS_BACK_IN_GAME = "BackPressedInGame";
 
-    private static final String TAG = "BLUETOOTH_TAG";
+    //Bluetooth setup Declarations/Initializations CONSTS
+
     public final int ENABLE_BT_REQUEST = 1;
     public final int ENABLE_DISCOVERABILITY_DURATION = 60;
     public final int ENABLE_DISCOVERABILITY = 2;
 
+    //----------------------------------------------------------------------------------------------
 
+    //Message Box Alerts Declaration
     private AlertDialog dialog;
 
+    //Bluetooth Services Declarations
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private BluetoothService service;  //declarations for bluetooth items
+    private BluetoothService service;
 
+    //Discovered Bluetooth Devices Declarations
     private ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     private DeviceListAdapter deviceListAdapter;   //declarations for finding devices
     private ListView lvNewDevices;
 
+    public DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
+
+    //New Chat Messages/Sending Chat Messages Declarations
     private ArrayList<String> newMessages = new ArrayList<>();
     private MessageListAdapter messageAdapter;
     private ListView lvTextMessages;
     private EditText msgBox;
 
-    public DeviceConnection deviceConnected = DeviceConnection.DEVICE_NOT_CONNECTED;
-
-    ScrollView sv;
-
+    //Button Declarations
     public Button btnSend, btnJoin, btnHost, btnSinglePlayer, btnTwoPlayer, btnSingleGame,
             btnThreeGames, btnFiveGames, btnChat, btnBackToStart, btnBack;
-
-    TextView[][] tvArray = new TextView[3][3];
-    TextView scoreBox;
-
-
     public RadioButton btnRadio;
+
+    //Progress Bar/Loading Spinner Declaration
+    private ProgressBar pbar2;
+
+    //Multiplayer TicTacToe Declarations
+    private TicTacToe ttt;
+
+    private TextView[][] tvArray = new TextView[3][3];
+    private TextView scoreBox;
 
     private TextView txtAvailable;
 
-    private ProgressBar pbar;
-    private ProgressBar pbar2;
-
-    public boolean newGameMessage = false;
+    public boolean newGameMessage = false; // New Message from Opponent's game
     public boolean twoPlayer = false;
+    public boolean isHost = false;
 
     public GameType gameType;
 
-    public boolean isHost = false;
-
-
+    //Notification Declarations
     private ActivityManager.RunningAppProcessInfo myProcess;
     private NotificationManagerCompat notificationManagerCompat;
 
-    //More Alex stuff (need an instance of TicTacToe for the getSymbol method)
-    TicTacToe ttt;
-
-
+    
 
     /**
      * This runs when the app is first started
@@ -543,8 +550,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver3, new IntentFilter("incomingMessage"));
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver4, new IntentFilter("deviceConnected"));
-
-        sv = (ScrollView)findViewById(R.id.scrollView);
 
         setContentView(R.layout.join_host_layout);
 
