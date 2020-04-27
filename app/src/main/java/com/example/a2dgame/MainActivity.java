@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ActivityManager.RunningAppProcessInfo myProcess;
     private NotificationManagerCompat notificationManagerCompat;
 
-    
+
 
     /**
      * This runs when the app is first started
@@ -142,13 +142,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-        //System.out.println("Opponent turn beginning of onClick: " + ttt.getOpponentTurn());
+
         switch (v.getId()) {
 
             case R.id.btnJoin:
 
                 makeDiscoverable();
-                isHost = false;
+                isHost = false;                    //Makes own device discoverable and sets not being the host
                 pbar2.setVisibility(View.VISIBLE);
 
                 break;
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnHost:
 
-                commenceDiscovery(true);  //starts server discovery
+                commenceDiscovery(true);  //starts server discovery and sets you as host
                 isHost = true;
                 pbar2.setVisibility(View.VISIBLE);
 
@@ -168,27 +168,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String str = String.valueOf(msgBox.getText());
 
                 write(str,CHAT_STR);
-                msgBox.setText("");
+                msgBox.setText("");     //Sets message to be sent
                 str = "Me: " + str;
 
                 newMessages.add(str);
 
                 messageAdapter.notifyDataSetChanged();
 
-                lvTextMessages.smoothScrollToPosition(messageAdapter.getCount()-1);
-                //this is where you will send the message in the edit box;
+                lvTextMessages.smoothScrollToPosition(messageAdapter.getCount()-1); //scrolls to newest message
 
                 break;
 
             case R.id.btnSinglePlayer:
                 twoPlayer = false;
-                switchToStartGameScreenLayout();
+                switchToStartGameScreenLayout();  //Sets game mode to single player
                 break;
 
             case R.id.btnTwoPlayer:
 
                 twoPlayer = true;
-                switchToJoinHostLayout();
+                switchToJoinHostLayout();   //Sets game mode to two player
                 //tempDoublePlayer = true;
 
                 break;
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBackToStart:
                 twoPlayer = false;
                 closeSockets();
-                switchToStartScreenLayout();
+                switchToStartScreenLayout();    //Disconnects any device and resets game
                 cancelNotification();
                 isHost = false;
 
@@ -205,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnChat1:
             case R.id.btnChat2:
 
-                    switchToMessageLayout();
+                    switchToMessageLayout();  //Goes to the message chat screen
                     cancelNotification();
 
                 break;
@@ -249,11 +248,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBack:
 
                 if(isHost)
-                    switchToStartGameScreenLayout();
+                    switchToStartGameScreenLayout();  //Moves back from message screen to correct location
                 else
                     switchToWaitingLayout();
                 break;
-            //Beginning of Alex's stuff
 
             case R.id.cell1:
                 System.out.println("Opponent turn at beginning cell 1: " + ttt.getOpponentTurn());
@@ -299,40 +297,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * This Overrides the devices default back button functionality
+     */
     @Override
     public void onBackPressed() {
 
         if(findViewById(R.id.btnHost) != null){
 
             twoPlayer = false;
-            closeSockets();
+            closeSockets();                     //On join/host screen do back to start
             switchToStartScreenLayout();
             isHost = false;
         }
         else if(findViewById(R.id.btnSinglePlayer) != null){
-            showMessage("You are exiting the app...",3);
+            showMessage("You are exiting the app...",3);  //On Main Screen, Threat to exit
         }
         else if(findViewById(R.id.btnFiveGames) != null){
             twoPlayer = false;
             closeSockets();
-            switchToStartScreenLayout();
+            switchToStartScreenLayout();       //On StartGameScreen go back to start
             isHost = false;
         }
         else if(findViewById(R.id.pBar)!=null){
             twoPlayer = false;
-            isHost = false;
+            isHost = false;                 //On Waiting screen go back to start
             closeSockets();
             switchToStartScreenLayout();
         }
         else if(findViewById(R.id.btnBack)!=null){
-            btnBack.performClick();
+            btnBack.performClick();                 //on Message screen do same as the on screen back button
         }else if(findViewById(R.id. cell6) !=null){
-
 
             if(isHost || !twoPlayer){
                 if(isHost){
-                    write(MISCELLANEOUS_BACK_IN_GAME,MISCELLANEOUS_SIR);
-                }
+                    write(MISCELLANEOUS_BACK_IN_GAME,MISCELLANEOUS_SIR); //in game, if host, go back and send opponent back too else nothing
+                }                                                        //in game, single player, go back to pick game
                 ttt.reverseSymbol();
                 switchToStartGameScreenLayout();
             }
@@ -504,12 +504,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
 
     }
-    
 
+    /**
+     * Switches to waiting layout in two player, this is used to hold client while host picks game
+     */
     public void switchToWaitingLayout(){
 
         setContentView(R.layout.waiting_screen_layout);
-        pbar = (ProgressBar)findViewById(R.id.pBar);
         btnChat = (Button)findViewById(R.id.btnChat1);
         btnChat.setOnClickListener(this);
         btnRadio = (RadioButton)findViewById(R.id.btnRadio1);
@@ -968,7 +969,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    /**
+     * Creates and sends notification to phone
+     * @param gameMessage the message
+     */
     public void sendNotification(String gameMessage){
 
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -996,12 +1000,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Clears a notification if there is one still present
+     */
     private void cancelNotification(){
         if(notificationManagerCompat != null){
             notificationManagerCompat.cancel(NOTIF_ID);
         }
     }
 
+    /**
+     * Creates private channel for notification to be sent on and sets the importance of it
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -1018,6 +1028,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Checks to see if App is currently open on the users phone
+     * Used to determine if sending a notification
+     * @return if app==active
+     */
     public boolean isAppActive(){
         ActivityManager.getMyMemoryState(myProcess);
         return myProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
@@ -1070,6 +1085,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Makes the symbol at row, r, and col, c, visible with symbol, sym
+     * @param r row
+     * @param c column
+     * @param sym X or O
+     */
     public void setBoardPos(int r, int c, String sym) {
 
         tvArray[r][c].setText(sym);
