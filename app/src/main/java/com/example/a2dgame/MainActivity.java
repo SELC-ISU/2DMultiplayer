@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -33,7 +34,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public final static String GAME_CONT = "Normal:";
     public final static String GAME_DRAW = "DRAW:";
 
-    public final static String MISCELLANEOUS_TO_GAME_SCREEN = "toGameScreen";
+    public final static String MISCELLANEOUS_TO_GAME_SCREEN = "toGame";
     private static final String MISCELLANEOUS_INCREMENT = "incrementScore";
+    private static final String MISCELLANEOUS_BACK_IN_GAME = "BackPressedInGame";
 
     private static final String TAG = "BLUETOOTH_TAG";
     public final int ENABLE_BT_REQUEST = 1;
@@ -322,11 +323,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             if(isHost || !twoPlayer){
+                if(isHost){
+                    write(MISCELLANEOUS_BACK_IN_GAME,MISCELLANEOUS_SIR);
+                }
                 ttt.reverseSymbol();
                 switchToStartGameScreenLayout();
-            }else{
-                ttt.reverseSymbol();
-                switchToWaitingLayout();
             }
         }
 
@@ -857,6 +858,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ttt.setNumGames(GameType.BEST_OF_THREE.totalGames);
                 }else if(text.equals("five")){
                     ttt.setNumGames(GameType.BEST_OF_FIVE.totalGames);
+                }else if(text.equals(MISCELLANEOUS_BACK_IN_GAME)){
+                    ttt.reverseSymbol();
+                    switchToWaitingLayout();
                 }
             }
            //You can add more final Strings at the top to make more text options here just add an if
@@ -1054,6 +1058,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i = 0; i<3;i++){
             for(int j = 0; j<3; j++){
                 tvArray[i][j].setText("");
+                try {
+                    tvArray[i][j].setClickable(true);
+                }catch (Exception e){}
             }
         }
     }
@@ -1061,6 +1068,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setBoardPos(int r, int c, String sym) {
 
         tvArray[r][c].setText(sym);
+        tvArray[r][c].setClickable(false);
 
     }
 
