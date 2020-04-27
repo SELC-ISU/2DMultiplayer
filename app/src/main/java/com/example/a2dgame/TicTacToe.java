@@ -417,6 +417,8 @@ public class TicTacToe extends AppCompatActivity{
                     clearArray();
                     ((MainActivity) context).clearGrid();
 
+                    player.resetMoves();
+
                 } /*else if (checkIfWonSpecific(getOpponentSymbol())) {
                     oppScore++;
                     ((MainActivity) context).scoreBox.setText(getScoreStatement());
@@ -430,6 +432,7 @@ public class TicTacToe extends AppCompatActivity{
             } else {
                 clearArray();
                 ((MainActivity) context).clearGrid();
+                player.resetMoves();
 
             }
 
@@ -441,6 +444,7 @@ public class TicTacToe extends AppCompatActivity{
             ((MainActivity) context).clearGrid();
             Log.d(TAG,"should be setting forceStop false");
             forceStop = false;
+            player.resetMoves();
         }
 
         setOpponentTurnTrue();

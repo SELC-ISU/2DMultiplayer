@@ -269,7 +269,6 @@ public class ComputerPlayer {
                     }
                 }
             }
-            return false;
         }
 
         if(gameBoard[1][1].equals(getSymbol(false)) || gameBoard[1][1].equals(getSymbol(true))){
@@ -311,6 +310,13 @@ public class ComputerPlayer {
      */
     public void changeSymbol(String sym){
         symbol = sym;
+    }
+
+    /**
+     * This resets the move count so the computer can go back to its strategy
+     */
+    public void resetMoves(){
+        moveNum = 0;
     }
 
 }
