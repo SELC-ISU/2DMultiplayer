@@ -288,6 +288,9 @@ public class TicTacToe extends AppCompatActivity{
                 gameTracker[i][j] = "";
             }
         }
+        if(player != null){
+            player.resetMoves();
+        }
         //System.out.println(getGameTracker());
     }
 

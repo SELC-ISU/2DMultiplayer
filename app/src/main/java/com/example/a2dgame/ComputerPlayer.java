@@ -316,6 +316,9 @@ public class ComputerPlayer {
      * This resets the move count so the computer can go back to its strategy
      */
     public void resetMoves(){
+
+        yPrev = 0;
+        xPrev = 0;
         moveNum = 0;
     }
 
